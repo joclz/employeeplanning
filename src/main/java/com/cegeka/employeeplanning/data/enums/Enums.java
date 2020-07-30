@@ -1,4 +1,4 @@
-package com.cegeka.employeeplanning.enums;
+package com.cegeka.employeeplanning.data.enums;
 
 public class Enums {
     public enum MitarbeiterStatus {
@@ -9,5 +9,11 @@ public class Enums {
     public enum MitarbeiterUnit {
         FACTORY_MUENCHEN,
         FACTORY_NUERNBERG
+    }
+
+    public enum EinsatzStatus {
+        ANGEBOTEN,
+        BEAUFTRAGT,
+        ABGELEHNT
     }
 }

@@ -1,6 +1,6 @@
-package com.cegeka.employeeplanning;
+package com.cegeka.employeeplanning.data;
 
-import com.cegeka.employeeplanning.enums.Enums;
+import com.cegeka.employeeplanning.data.enums.Enums;
 import lombok.Getter;
 import lombok.Setter;
 
