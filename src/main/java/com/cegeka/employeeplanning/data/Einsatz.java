@@ -3,12 +3,8 @@ package com.cegeka.employeeplanning.data;
 import com.cegeka.employeeplanning.data.enums.Enums;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -19,7 +15,7 @@ public class Einsatz {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Autowired
+    @ManyToOne
     private Mitarbeiter mitarbeiter;
 
     private Enums.EinsatzStatus einsatzStatus;
