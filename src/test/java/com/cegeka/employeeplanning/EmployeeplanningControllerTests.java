@@ -16,9 +16,9 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -30,10 +30,10 @@ public class EmployeeplanningControllerTests {
     @Autowired
     private MitarbeiterRepository mitarbeiterRepository;
     @Autowired
-    private EinsatzRepository einsatzRepository ;
+    private EinsatzRepository einsatzRepository;
 
     @Test
-    public void test001_listMitarbeiter_Expected_CorrectValuesAndNumber5() throws Exception {
+    public void test_001_listMitarbeiter_Expected_CorrectValuesAndNumber5() throws Exception {
         MockHttpServletRequestBuilder requestBuilder = get("/listMitarbeiter");
         ResultActions perform = this.mockMvc.perform(requestBuilder);
         perform.andExpect(status().isOk());
@@ -47,7 +47,7 @@ public class EmployeeplanningControllerTests {
     }
 
     @Test
-    public void test002_addMitarbeiterAndlistMitarbeiter_Expected_CorrectValuesAndNumber6() throws Exception {
+    public void test_011_addMitarbeiterAndlistMitarbeiter_Expected_CorrectValuesAndNumber6() throws Exception {
         Mitarbeiter mitarbeiter = new Mitarbeiter();
         mitarbeiterRepository.save(mitarbeiter);
         MockHttpServletRequestBuilder requestBuilder = get("/listMitarbeiter");
@@ -57,7 +57,7 @@ public class EmployeeplanningControllerTests {
     }
 
     @Test
-    public void test002_listEinsaetze_Expected_CorrectValuesAndNumber2() throws Exception {
+    public void test_100_listEinsaetze_Expected_CorrectValuesAndNumber2() throws Exception {
         MockHttpServletRequestBuilder requestBuilder = get("/listEinsaetze");
         ResultActions perform = this.mockMvc.perform(requestBuilder);
         perform.andExpect(status().isOk());
@@ -70,8 +70,16 @@ public class EmployeeplanningControllerTests {
                         "{\"id\":2,\"" +
                         "mitarbeiter\":{\"id\":2,\"mitarbeiterStatus\":\"SUBUNTERNEHMER\",\"stundensatzEK\":50.0,\"name\":\"Stoteles\",\"vorname\":\"Ari\",\"mitarbeiterUnit\":\"FACTORY_MUENCHEN\"},\"" +
                         "mitarbeiterVertrieb\":{\"id\":2,\"name\":\"WÃ¼st\",\"vorname\":\"JÃ¼rgen\"},\"" +
-                        "einsatzStatus\":\"ANGEBOTEN\",\"beginn\":\"2020-10-01T22:00:00.000+00:00\",\"ende\":\"2021-03-30T22:00:00.000+00:00\",\"wahrscheinlichkeit\":75,\"zusatzkostenReise\"" + ":36.0,\"" +
+                        "einsatzStatus\":\"BEAUFTRAGT\",\"beginn\":\"2020-10-01T22:00:00.000+00:00\",\"ende\":\"2021-03-30T22:00:00.000+00:00\",\"wahrscheinlichkeit\":75,\"zusatzkostenReise\"" + ":36.0,\"" +
                         "stundensatzVK\":27.0,\"projektnummerNettime\":\"ProjektNr2\",\"beauftragungsnummer\":\"BeaufNr2\",\"deckungsbeitrag\":12.0,\"marge\":13.0}]"));
         assertThat(einsatzRepository.count()).isEqualTo(2);
+    }
+
+    @Test
+    public void test_111_findEinsaetzeByEinsatzStatus_Expected_CorrectNumber1() throws Exception {
+        MockHttpServletRequestBuilder requestBuilder = get("/findEinsaetzeByEinsatzStatus").param("status", "ANGEBOTEN");
+        ResultActions perform = this.mockMvc.perform(requestBuilder);
+        perform.andExpect(status().isOk());
+        perform.andExpect(jsonPath("$", hasSize(1)));
     }
 }
