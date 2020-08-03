@@ -17,6 +17,8 @@ public class Einsatz {
 
     @ManyToOne
     private Mitarbeiter mitarbeiter;
+    @ManyToOne
+    private MitarbeiterVertrieb mitarbeiterVertrieb;
 
     @Enumerated(EnumType.STRING)
     private Enums.EinsatzStatus einsatzStatus;
