@@ -1,9 +1,10 @@
 package com.cegeka.employeeplanning;
 
 import com.cegeka.employeeplanning.data.EinsatzRepository;
+import com.cegeka.employeeplanning.data.Mitarbeiter;
 import com.cegeka.employeeplanning.data.MitarbeiterRepository;
 import org.junit.FixMethodOrder;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-class EmployeeplanningControllerTests {
+public class EmployeeplanningControllerTests {
     @Autowired
     private MockMvc mockMvc;
     @Autowired
@@ -32,7 +33,7 @@ class EmployeeplanningControllerTests {
     private EinsatzRepository einsatzRepository ;
 
     @Test
-    void test001_listMitarbeiter_Expected_CorrectValuesAndNumber5() throws Exception {
+    public void test001_listMitarbeiter_Expected_CorrectValuesAndNumber5() throws Exception {
         MockHttpServletRequestBuilder requestBuilder = get("/listMitarbeiter");
         ResultActions perform = this.mockMvc.perform(requestBuilder);
         perform.andExpect(status().isOk());
@@ -46,7 +47,17 @@ class EmployeeplanningControllerTests {
     }
 
     @Test
-    void test002_listEinsaetze_Expected_CorrectValuesAndNumber2() throws Exception {
+    public void test002_addMitarbeiterAndlistMitarbeiter_Expected_CorrectValuesAndNumber6() throws Exception {
+        Mitarbeiter mitarbeiter = new Mitarbeiter();
+        mitarbeiterRepository.save(mitarbeiter);
+        MockHttpServletRequestBuilder requestBuilder = get("/listMitarbeiter");
+        ResultActions perform = this.mockMvc.perform(requestBuilder);
+        perform.andExpect(status().isOk());
+        assertThat(mitarbeiterRepository.count()).isEqualTo(6);
+    }
+
+    @Test
+    public void test002_listEinsaetze_Expected_CorrectValuesAndNumber2() throws Exception {
         MockHttpServletRequestBuilder requestBuilder = get("/listEinsaetze");
         ResultActions perform = this.mockMvc.perform(requestBuilder);
         perform.andExpect(status().isOk());
