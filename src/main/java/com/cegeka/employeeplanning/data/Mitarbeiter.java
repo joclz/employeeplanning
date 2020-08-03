@@ -19,5 +19,6 @@ public class Mitarbeiter {
     private double stundensatzEK;
     private String name;
     private String vorname;
+    @Enumerated(EnumType.STRING)
     private Enums.MitarbeiterUnit mitarbeiterUnit;
 }

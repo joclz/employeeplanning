@@ -7,33 +7,13 @@ public class Enums {
     }
 
     public enum MitarbeiterUnit {
-        FACTORY_MUENCHEN(1),
-        FACTORY_NUERNBERG(2);
-
-        private final int value;
-
-        private MitarbeiterUnit(int value) {
-            this.value = value;
-        }
-
-        public int getValue() {
-            return value;
-        }
+        FACTORY_MUENCHEN,
+        FACTORY_NUERNBERG
     }
 
     public enum EinsatzStatus {
-        ANGEBOTEN(1),
-        BEAUFTRAGT(2),
-        ABGELEHNT(3);
-
-        private final int value;
-
-        private EinsatzStatus(int value) {
-            this.value = value;
-        }
-
-        public int getValue() {
-            return value;
-        }
+        ANGEBOTEN,
+        BEAUFTRAGT,
+        ABGELEHNT
     }
 }

@@ -18,6 +18,7 @@ public class Einsatz {
     @ManyToOne
     private Mitarbeiter mitarbeiter;
 
+    @Enumerated(EnumType.STRING)
     private Enums.EinsatzStatus einsatzStatus;
     private Date beginn;
     private Date ende;
