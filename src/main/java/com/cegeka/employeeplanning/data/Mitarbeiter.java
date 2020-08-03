@@ -4,10 +4,7 @@ import com.cegeka.employeeplanning.data.enums.Enums;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -17,6 +14,7 @@ public class Mitarbeiter {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Enumerated(EnumType.STRING)
     private Enums.MitarbeiterStatus mitarbeiterStatus;
     private double stundensatzEK;
     private String name;

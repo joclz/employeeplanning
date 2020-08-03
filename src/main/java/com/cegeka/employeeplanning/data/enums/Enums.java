@@ -2,18 +2,8 @@ package com.cegeka.employeeplanning.data.enums;
 
 public class Enums {
     public enum MitarbeiterStatus {
-        ANGESTELLT(1),
-        SUBUNTERNEHMER(2);
-
-        private final int value;
-
-        private MitarbeiterStatus(int value) {
-            this.value = value;
-        }
-
-        public int getValue() {
-            return value;
-        }
+        ANGESTELLT,
+        SUBUNTERNEHMER
     }
 
     public enum MitarbeiterUnit {
