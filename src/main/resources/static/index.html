@@ -24,5 +24,38 @@
     </select>
     <button>Liste der Einsätze mit Status</button>
 </form>
+<hr/>
+<form action="/addMitarbeiter" method="POST">
+    <div>
+        <label for="mVorname">Vorname:</label>
+        <input name="vorname" id="mVorname">
+    </div>
+    <div>
+        <label for="mName">Name:</label>
+        <input name="name" id="mName" value="">
+    </div>
+    <div>
+        <label for="mStatus">Status:</label>
+        <select name="status" id="mStatus">
+            <option value="ANGESTELLT">ANGESTELLT</option>
+            <option value="SUBUNTERNEHMER">SUBUNTERNEHMER</option>
+        </select>
+    </div>
+    <div>
+        <label for="mUnit">Unit:</label>
+        <select name="unit" id="mUnit">
+            <option value="FACTORY_MUENCHEN">FACTORY_MUENCHEN</option>
+            <option value="FACTORY_NUERNBERG">FACTORY_NUERNBERG</option>
+        </select>
+    </div>
+    <div>
+        <label for="mStundensatzEK">Stundensatz EK:</label>
+        <input type=number step=0.01 name="stundensatzEK" id="mStundensatzEK">
+    </div>
+    <div>
+        <button>Mitarbeiter Hinzufügen</button>
+    </div>
+</form>
+
 </body>
 </html>

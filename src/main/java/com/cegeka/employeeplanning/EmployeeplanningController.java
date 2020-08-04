@@ -7,6 +7,7 @@ import com.cegeka.employeeplanning.data.MitarbeiterRepository;
 import com.cegeka.employeeplanning.data.enums.Enums;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,5 +37,19 @@ public class EmployeeplanningController {
             return einsatzRepository.findAll();
         }
         return einsatzRepository.findEinsaetzeByEinsatzStatus(einsatzStatus);
+    }
+
+    @PostMapping("/addMitarbeiter")
+    public Mitarbeiter addMitarbeiter(@RequestParam String vorname, @RequestParam String name,
+                                      @RequestParam String status, @RequestParam String unit,
+                                      @RequestParam String stundensatzEK) {
+        Mitarbeiter mitarbeiter = new Mitarbeiter();
+        mitarbeiter.setVorname(vorname);
+        mitarbeiter.setName(name);
+        mitarbeiter.setMitarbeiterStatus(Enums.MitarbeiterStatus.valueOf(status));
+        mitarbeiter.setMitarbeiterUnit(Enums.MitarbeiterUnit.valueOf(unit));
+        mitarbeiter.setStundensatzEK(Double.parseDouble(stundensatzEK));
+        mitarbeiterRepository.save(mitarbeiter);
+        return mitarbeiter;
     }
 }

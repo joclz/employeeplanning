@@ -1,8 +1,8 @@
 package com.cegeka.employeeplanning;
 
 import com.cegeka.employeeplanning.data.EinsatzRepository;
-import com.cegeka.employeeplanning.data.Mitarbeiter;
 import com.cegeka.employeeplanning.data.MitarbeiterRepository;
+import com.cegeka.employeeplanning.data.enums.Enums;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,10 +14,13 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -47,10 +50,15 @@ public class EmployeeplanningControllerTests {
     }
 
     @Test
-    public void test_011_addMitarbeiterAndlistMitarbeiter_Expected_CorrectValuesAndNumber6() throws Exception {
-        Mitarbeiter mitarbeiter = new Mitarbeiter();
-        mitarbeiterRepository.save(mitarbeiter);
-        MockHttpServletRequestBuilder requestBuilder = get("/listMitarbeiter");
+    public void test_011_addMitarbeiter_Expected_CorrectValuesAndNumber6() throws Exception {
+        MultiValueMap multiValueMap = new LinkedMultiValueMap<>();
+        multiValueMap.add("vorname", "Hannes");
+        multiValueMap.add("name", "Wolf");
+        multiValueMap.add("status", Enums.MitarbeiterStatus.ANGESTELLT.name());
+        multiValueMap.add("unit", Enums.MitarbeiterUnit.FACTORY_MUENCHEN.name());
+        multiValueMap.add("stundensatzEK", "10.1");
+
+        MockHttpServletRequestBuilder requestBuilder = post("/addMitarbeiter").params(multiValueMap);
         ResultActions perform = this.mockMvc.perform(requestBuilder);
         perform.andExpect(status().isOk());
         assertThat(mitarbeiterRepository.count()).isEqualTo(6);
