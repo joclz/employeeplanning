@@ -28,7 +28,13 @@ public class EmployeeplanningController {
     }
 
     @GetMapping("/findEinsaetzeByEinsatzStatus")
-    public Iterable<Einsatz> findEinsaetzeByEinsatzStatus(@RequestParam("status") Enums.EinsatzStatus status) {
-        return einsatzRepository.findEinsaetzeByEinsatzStatus(status);
+    public Iterable<Einsatz> findEinsaetzeByEinsatzStatus(@RequestParam("status") String status) {
+        Enums.EinsatzStatus einsatzStatus;
+        try {
+            einsatzStatus = Enums.EinsatzStatus.valueOf(status);
+        } catch (IllegalArgumentException ex) {
+            return einsatzRepository.findAll();
+        }
+        return einsatzRepository.findEinsaetzeByEinsatzStatus(einsatzStatus);
     }
 }
