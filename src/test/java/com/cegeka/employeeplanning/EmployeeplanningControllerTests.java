@@ -1,8 +1,10 @@
 package com.cegeka.employeeplanning;
 
 import com.cegeka.employeeplanning.data.EinsatzRepository;
+import com.cegeka.employeeplanning.data.Mitarbeiter;
 import com.cegeka.employeeplanning.data.MitarbeiterRepository;
 import com.cegeka.employeeplanning.data.enums.Enums;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,6 +12,7 @@ import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -35,6 +38,16 @@ public class EmployeeplanningControllerTests {
     @Autowired
     private EinsatzRepository einsatzRepository;
 
+    public static String asJsonString(final Object obj) {
+        try {
+            final ObjectMapper mapper = new ObjectMapper();
+            final String jsonContent = mapper.writeValueAsString(obj);
+            return jsonContent;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Test
     public void test_001_listMitarbeiter_Expected_CorrectValuesAndNumber5() throws Exception {
         MockHttpServletRequestBuilder requestBuilder = get("/listMitarbeiter");
@@ -50,7 +63,7 @@ public class EmployeeplanningControllerTests {
     }
 
     @Test
-    public void test_011_addMitarbeiter_Expected_CorrectValuesAndNumber6() throws Exception {
+    public void test_011_addMitarbeiterMitEinzelnenWerten_Expected_CorrectValuesAndNumber6() throws Exception {
         MultiValueMap multiValueMap = new LinkedMultiValueMap<>();
         multiValueMap.add("vorname", "Hannes");
         multiValueMap.add("name", "Wolf");
@@ -58,10 +71,38 @@ public class EmployeeplanningControllerTests {
         multiValueMap.add("unit", Enums.MitarbeiterUnit.FACTORY_MUENCHEN.name());
         multiValueMap.add("stundensatzEK", "10.1");
 
-        MockHttpServletRequestBuilder requestBuilder = post("/addMitarbeiter").params(multiValueMap);
+        MockHttpServletRequestBuilder requestBuilder = post("/addMitarbeiterMitEinzelnenWerten").params(multiValueMap);
         ResultActions perform = this.mockMvc.perform(requestBuilder);
         perform.andExpect(status().isOk());
         assertThat(mitarbeiterRepository.count()).isEqualTo(6);
+    }
+
+    @Test
+    public void test_012_addMitarbeiter_Expected_CorrectNamesAndNumber() throws Exception {
+        Mitarbeiter mitarbeiter = new Mitarbeiter();
+        mitarbeiter.setVorname("Hans-Neu");
+        mitarbeiter.setName("Schmidt-Neu");
+        mitarbeiter.setMitarbeiterStatus(Enums.MitarbeiterStatus.ANGESTELLT);
+        mitarbeiter.setMitarbeiterUnit(Enums.MitarbeiterUnit.FACTORY_MUENCHEN);
+        mitarbeiter.setStundensatzEK(12.1);
+
+        long oldValue = mitarbeiterRepository.count();
+        MockHttpServletRequestBuilder requestBuilder = post("/addMitarbeiter")
+                .content(asJsonString(mitarbeiter)).contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON);
+        ResultActions perform = this.mockMvc.perform(requestBuilder);
+        perform.andExpect(status().isOk());
+        assertThat(mitarbeiterRepository.count()).isEqualTo(oldValue + 1);
+
+        Iterable<Mitarbeiter> all = mitarbeiterRepository.findAll();
+        boolean treffer = false;
+        for (Mitarbeiter ma : all) {
+            if (ma.getName().equals("Schmidt-Neu") && ma.getVorname().equals("Hans-Neu")) {
+                treffer = true;
+                break;
+            }
+        }
+        assertThat(treffer).isEqualTo(true);
     }
 
     @Test
