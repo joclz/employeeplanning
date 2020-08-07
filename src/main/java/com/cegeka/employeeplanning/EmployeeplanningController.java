@@ -52,7 +52,9 @@ public class EmployeeplanningController {
     }
 
     @PostMapping(path = "/addMitarbeiter")
-    public Mitarbeiter addMitarbeiter(@RequestBody Mitarbeiter mitarbeiter) {
+    //Todo - Der Unit-Test benötigt offensichtlich @RequestBody. Beim Aufruf innerhalb der Anwendung stört dies aber.
+    //public Mitarbeiter addMitarbeiter(@RequestBody Mitarbeiter mitarbeiter) {
+    public Mitarbeiter addMitarbeiter(Mitarbeiter mitarbeiter) {
         mitarbeiterRepository.save(mitarbeiter);
         return mitarbeiter;
     }

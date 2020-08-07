@@ -14,6 +14,8 @@ public class Mitarbeiter {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    //Todo - Es ist mir nicht gelungen die Enum-Werte numerisch zu definieren und korrekt zu initialisieren.
+    //Statt dessen habe ich die Enum-Werte als Notlösung als Strings definiert.
     @Enumerated(EnumType.STRING)
     private Enums.MitarbeiterStatus mitarbeiterStatus;
     private double stundensatzEK;
