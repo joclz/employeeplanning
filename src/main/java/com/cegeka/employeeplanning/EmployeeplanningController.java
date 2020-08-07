@@ -16,6 +16,8 @@ public class EmployeeplanningController {
     @Autowired
     private MitarbeiterRepository mitarbeiterRepository;
     @Autowired
+    private MitarbeiterVertriebRepository mitarbeiterVertriebRepository;
+    @Autowired
     private EinsatzRepository einsatzRepository;
     @Autowired
     private EinsatzService einsatzService;
@@ -34,6 +36,13 @@ public class EmployeeplanningController {
         return mav;
     }
 
+    @GetMapping("/goToMitarbeiterVertrieb")
+    public ModelAndView goToMitarbeiterVertrieb() {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("mitarbeiterVertrieb.html");
+        return mav;
+    }
+
     @GetMapping("/goToEinsatz")
     public ModelAndView goToEinsatz() {
         ModelAndView mav = new ModelAndView();
@@ -44,6 +53,11 @@ public class EmployeeplanningController {
     @GetMapping("/listMitarbeiter")
     public Iterable<Mitarbeiter> getMitarbeiter() {
         return mitarbeiterRepository.findAll();
+    }
+
+    @GetMapping("/listMitarbeiterVertrieb")
+    public Iterable<MitarbeiterVertrieb> getMitarbeiterVertrieb() {
+        return mitarbeiterVertriebRepository.findAll();
     }
 
     @GetMapping("/listEinsaetze")
