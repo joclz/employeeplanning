@@ -1,9 +1,6 @@
 package com.cegeka.employeeplanning;
 
-import com.cegeka.employeeplanning.data.Einsatz;
-import com.cegeka.employeeplanning.data.EinsatzRepository;
-import com.cegeka.employeeplanning.data.Mitarbeiter;
-import com.cegeka.employeeplanning.data.MitarbeiterRepository;
+import com.cegeka.employeeplanning.data.*;
 import com.cegeka.employeeplanning.data.enums.Enums;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -20,6 +17,8 @@ public class EmployeeplanningController {
     private MitarbeiterRepository mitarbeiterRepository;
     @Autowired
     private EinsatzRepository einsatzRepository;
+    @Autowired
+    private EinsatzService einsatzService;
 
     @GetMapping("/goToIndex")
     public ModelAndView goToIndex() {
@@ -87,7 +86,7 @@ public class EmployeeplanningController {
 
     @PostMapping(path = "/addEinsatz")
     public Einsatz addEinsatz(Einsatz einsatz) {
-        einsatzRepository.save(einsatz);
+        einsatzService.save(einsatz);
         return einsatz;
     }
 
