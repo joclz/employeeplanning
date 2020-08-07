@@ -6,11 +6,13 @@ import com.cegeka.employeeplanning.data.Mitarbeiter;
 import com.cegeka.employeeplanning.data.MitarbeiterRepository;
 import com.cegeka.employeeplanning.data.enums.Enums;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @RestController
 public class EmployeeplanningController {
@@ -81,5 +83,20 @@ public class EmployeeplanningController {
     public Mitarbeiter addMitarbeiter(Mitarbeiter mitarbeiter) {
         mitarbeiterRepository.save(mitarbeiter);
         return mitarbeiter;
+    }
+
+    @PostMapping(path = "/addEinsatz")
+    public Einsatz addEinsatz(Einsatz einsatz) {
+        einsatzRepository.save(einsatz);
+        return einsatz;
+    }
+
+    // Beim POST-Request addEinsatz gab es ein Problem, dass das Datumsformat nicht korrekt durchgereicht werden konnte.
+    // Mit diesem initBinder konnte dies behokben werden.
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        dateFormat.setLenient(false);
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
     }
 }
