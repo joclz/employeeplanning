@@ -6,8 +6,11 @@ import com.cegeka.employeeplanning.data.Mitarbeiter;
 import com.cegeka.employeeplanning.data.MitarbeiterRepository;
 import com.cegeka.employeeplanning.data.enums.Enums;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 @RestController
 public class EmployeeplanningController {
@@ -15,6 +18,27 @@ public class EmployeeplanningController {
     private MitarbeiterRepository mitarbeiterRepository;
     @Autowired
     private EinsatzRepository einsatzRepository;
+
+    @GetMapping("/goToIndex")
+    public ModelAndView goToIndex() {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("index.html");
+        return mav;
+    }
+
+    @GetMapping("/goToMitarbeiter")
+    public ModelAndView goToMitarbeiter() {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("mitarbeiter.html");
+        return mav;
+    }
+
+    @GetMapping("/goToEinsatz")
+    public ModelAndView goToEinsatz() {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("einsatz.html");
+        return mav;
+    }
 
     @GetMapping("/listMitarbeiter")
     public Iterable<Mitarbeiter> getMitarbeiter() {
@@ -39,8 +63,8 @@ public class EmployeeplanningController {
 
     @PostMapping("/addMitarbeiterMitEinzelnenWerten")
     public Mitarbeiter addMitarbeiterMitEinzelnenWerten(@RequestParam String vorname, @RequestParam String name,
-                                      @RequestParam String status, @RequestParam String unit,
-                                      @RequestParam String stundensatzEK) {
+                                                        @RequestParam String status, @RequestParam String unit,
+                                                        @RequestParam String stundensatzEK) {
         Mitarbeiter mitarbeiter = new Mitarbeiter();
         mitarbeiter.setVorname(vorname);
         mitarbeiter.setName(name);

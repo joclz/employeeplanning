@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mitarbeiter-Planung</title>
+</head>
+<body>
+<h1>Mitarbeiter-Planung (Einsatz)</h1>
+<table>
+    <tr>
+        <td> <form action="/goToIndex" method="GET">
+            <button>Zurück</button></form>
+        </td>
+    </tr>
+</table>
+
+<hr/>
+<form action="/listEinsaetze" method="GET">
+    <button>Liste aller Einsätze</button>
+</form>
+<br>
+<form action="/findEinsaetzeByEinsatzStatus" method="GET">
+    <select name="status">
+        <option value="NULL"></option>
+        <option value="ANGEBOTEN">ANGEBOTEN</option>
+        <option value="BEAUFTRAGT">BEAUFTRAGT</option>
+        <option value="ABGELEHNT">ABGELEHNT</option>
+    </select>
+    <button>Liste der Einsätze mit Status</button>
+</form>
+<hr/>
+
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mitarbeiter-Planung</title>
+</head>
+<body>
+<h1>Mitarbeiter-Planung (Mitarbeiter)</h1>
+<table>
+    <tr>
+        <td> <form action="/goToIndex" method="GET">
+            <button>Zurück</button></form>
+        </td>
+    </tr>
+</table>
+
+<hr/>
+<form action="/listMitarbeiter" method="GET">
+    <button>Liste aller Mitarbeiter</button>
+</form>
+<br>
+<hr/>
+<form action="/addMitarbeiterMitEinzelnenWerten" method="POST">
+    <div>
+        <label for="mVorname">Vorname:</label>
+        <input name="vorname" id="mVorname">
+    </div>
+    <div>
+        <label for="mName">Name:</label>
+        <input name="name" id="mName" value="">
+    </div>
+    <div>
+        <label for="mStatus">Status:</label>
+        <select name="status" id="mStatus">
+            <option value="ANGESTELLT">ANGESTELLT</option>
+            <option value="SUBUNTERNEHMER">SUBUNTERNEHMER</option>
+        </select>
+    </div>
+    <div>
+        <label for="mUnit">Unit:</label>
+        <select name="unit" id="mUnit">
+            <option value="FACTORY_MUENCHEN">FACTORY_MUENCHEN</option>
+            <option value="FACTORY_NUERNBERG">FACTORY_NUERNBERG</option>
+        </select>
+    </div>
+    <div>
+        <label for="mStundensatzEK">Stundensatz EK:</label>
+        <input type=number step=0.01 name="stundensatzEK" id="mStundensatzEK">
+    </div>
+    <div>
+        <button>Mitarbeiter Hinzufügen</button>
+    </div>
+</form>
+
+<hr/>
+<form action="/addMitarbeiter" method="POST" content="">
+    <table>
+        <tr>
+            <td width=200><label>Vorname:</label></td>
+            <td><input name="vorname"></td>
+        </tr>
+        <tr>
+            <td><label>Name:</label></td>
+            <td><input name="name"></td>
+        </tr>
+        <tr>
+            <td><label>Status:</label></td>
+            <td><select name="mitarbeiterStatus">
+                <option value="ANGESTELLT">ANGESTELLT</option>
+                <option value="SUBUNTERNEHMER">SUBUNTERNEHMER</option>
+            </select></td>
+        </tr>
+        <tr>
+            <td><label>Unit:</label></td>
+            <td><select name="mitarbeiterUnit">
+                <option value="FACTORY_MUENCHEN">FACTORY_MUENCHEN</option>
+                <option value="FACTORY_NUERNBERG">FACTORY_NUERNBERG</option>
+            </select></td>
+        </tr>
+        <tr>
+            <td><label>Stundensatz EK:</label></td>
+            <td><input type=number step=0.01 name="stundensatzEK"></td>
+        </tr>
+        <tr>
+            <td><button>Mitarbeiter Hinzufügen</button></td>
+        </tr>
+    </table>
+</form>
+
+</body>
+</html>

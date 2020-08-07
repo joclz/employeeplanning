@@ -6,89 +6,16 @@
 </head>
 <body>
 <h1>Mitarbeiter-Planung</h1>
-
-<form action="/listMitarbeiter" method="GET">
-    <button>Liste aller Mitarbeiter</button>
-</form>
-<br>
-<form action="/listEinsaetze" method="GET">
-    <button>Liste aller Einsätze</button>
-</form>
-<br>
-<form action="/findEinsaetzeByEinsatzStatus" method="GET">
-    <select name="status">
-        <option value="NULL"></option>
-        <option value="ANGEBOTEN">ANGEBOTEN</option>
-        <option value="BEAUFTRAGT">BEAUFTRAGT</option>
-        <option value="ABGELEHNT">ABGELEHNT</option>
-    </select>
-    <button>Liste der Einsätze mit Status</button>
-</form>
-<hr/>
-<form action="/addMitarbeiterMitEinzelnenWerten" method="POST">
-    <div>
-        <label for="mVorname">Vorname:</label>
-        <input name="vorname" id="mVorname">
-    </div>
-    <div>
-        <label for="mName">Name:</label>
-        <input name="name" id="mName" value="">
-    </div>
-    <div>
-        <label for="mStatus">Status:</label>
-        <select name="status" id="mStatus">
-            <option value="ANGESTELLT">ANGESTELLT</option>
-            <option value="SUBUNTERNEHMER">SUBUNTERNEHMER</option>
-        </select>
-    </div>
-    <div>
-        <label for="mUnit">Unit:</label>
-        <select name="unit" id="mUnit">
-            <option value="FACTORY_MUENCHEN">FACTORY_MUENCHEN</option>
-            <option value="FACTORY_NUERNBERG">FACTORY_NUERNBERG</option>
-        </select>
-    </div>
-    <div>
-        <label for="mStundensatzEK">Stundensatz EK:</label>
-        <input type=number step=0.01 name="stundensatzEK" id="mStundensatzEK">
-    </div>
-    <div>
-        <button>Mitarbeiter Hinzufügen</button>
-    </div>
-</form>
-
-<hr/>
-<form action="/addMitarbeiter" method="POST" content="">
-    <div>
-        <label for="mVorname2">Vorname:</label>
-        <input name="vorname" id="mVorname2">
-    </div>
-    <div>
-        <label for="mName2">Name:</label>
-        <input name="name" id="mName2" value="">
-    </div>
-    <div>
-        <label for="mStatus2">Status:</label>
-        <select name="mitarbeiterStatus" id="mStatus2">
-            <option value="ANGESTELLT">ANGESTELLT</option>
-            <option value="SUBUNTERNEHMER">SUBUNTERNEHMER</option>
-        </select>
-    </div>
-    <div>
-        <label for="mUnit2">Unit:</label>
-        <select name="mitarbeiterUnit" id="mUnit2">
-            <option value="FACTORY_MUENCHEN">FACTORY_MUENCHEN</option>
-            <option value="FACTORY_NUERNBERG">FACTORY_NUERNBERG</option>
-        </select>
-    </div>
-    <div>
-        <label for="mStundensatzEK2">Stundensatz EK:</label>
-        <input type=number step=0.01 name="stundensatzEK" id="mStundensatzEK2">
-    </div>
-    <div>
-        <input type="submit">
-    </div>
-</form>
+<table>
+    <tr>
+        <td> <form action="/goToMitarbeiter" method="GET">
+            <button>Mitarbeiter</button></form>
+        </td>
+        <td> <form action="/goToEinsatz" method="GET">
+            <button>Einsatz</button></form>
+        </td>
+    </tr>
+</table>
 
 </body>
 </html>
