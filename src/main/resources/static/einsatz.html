@@ -34,6 +34,14 @@
 <form action="/addEinsatz" method="POST" content="">
     <table>
         <tr>
+            <td><label>Mitarbeiter Vertrieb (ID):</label></td>
+            <td><input name="mitarbeiterVertrieb.id" value="1"></td>
+        </tr>
+        <tr>
+            <td><label>Mitarbeiter (ID):</label></td>
+            <td><input name="mitarbeiter.id" value="1"></td>
+        </tr>
+        <tr>
             <td width=200><label>Status:</label></td>
             <td><select name="einsatzStatus">
                 <option value="ANGEBOTEN">ANGEBOTEN</option>
@@ -43,23 +51,23 @@
         </tr>
         <tr>
             <td><label>Beginn:</label></td>
-            <td><input type=date name="beginn"></td>
+            <td><input type=date name="beginn" value="2020-01-01"></td>
         </tr>
         <tr>
             <td><label>Ende:</label></td>
-            <td><input type=date name="ende"></td>
+            <td><input type=date name="ende" value="2020-12-31"></td>
         </tr>
         <tr>
             <td><label>Wahrscheinlichkeit (für Status angeboten):</label></td>
-            <td><input type=number step=1 name="wahrscheinlichkeit"></td>
+            <td><input type=number step=1 name="wahrscheinlichkeit" value="0"> </td>
         </tr>
         <tr>
             <td><label>Zusatzkosten Reise:</label></td>
-            <td><input type=number step=0.01 name="zusatzkostenReise"></td>
+            <td><input type=number step=0.01 name="zusatzkostenReise" value="0"></td>
         </tr>
         <tr>
             <td><label>Stundensatz VK:</label></td>
-            <td><input type=number step=0.01 name="stundensatzVK"></td>
+            <td><input type=number step=0.01 name="stundensatzVK" value="0"></td>
         </tr>
         <tr>
             <td><label>Projektnummer nettime:</label></td>

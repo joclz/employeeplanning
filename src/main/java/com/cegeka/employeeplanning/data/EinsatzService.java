@@ -25,12 +25,14 @@ public class EinsatzService {
     @VisibleForTesting
     public <S extends Einsatz> S calcEinsatzWerte(S einsatz) {
         //Todo - Mitarbeiter und Mitarbeitervertrieb setzen
-        if (einsatz.getMitarbeiterVertrieb() == null) {
-            Optional<MitarbeiterVertrieb> byId = mitarbeiterVertriebRepository.findById(1);
+        Integer vertriebMitarbeiterId = einsatz.getMitarbeiterVertrieb().getId();
+        Integer mitarbeiterId = einsatz.getMitarbeiter().getId();
+        if (vertriebMitarbeiterId != null) {
+            Optional<MitarbeiterVertrieb> byId = mitarbeiterVertriebRepository.findById(vertriebMitarbeiterId);
             einsatz.setMitarbeiterVertrieb(byId.get());
         }
-        if (einsatz.getMitarbeiter() == null) {
-            Optional<Mitarbeiter> byId1 = mitarbeiterRepository.findById(1);
+        if (mitarbeiterId != null) {
+            Optional<Mitarbeiter> byId1 = mitarbeiterRepository.findById(mitarbeiterId);
             einsatz.setMitarbeiter(byId1.get());
         }
 
