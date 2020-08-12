@@ -3,6 +3,7 @@ package com.cegeka.employeeplanning;
 import com.cegeka.employeeplanning.data.Einsatz;
 import com.cegeka.employeeplanning.data.EinsatzRepository;
 import com.cegeka.employeeplanning.data.EinsatzService;
+import com.cegeka.employeeplanning.data.enums.Enums;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,7 +13,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.Optional;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -43,5 +44,25 @@ public class EinsatzServiceTests {
 
         assertThat(einsatz.getDeckungsbeitrag()).isEqualTo(25);
         assertThat(einsatz.getMarge()).isEqualTo(0.25);
+    }
+
+    @Test
+    public void test_010_findEinsaetzeByMitarbeiterVertriebId1() throws Exception {
+        Iterable<Einsatz> einsaetzeByMitarbeiterVertriebId = einsatzService.findEinsaetzeByMitarbeiterVertriebId(1);
+        assertThat(einsaetzeByMitarbeiterVertriebId.spliterator().getExactSizeIfKnown()).isEqualTo(1);
+    }
+
+    @Test
+    public void test_015_findEinsaetzeByEinsatzStatus_AND_findEinsaetzeByMitarbeiterVertriebId() throws Exception {
+        Set<Integer> einsatzId1 = new HashSet<>();
+        einsatzRepository.findEinsaetzeByEinsatzStatus(Enums.EinsatzStatus.BEAUFTRAGT).forEach(id -> einsatzId1.add(id.getId()));
+
+        Set<Integer> einsatzId2 = new HashSet<>();
+        einsatzService.findEinsaetzeByMitarbeiterVertriebId(1).forEach(id -> einsatzId2.add(id.getId()));
+
+        einsatzId1.retainAll(einsatzId2);
+
+        Iterable<Einsatz> allById = einsatzRepository.findAllById(einsatzId1);
+        assertThat(allById.spliterator().getExactSizeIfKnown()).isEqualTo(0);
     }
 }

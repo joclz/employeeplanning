@@ -76,6 +76,11 @@ public class EmployeeplanningController {
         return einsatzRepository.findEinsaetzeByEinsatzStatus(einsatzStatus);
     }
 
+    @GetMapping("/findEinsaetzeByMitarbeiterVertrieb")
+    public Iterable<Einsatz> findEinsaetzeByMitarbeiterVertrieb(@RequestParam("mitarbeiterVertriebId") Integer id) {
+        return einsatzService.findEinsaetzeByMitarbeiterVertriebId(id);
+    }
+
     @PostMapping("/addMitarbeiterMitEinzelnenWerten")
     public Mitarbeiter addMitarbeiterMitEinzelnenWerten(@RequestParam String vorname, @RequestParam String name,
                                                         @RequestParam String status, @RequestParam String unit,

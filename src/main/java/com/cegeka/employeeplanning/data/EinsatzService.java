@@ -4,6 +4,7 @@ import org.assertj.core.util.VisibleForTesting;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.Optional;
 
 @Service
@@ -45,5 +46,16 @@ public class EinsatzService {
             einsatz.setMarge(einsatz.getDeckungsbeitrag() / einsatz.getStundensatzVK());
         }
         return einsatz;
+    }
+
+    public Iterable<Einsatz> findEinsaetzeByMitarbeiterVertriebId(Integer id){
+        Optional<MitarbeiterVertrieb> mitarbeiterVertrieb;
+        try {
+            mitarbeiterVertrieb = mitarbeiterVertriebRepository.findById(id);
+        }
+        catch (Exception ex) {
+            return Collections.emptyList();
+        }
+        return einsatzRepository.findEinsaetzeByMitarbeiterVertrieb(mitarbeiterVertrieb);
     }
 }
