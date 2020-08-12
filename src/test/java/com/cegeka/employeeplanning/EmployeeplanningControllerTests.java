@@ -106,29 +106,18 @@ public class EmployeeplanningControllerTests {
     }
 
     @Test
-    public void test_100_listEinsaetze_Expected_CorrectValuesAndNumber2() throws Exception {
+    public void test_100_listEinsaetze_Expected_CorrectValuesAndNumber6() throws Exception {
         MockHttpServletRequestBuilder requestBuilder = get("/listEinsaetze");
         ResultActions perform = this.mockMvc.perform(requestBuilder);
         perform.andExpect(status().isOk());
-        perform.andExpect(content().string(
-                "[{\"id\":1,\"" +
-                        "mitarbeiter\":{\"id\":1,\"mitarbeiterStatus\":\"ANGESTELLT\",\"stundensatzEK\":30.0,\"name\":\"Mustermann\",\"vorname\":\"Max\",\"mitarbeiterUnit\":\"FACTORY_MUENCHEN\"},\"" +
-                        "mitarbeiterVertrieb\":{\"id\":1,\"name\":\"GÃ¼nzkofer\",\"vorname\":\"Werner\"},\"" +
-                        "einsatzStatus\":\"ANGEBOTEN\",\"beginn\":\"2020-08-31T22:00:00.000+00:00\",\"ende\":\"2020-12-30T23:00:00.000+00:00\",\"wahrscheinlichkeit\":50,\"zusatzkostenReise\"" + ":35.0,\"" +
-                        "stundensatzVK\":26.0,\"projektnummerNettime\":\"ProjektNr1\",\"beauftragungsnummer\":\"BeaufNr1\",\"deckungsbeitrag\":10.0,\"marge\":11.0}," +
-                        "{\"id\":2,\"" +
-                        "mitarbeiter\":{\"id\":2,\"mitarbeiterStatus\":\"SUBUNTERNEHMER\",\"stundensatzEK\":50.0,\"name\":\"Stoteles\",\"vorname\":\"Ari\",\"mitarbeiterUnit\":\"FACTORY_MUENCHEN\"},\"" +
-                        "mitarbeiterVertrieb\":{\"id\":2,\"name\":\"WÃ¼st\",\"vorname\":\"JÃ¼rgen\"},\"" +
-                        "einsatzStatus\":\"BEAUFTRAGT\",\"beginn\":\"2020-10-01T22:00:00.000+00:00\",\"ende\":\"2021-03-30T22:00:00.000+00:00\",\"wahrscheinlichkeit\":75,\"zusatzkostenReise\"" + ":36.0,\"" +
-                        "stundensatzVK\":27.0,\"projektnummerNettime\":\"ProjektNr2\",\"beauftragungsnummer\":\"BeaufNr2\",\"deckungsbeitrag\":12.0,\"marge\":13.0}]"));
-        assertThat(einsatzRepository.count()).isEqualTo(2);
+        assertThat(einsatzRepository.count()).isEqualTo(6);
     }
 
     @Test
-    public void test_111_findEinsaetzeByEinsatzStatus_Expected_CorrectNumber1() throws Exception {
+    public void test_111_findEinsaetzeByEinsatzStatus_Expected_CorrectNumber2() throws Exception {
         MockHttpServletRequestBuilder requestBuilder = get("/findEinsaetzeByEinsatzStatus").param("status", "ANGEBOTEN");
         ResultActions perform = this.mockMvc.perform(requestBuilder);
         perform.andExpect(status().isOk());
-        perform.andExpect(jsonPath("$", hasSize(1)));
+        perform.andExpect(jsonPath("$", hasSize(2)));
     }
 }

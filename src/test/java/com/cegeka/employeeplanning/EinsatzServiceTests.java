@@ -47,9 +47,9 @@ public class EinsatzServiceTests {
     }
 
     @Test
-    public void test_010_findEinsaetzeByMitarbeiterVertriebId1() throws Exception {
+    public void test_010_findEinsaetzeByMitarbeiterVertriebId1_expected4() throws Exception {
         Iterable<Einsatz> einsaetzeByMitarbeiterVertriebId = einsatzService.findEinsaetzeByMitarbeiterVertriebId(1);
-        assertThat(einsaetzeByMitarbeiterVertriebId.spliterator().getExactSizeIfKnown()).isEqualTo(1);
+        assertThat(einsaetzeByMitarbeiterVertriebId.spliterator().getExactSizeIfKnown()).isEqualTo(4);
     }
 
     @Test
@@ -63,6 +63,6 @@ public class EinsatzServiceTests {
         einsatzId1.retainAll(einsatzId2);
 
         Iterable<Einsatz> allById = einsatzRepository.findAllById(einsatzId1);
-        assertThat(allById.spliterator().getExactSizeIfKnown()).isEqualTo(0);
+        assertThat(allById.spliterator().getExactSizeIfKnown()).isEqualTo(1);
     }
 }
