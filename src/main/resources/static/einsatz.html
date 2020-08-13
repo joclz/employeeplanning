@@ -5,85 +5,119 @@
     <title>Mitarbeiter-Planung</title>
 </head>
 <body>
-<h1>Mitarbeiter-Planung (Einsatz)</h1>
-<table>
-    <tr>
-        <td>
-            <form action="/goToIndex" method="GET">
-                <button>Zurück</button>
-            </form>
-        </td>
-    </tr>
-</table>
-
-<hr/>
-<form action="/listEinsaetze" method="GET">
-    <button>Liste aller Einsätze</button>
-</form>
-<br>
-<form action="/findEinsaetzeByEinsatzStatus" method="GET">
-    <select name="status">
-        <option value="NULL"></option>
-        <option value="ANGEBOTEN">ANGEBOTEN</option>
-        <option value="BEAUFTRAGT">BEAUFTRAGT</option>
-        <option value="ABGELEHNT">ABGELEHNT</option>
-    </select>
-    <button>Liste der Einsätze mit Status</button>
-</form>
-<form action="/findEinsaetzeByMitarbeiterVertrieb" method="GET">
-    <td><input input type=number step=1 name="mitarbeiterVertriebId"></td>
-    <button>Liste der Einsätze für Vertriebsmitarbeiter (ID)</button>
-</form>
-<hr/>
-<form action="/addEinsatz" method="POST" content="">
+    <h1>Mitarbeiter-Planung (Einsatz)</h1>
     <table>
         <tr>
-            <td><label>Mitarbeiter Vertrieb (ID):</label></td>
-            <td><input name="mitarbeiterVertrieb.id" value="1"></td>
-        </tr>
-        <tr>
-            <td><label>Mitarbeiter (ID):</label></td>
-            <td><input name="mitarbeiter.id" value="1"></td>
-        </tr>
-        <tr>
-            <td width=200><label>Status:</label></td>
-            <td><select name="einsatzStatus">
-                <option value="ANGEBOTEN">ANGEBOTEN</option>
-                <option value="BEAUFTRAGT">BEAUFTRAGT</option>
-                <option value="ABGELEHNT">ABGELEHNT</option>
-            </select></td>
-        </tr>
-        <tr>
-            <td><label>Beginn:</label></td>
-            <td><input type=date name="beginn" value="2020-01-01"></td>
-        </tr>
-        <tr>
-            <td><label>Ende:</label></td>
-            <td><input type=date name="ende" value="2020-12-31"></td>
-        </tr>
-        <tr>
-            <td><label>Wahrscheinlichkeit (für Status angeboten):</label></td>
-            <td><input type=number step=1 name="wahrscheinlichkeit" value="0"> </td>
-        </tr>
-        <tr>
-            <td><label>Zusatzkosten Reise:</label></td>
-            <td><input type=number step=0.01 name="zusatzkostenReise" value="0"></td>
-        </tr>
-        <tr>
-            <td><label>Stundensatz VK:</label></td>
-            <td><input type=number step=0.01 name="stundensatzVK" value="0"></td>
-        </tr>
-        <tr>
-            <td><label>Projektnummer nettime:</label></td>
-            <td><input name="projektnummerNettime"></td>
-        </tr>
-        <tr>
-            <td><label>Beauftragungsnummer:</label></td>
-            <td><input name="beauftragungsnummer"></td>
-        </tr>
-        <tr>
-            <td><button>Einsatz Hinzufügen</button></td>
+            <td>
+                <form action="/goToIndex" method="GET">
+                    <button>Zurück</button>
+                </form>
+            </td>
         </tr>
     </table>
+
+    <hr/>
+    <form action="/listEinsaetze" method="GET">
+        <button>Liste aller Einsätze</button>
+    </form>
+    <br>
+    <form action="/findEinsaetzeByEinsatzStatus" method="GET">
+        <select name="status">
+            <option value="NULL"></option>
+            <option value="ANGEBOTEN">ANGEBOTEN</option>
+            <option value="BEAUFTRAGT">BEAUFTRAGT</option>
+            <option value="ABGELEHNT">ABGELEHNT</option>
+        </select>
+        <button>Liste der Einsätze mit Status</button>
+    </form>
+    <form action="/findEinsaetzeByMitarbeiterVertrieb" method="GET">
+        <td><input input type=number step=1 name="mitarbeiterVertriebId"></td>
+        <button>Liste der Einsätze für Vertriebsmitarbeiter (ID)</button>
+    </form>
+    <hr/>
+    <form action="/findEinsaetzeBySuchkriterien" method="GET">
+        <table>
+            <tr>
+                <td><label>Mitarbeiter Vertrieb (ID):</label></td>
+                <td><input input type=number step=1 name="mitarbeiterVertriebId"></td>
+            </tr>
+            <tr>
+                <td><label>Mitarbeiter (ID):</label></td>
+                <td><input input type=number step=1 name="mitarbeiterId"></td>
+            </tr>
+            <tr>
+                <td width=200><label>Status:</label></td>
+                <td><select name="einsatzStatus">
+                    <option value=""></option>
+                    <option value="ANGEBOTEN">ANGEBOTEN</option>
+                    <option value="BEAUFTRAGT">BEAUFTRAGT</option>
+                    <option value="ABGELEHNT">ABGELEHNT</option>
+                </select></td>
+            </tr>
+            <tr>
+                <td><label>Beginn >=:</label></td>
+                <td><input type=date name="beginn"></td>
+            </tr>
+            <tr>
+                <td><label>Ende <=:</label></td>
+                <td><input type=date name="ende"></td>
+            </tr>
+            <tr>
+                <td><button>Liste der Einsätze nach Suchkriterien</button></td>
+            </tr>
+        </table>
+    </form>
+    <hr/>
+    <form action="/addEinsatz" method="POST" content="">
+        <table>
+            <tr>
+                <td><label>Mitarbeiter Vertrieb (ID):</label></td>
+                <td><input name="mitarbeiterVertrieb.id" value="1"></td>
+            </tr>
+            <tr>
+                <td><label>Mitarbeiter (ID):</label></td>
+                <td><input name="mitarbeiter.id" value="1"></td>
+            </tr>
+            <tr>
+                <td width=200><label>Status:</label></td>
+                <td><select name="einsatzStatus">
+                    <option value="ANGEBOTEN">ANGEBOTEN</option>
+                    <option value="BEAUFTRAGT">BEAUFTRAGT</option>
+                    <option value="ABGELEHNT">ABGELEHNT</option>
+                </select></td>
+            </tr>
+            <tr>
+                <td><label>Beginn:</label></td>
+                <td><input type=date name="beginn" value="2020-01-01"></td>
+            </tr>
+            <tr>
+                <td><label>Ende:</label></td>
+                <td><input type=date name="ende" value="2020-12-31"></td>
+            </tr>
+            <tr>
+                <td><label>Wahrscheinlichkeit (für Status angeboten):</label></td>
+                <td><input type=number step=1 name="wahrscheinlichkeit" value="0"> </td>
+            </tr>
+            <tr>
+                <td><label>Zusatzkosten Reise:</label></td>
+                <td><input type=number step=0.01 name="zusatzkostenReise" value="0"></td>
+            </tr>
+            <tr>
+                <td><label>Stundensatz VK:</label></td>
+                <td><input type=number step=0.01 name="stundensatzVK" value="0"></td>
+            </tr>
+            <tr>
+                <td><label>Projektnummer nettime:</label></td>
+                <td><input name="projektnummerNettime"></td>
+            </tr>
+            <tr>
+                <td><label>Beauftragungsnummer:</label></td>
+                <td><input name="beauftragungsnummer"></td>
+            </tr>
+            <tr>
+                <td><button>Einsatz Hinzufügen</button></td>
+            </tr>
+        </table>
+    </form>
 </body>
 </html>

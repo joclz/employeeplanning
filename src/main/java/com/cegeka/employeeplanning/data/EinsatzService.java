@@ -1,11 +1,13 @@
 package com.cegeka.employeeplanning.data;
 
+import com.cegeka.employeeplanning.data.enums.Enums;
 import org.assertj.core.util.VisibleForTesting;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.Optional;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
 public class EinsatzService {
@@ -48,14 +50,74 @@ public class EinsatzService {
         return einsatz;
     }
 
-    public Iterable<Einsatz> findEinsaetzeByMitarbeiterVertriebId(Integer id){
+    public Iterable<Einsatz> findEinsaetzeByMitarbeiterVertriebId(Integer id) {
         Optional<MitarbeiterVertrieb> mitarbeiterVertrieb;
         try {
             mitarbeiterVertrieb = mitarbeiterVertriebRepository.findById(id);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             return Collections.emptyList();
         }
         return einsatzRepository.findEinsaetzeByMitarbeiterVertrieb(mitarbeiterVertrieb);
+    }
+
+    public Iterable<Einsatz> findEinsaetzeByMitarbeiterId(Integer id) {
+        Optional<Mitarbeiter> mitarbeiter;
+        try {
+            mitarbeiter = mitarbeiterRepository.findById(id);
+        } catch (Exception ex) {
+            return Collections.emptyList();
+        }
+        return einsatzRepository.findEinsaetzeByMitarbeiter(mitarbeiter);
+    }
+
+    public Iterable<Einsatz> findEinsaetzeBySuchkriterien(Integer mitarbeiterVertriebId,
+                                                          Integer mitarbeiterId,
+                                                          String einsatzStatus,
+                                                          String beginn,
+                                                          String ende) {
+        Set<Integer> einsatzIds = new HashSet<>();
+        einsatzRepository.findAll().forEach(id -> einsatzIds.add(id.getId()));
+
+        if (mitarbeiterVertriebId != null) {
+            Set<Integer> einsatzIdsMaV = new HashSet<>();
+            findEinsaetzeByMitarbeiterVertriebId(mitarbeiterVertriebId).forEach(id -> einsatzIdsMaV.add(id.getId()));
+            einsatzIds.retainAll(einsatzIdsMaV);
+        }
+        if (mitarbeiterId != null) {
+            Set<Integer> einsatzIdsMa = new HashSet<>();
+            findEinsaetzeByMitarbeiterId(mitarbeiterId).forEach(id -> einsatzIdsMa.add(id.getId()));
+            einsatzIds.retainAll(einsatzIdsMa);
+        }
+        if (einsatzStatus != null && !beginn.isEmpty()) {
+            Set<Integer> einsatzIdsStatus = new HashSet<>();
+            einsatzRepository.findEinsaetzeByEinsatzStatus(Enums.EinsatzStatus.valueOf(einsatzStatus)).forEach(id -> einsatzIdsStatus.add(id.getId()));
+            einsatzIds.retainAll(einsatzIdsStatus);
+        }
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        if (beginn != null && !beginn.isEmpty()) {
+            Set<Integer> einsatzIdsBeginn = new HashSet<>();
+            Date beginnDate = null;
+            beginnDate = parseDate(beginn, formatter, beginnDate);
+            einsatzRepository.findEinsaetzeByBeginnGreaterThanEqual(beginnDate).forEach(id -> einsatzIdsBeginn.add(id.getId()));
+            einsatzIds.retainAll(einsatzIdsBeginn);
+        }
+        if (ende != null && !ende.isEmpty()) {
+            Set<Integer> einsatzIdsEnde = new HashSet<>();
+            Date beginnEnde = null;
+            beginnEnde = parseDate(ende, formatter, beginnEnde);
+            einsatzRepository.findEinsaetzeByEndeIsLessThanEqual(beginnEnde).forEach(id -> einsatzIdsEnde.add(id.getId()));
+            einsatzIds.retainAll(einsatzIdsEnde);
+        }
+
+        return einsatzRepository.findAllById(einsatzIds);
+    }
+
+    private Date parseDate(String dateString, SimpleDateFormat formatter, Date date) {
+        try {
+            date = formatter.parse(dateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
     }
 }

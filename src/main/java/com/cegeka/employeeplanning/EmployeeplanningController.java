@@ -81,6 +81,15 @@ public class EmployeeplanningController {
         return einsatzService.findEinsaetzeByMitarbeiterVertriebId(id);
     }
 
+    @GetMapping("/findEinsaetzeBySuchkriterien")
+    public Iterable<Einsatz> findEinsaetzeBySuchkriterien(@RequestParam("mitarbeiterVertriebId") Integer mitarbeiterVertriebId,
+                                                          @RequestParam("mitarbeiterId") Integer mitarbeiterId,
+                                                          @RequestParam("einsatzStatus") String einsatzStatus,
+                                                          @RequestParam("beginn") String beginn,
+                                                          @RequestParam("ende") String ende) {
+        return einsatzService.findEinsaetzeBySuchkriterien(mitarbeiterVertriebId, mitarbeiterId, einsatzStatus, beginn, ende);
+    }
+
     @PostMapping("/addMitarbeiterMitEinzelnenWerten")
     public Mitarbeiter addMitarbeiterMitEinzelnenWerten(@RequestParam String vorname, @RequestParam String name,
                                                         @RequestParam String status, @RequestParam String unit,
