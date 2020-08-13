@@ -9,7 +9,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -21,7 +20,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-@AutoConfigureMockMvc
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class EinsatzServiceTests {
     @Autowired
@@ -40,7 +38,7 @@ public class EinsatzServiceTests {
     }
 
     @Test
-    public void test_001_calcEinsatzWerteWithEinsatz2() {
+    public void test_002_calcEinsatzWerteWithEinsatz2() {
         Optional<Einsatz> einsatzId1 = einsatzRepository.findById(2);
         Einsatz einsatz = einsatzService.calcEinsatzWerte(einsatzId1.get());
 
@@ -67,6 +65,7 @@ public class EinsatzServiceTests {
         Iterable<Einsatz> allById = einsatzRepository.findAllById(einsatzId1);
         assertThat(allById.spliterator().getExactSizeIfKnown()).isEqualTo(1);
     }
+
 
     @Test
     public void test_100_findEinsaetzeBySuchkriterien_given_keine_expected_6() {
