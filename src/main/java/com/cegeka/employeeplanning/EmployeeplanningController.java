@@ -117,7 +117,7 @@ public class EmployeeplanningController {
     }
 
     // Beim POST-Request addEinsatz gab es ein Problem, dass das Datumsformat nicht korrekt durchgereicht werden konnte.
-    // Mit diesem initBinder konnte dies behokben werden.
+    // Mit diesem initBinder konnte dies behoben werden.
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");

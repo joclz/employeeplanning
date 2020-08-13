@@ -21,6 +21,10 @@ public class EinsatzService {
     @Autowired
     private MitarbeiterRepository mitarbeiterRepository;
 
+    /**
+     * Vor der Methode 'save' des Repositories, wird zusätzlich noch die Methode 'calcEinsatzWerte' aufgerufen,
+     * um die berechneten Attribute des Einsatzes zu berechnen.
+     */
     public <S extends Einsatz> void save(S einsatz) {
         einsatz = calcEinsatzWerte(einsatz);
         einsatzRepository.save(einsatz);
@@ -71,6 +75,13 @@ public class EinsatzService {
         return einsatzRepository.findEinsaetzeByMitarbeiter(mitarbeiter);
     }
 
+    /**
+     * Mit dieser Methode kann gezielt nach Einsätzen gesucht werden.
+     * Die Suche wird über die Datenstruktur im Parameter 'EinsatzSuche' gesteuert.
+     * Sind die einzelnen Attribute in der Datenstruktur gleich null bzw. leer, wird die Suche nicht eingeschränkt.
+     * Sind die Attribute jedoch gefüllt, kann die Suche der Einsätze für bestimmte Vertriebsmitarbeiter, Mitarbeiter,
+     * Status, BeginnDatum von bis und EndeDatum von bis erweitert werden.
+     */
     public Iterable<Einsatz> findEinsaetzeBySuchkriterien(EinsatzSuche einsatzSuche) {
         Set<Integer> einsatzIds = new HashSet<>();
         einsatzRepository.findAll().forEach(id -> einsatzIds.add(id.getId()));
