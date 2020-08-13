@@ -2,7 +2,6 @@ package com.cegeka.employeeplanning.service;
 
 import com.cegeka.employeeplanning.data.*;
 import com.cegeka.employeeplanning.data.enums.Enums;
-import com.cegeka.employeeplanning.service.EinsatzSuche;
 import org.assertj.core.util.VisibleForTesting;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -93,19 +92,33 @@ public class EinsatzService {
             einsatzIds.retainAll(einsatzIdsStatus);
         }
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        if (einsatzSuche.getBeginn() != null && !einsatzSuche.getBeginn().isEmpty()) {
-            Set<Integer> einsatzIdsBeginn = new HashSet<>();
-            Date beginnDate = null;
-            beginnDate = parseDate(einsatzSuche.getBeginn(), formatter, beginnDate);
-            einsatzRepository.findEinsaetzeByBeginnGreaterThanEqual(beginnDate).forEach(id -> einsatzIdsBeginn.add(id.getId()));
-            einsatzIds.retainAll(einsatzIdsBeginn);
+        if (einsatzSuche.getBeginnVon() != null && !einsatzSuche.getBeginnVon().isEmpty()) {
+            Set<Integer> einsatzIdsBeginnVon = new HashSet<>();
+            Date beginnDateVon = null;
+            beginnDateVon = parseDate(einsatzSuche.getBeginnVon(), formatter, beginnDateVon);
+            einsatzRepository.findEinsaetzeByBeginnGreaterThanEqual(beginnDateVon).forEach(id -> einsatzIdsBeginnVon.add(id.getId()));
+            einsatzIds.retainAll(einsatzIdsBeginnVon);
         }
-        if (einsatzSuche.getEnde() != null && !einsatzSuche.getEnde().isEmpty()) {
-            Set<Integer> einsatzIdsEnde = new HashSet<>();
-            Date beginnEnde = null;
-            beginnEnde = parseDate(einsatzSuche.getEnde(), formatter, beginnEnde);
-            einsatzRepository.findEinsaetzeByEndeIsLessThanEqual(beginnEnde).forEach(id -> einsatzIdsEnde.add(id.getId()));
-            einsatzIds.retainAll(einsatzIdsEnde);
+        if (einsatzSuche.getBeginnBis() != null && !einsatzSuche.getBeginnBis().isEmpty()) {
+            Set<Integer> einsatzIdsBeginnBis = new HashSet<>();
+            Date beginnDateBis = null;
+            beginnDateBis = parseDate(einsatzSuche.getBeginnBis(), formatter, beginnDateBis);
+            einsatzRepository.findEinsaetzeByBeginnLessThanEqual(beginnDateBis).forEach(id -> einsatzIdsBeginnBis.add(id.getId()));
+            einsatzIds.retainAll(einsatzIdsBeginnBis);
+        }
+        if (einsatzSuche.getEndeVon() != null && !einsatzSuche.getEndeVon().isEmpty()) {
+            Set<Integer> einsatzIdsEndeVon = new HashSet<>();
+            Date endeDateVon = null;
+            endeDateVon = parseDate(einsatzSuche.getEndeVon(), formatter, endeDateVon);
+            einsatzRepository.findEinsaetzeByEndeGreaterThanEqual(endeDateVon).forEach(id -> einsatzIdsEndeVon.add(id.getId()));
+            einsatzIds.retainAll(einsatzIdsEndeVon);
+        }
+        if (einsatzSuche.getEndeBis() != null && !einsatzSuche.getEndeBis().isEmpty()) {
+            Set<Integer> einsatzIdsEndeBis = new HashSet<>();
+            Date endeDateBis = null;
+            endeDateBis = parseDate(einsatzSuche.getEndeBis(), formatter, endeDateBis);
+            einsatzRepository.findEinsaetzeByEndeLessThanEqual(endeDateBis).forEach(id -> einsatzIdsEndeBis.add(id.getId()));
+            einsatzIds.retainAll(einsatzIdsEndeBis);
         }
 
         return einsatzRepository.findAllById(einsatzIds);

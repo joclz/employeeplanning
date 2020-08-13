@@ -13,5 +13,7 @@ public interface EinsatzRepository extends CrudRepository<Einsatz, Integer> {
     Iterable<Einsatz> findEinsaetzeByMitarbeiterVertrieb(Optional<MitarbeiterVertrieb> mitarbeiterVertrieb);
     Iterable<Einsatz> findEinsaetzeByMitarbeiter(Optional<Mitarbeiter> mitarbeiter);
     Iterable<Einsatz> findEinsaetzeByBeginnGreaterThanEqual(Date beginn);
-    Iterable<Einsatz> findEinsaetzeByEndeIsLessThanEqual(Date ende);
+    Iterable<Einsatz> findEinsaetzeByBeginnLessThanEqual(Date beginn);
+    Iterable<Einsatz> findEinsaetzeByEndeGreaterThanEqual(Date ende);
+    Iterable<Einsatz> findEinsaetzeByEndeLessThanEqual(Date ende);
 }

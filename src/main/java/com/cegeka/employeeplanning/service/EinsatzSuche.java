@@ -9,15 +9,20 @@ public class EinsatzSuche {
     Integer mitarbeiterVertriebId;
     Integer mitarbeiterId;
     String einsatzStatus;
-    String beginn;
-    String ende;
+    String beginnVon;
+    String beginnBis;
+    String endeVon;
+    String endeBis;
 
     public EinsatzSuche(Integer mitarbeiterVertriebId, Integer mitarbeiterId, String einsatzStatus,
-                        String beginn, String ende) {
+                        String beginnVon, String beginnBis,
+                        String endeVon, String endeBis) {
         this.mitarbeiterVertriebId = mitarbeiterVertriebId;
         this.mitarbeiterId = mitarbeiterId;
         this.einsatzStatus = einsatzStatus;
-        this.beginn = beginn;
-        this.ende = ende;
+        this.beginnVon = beginnVon;
+        this.beginnBis = beginnBis;
+        this.endeVon = endeVon;
+        this.endeBis = endeBis;
     }
 }
