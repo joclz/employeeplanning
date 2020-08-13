@@ -70,41 +70,38 @@ public class EinsatzService {
         return einsatzRepository.findEinsaetzeByMitarbeiter(mitarbeiter);
     }
 
-    public Iterable<Einsatz> findEinsaetzeBySuchkriterien(Integer mitarbeiterVertriebId,
-                                                          Integer mitarbeiterId,
-                                                          String einsatzStatus,
-                                                          String beginn,
-                                                          String ende) {
+    public Iterable<Einsatz> findEinsaetzeBySuchkriterien(EinsatzSuche einsatzSuche) {
         Set<Integer> einsatzIds = new HashSet<>();
         einsatzRepository.findAll().forEach(id -> einsatzIds.add(id.getId()));
 
-        if (mitarbeiterVertriebId != null) {
+        if (einsatzSuche.getMitarbeiterVertriebId() != null) {
             Set<Integer> einsatzIdsMaV = new HashSet<>();
-            findEinsaetzeByMitarbeiterVertriebId(mitarbeiterVertriebId).forEach(id -> einsatzIdsMaV.add(id.getId()));
+            findEinsaetzeByMitarbeiterVertriebId(einsatzSuche.getMitarbeiterVertriebId()).forEach(id -> einsatzIdsMaV.add(id.getId()));
             einsatzIds.retainAll(einsatzIdsMaV);
         }
-        if (mitarbeiterId != null) {
+        if (einsatzSuche.getMitarbeiterId() != null) {
             Set<Integer> einsatzIdsMa = new HashSet<>();
-            findEinsaetzeByMitarbeiterId(mitarbeiterId).forEach(id -> einsatzIdsMa.add(id.getId()));
+            findEinsaetzeByMitarbeiterId(einsatzSuche.getMitarbeiterId()).forEach(id -> einsatzIdsMa.add(id.getId()));
             einsatzIds.retainAll(einsatzIdsMa);
         }
-        if (einsatzStatus != null && !einsatzStatus.isEmpty()) {
+        if (einsatzSuche.getEinsatzStatus() != null && !einsatzSuche.getEinsatzStatus().isEmpty()) {
             Set<Integer> einsatzIdsStatus = new HashSet<>();
-            einsatzRepository.findEinsaetzeByEinsatzStatus(Enums.EinsatzStatus.valueOf(einsatzStatus)).forEach(id -> einsatzIdsStatus.add(id.getId()));
+            einsatzRepository.findEinsaetzeByEinsatzStatus(Enums.EinsatzStatus.valueOf(
+                    einsatzSuche.getEinsatzStatus())).forEach(id -> einsatzIdsStatus.add(id.getId()));
             einsatzIds.retainAll(einsatzIdsStatus);
         }
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        if (beginn != null && !beginn.isEmpty()) {
+        if (einsatzSuche.getBeginn() != null && !einsatzSuche.getBeginn().isEmpty()) {
             Set<Integer> einsatzIdsBeginn = new HashSet<>();
             Date beginnDate = null;
-            beginnDate = parseDate(beginn, formatter, beginnDate);
+            beginnDate = parseDate(einsatzSuche.getBeginn(), formatter, beginnDate);
             einsatzRepository.findEinsaetzeByBeginnGreaterThanEqual(beginnDate).forEach(id -> einsatzIdsBeginn.add(id.getId()));
             einsatzIds.retainAll(einsatzIdsBeginn);
         }
-        if (ende != null && !ende.isEmpty()) {
+        if (einsatzSuche.getEnde() != null && !einsatzSuche.getEnde().isEmpty()) {
             Set<Integer> einsatzIdsEnde = new HashSet<>();
             Date beginnEnde = null;
-            beginnEnde = parseDate(ende, formatter, beginnEnde);
+            beginnEnde = parseDate(einsatzSuche.getEnde(), formatter, beginnEnde);
             einsatzRepository.findEinsaetzeByEndeIsLessThanEqual(beginnEnde).forEach(id -> einsatzIdsEnde.add(id.getId()));
             einsatzIds.retainAll(einsatzIdsEnde);
         }
