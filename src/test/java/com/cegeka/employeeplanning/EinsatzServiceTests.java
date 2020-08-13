@@ -2,8 +2,8 @@ package com.cegeka.employeeplanning;
 
 import com.cegeka.employeeplanning.data.Einsatz;
 import com.cegeka.employeeplanning.data.EinsatzRepository;
-import com.cegeka.employeeplanning.data.EinsatzService;
-import com.cegeka.employeeplanning.data.EinsatzSuche;
+import com.cegeka.employeeplanning.service.EinsatzService;
+import com.cegeka.employeeplanning.service.EinsatzSuche;
 import com.cegeka.employeeplanning.data.enums.Enums;
 import org.junit.FixMethodOrder;
 import org.junit.Test;

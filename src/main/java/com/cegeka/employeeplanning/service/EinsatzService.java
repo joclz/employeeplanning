@@ -1,6 +1,8 @@
-package com.cegeka.employeeplanning.data;
+package com.cegeka.employeeplanning.service;
 
+import com.cegeka.employeeplanning.data.*;
 import com.cegeka.employeeplanning.data.enums.Enums;
+import com.cegeka.employeeplanning.service.EinsatzSuche;
 import org.assertj.core.util.VisibleForTesting;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

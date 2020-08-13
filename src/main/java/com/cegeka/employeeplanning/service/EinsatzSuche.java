@@ -1,4 +1,4 @@
-package com.cegeka.employeeplanning.data;
+package com.cegeka.employeeplanning.service;
 
 import lombok.Getter;
 import lombok.Setter;
