@@ -21,9 +21,9 @@ public class EinsatzService {
     @Autowired
     private MitarbeiterRepository mitarbeiterRepository;
 
-    public <S extends Einsatz> S save(S einsatz) {
+    public <S extends Einsatz> void save(S einsatz) {
         einsatz = calcEinsatzWerte(einsatz);
-        return einsatzRepository.save(einsatz);
+        einsatzRepository.save(einsatz);
     }
 
     @VisibleForTesting
@@ -33,11 +33,11 @@ public class EinsatzService {
         Integer mitarbeiterId = einsatz.getMitarbeiter().getId();
         if (vertriebMitarbeiterId != null) {
             Optional<MitarbeiterVertrieb> byId = mitarbeiterVertriebRepository.findById(vertriebMitarbeiterId);
-            einsatz.setMitarbeiterVertrieb(byId.get());
+            einsatz.setMitarbeiterVertrieb(byId.orElse(null));
         }
         if (mitarbeiterId != null) {
             Optional<Mitarbeiter> byId1 = mitarbeiterRepository.findById(mitarbeiterId);
-            einsatz.setMitarbeiter(byId1.get());
+            einsatz.setMitarbeiter(byId1.orElse(null));
         }
 
         double stundensatzEK = 0.;
@@ -94,29 +94,25 @@ public class EinsatzService {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         if (einsatzSuche.getBeginnVon() != null && !einsatzSuche.getBeginnVon().isEmpty()) {
             Set<Integer> einsatzIdsBeginnVon = new HashSet<>();
-            Date beginnDateVon = null;
-            beginnDateVon = parseDate(einsatzSuche.getBeginnVon(), formatter, beginnDateVon);
+            Date beginnDateVon = parseDate(einsatzSuche.getBeginnVon(), formatter);
             einsatzRepository.findEinsaetzeByBeginnGreaterThanEqual(beginnDateVon).forEach(id -> einsatzIdsBeginnVon.add(id.getId()));
             einsatzIds.retainAll(einsatzIdsBeginnVon);
         }
         if (einsatzSuche.getBeginnBis() != null && !einsatzSuche.getBeginnBis().isEmpty()) {
             Set<Integer> einsatzIdsBeginnBis = new HashSet<>();
-            Date beginnDateBis = null;
-            beginnDateBis = parseDate(einsatzSuche.getBeginnBis(), formatter, beginnDateBis);
+            Date beginnDateBis = parseDate(einsatzSuche.getBeginnBis(), formatter);
             einsatzRepository.findEinsaetzeByBeginnLessThanEqual(beginnDateBis).forEach(id -> einsatzIdsBeginnBis.add(id.getId()));
             einsatzIds.retainAll(einsatzIdsBeginnBis);
         }
         if (einsatzSuche.getEndeVon() != null && !einsatzSuche.getEndeVon().isEmpty()) {
             Set<Integer> einsatzIdsEndeVon = new HashSet<>();
-            Date endeDateVon = null;
-            endeDateVon = parseDate(einsatzSuche.getEndeVon(), formatter, endeDateVon);
+            Date endeDateVon = parseDate(einsatzSuche.getEndeVon(), formatter);
             einsatzRepository.findEinsaetzeByEndeGreaterThanEqual(endeDateVon).forEach(id -> einsatzIdsEndeVon.add(id.getId()));
             einsatzIds.retainAll(einsatzIdsEndeVon);
         }
         if (einsatzSuche.getEndeBis() != null && !einsatzSuche.getEndeBis().isEmpty()) {
             Set<Integer> einsatzIdsEndeBis = new HashSet<>();
-            Date endeDateBis = null;
-            endeDateBis = parseDate(einsatzSuche.getEndeBis(), formatter, endeDateBis);
+            Date endeDateBis = parseDate(einsatzSuche.getEndeBis(), formatter);
             einsatzRepository.findEinsaetzeByEndeLessThanEqual(endeDateBis).forEach(id -> einsatzIdsEndeBis.add(id.getId()));
             einsatzIds.retainAll(einsatzIdsEndeBis);
         }
@@ -124,7 +120,8 @@ public class EinsatzService {
         return einsatzRepository.findAllById(einsatzIds);
     }
 
-    private Date parseDate(String dateString, SimpleDateFormat formatter, Date date) {
+    private Date parseDate(String dateString, SimpleDateFormat formatter) {
+        Date date = null;
         try {
             date = formatter.parse(dateString);
         } catch (ParseException e) {
