@@ -88,7 +88,7 @@ public class EinsatzService {
             findEinsaetzeByMitarbeiterId(mitarbeiterId).forEach(id -> einsatzIdsMa.add(id.getId()));
             einsatzIds.retainAll(einsatzIdsMa);
         }
-        if (einsatzStatus != null && !beginn.isEmpty()) {
+        if (einsatzStatus != null && !einsatzStatus.isEmpty()) {
             Set<Integer> einsatzIdsStatus = new HashSet<>();
             einsatzRepository.findEinsaetzeByEinsatzStatus(Enums.EinsatzStatus.valueOf(einsatzStatus)).forEach(id -> einsatzIdsStatus.add(id.getId()));
             einsatzIds.retainAll(einsatzIdsStatus);
