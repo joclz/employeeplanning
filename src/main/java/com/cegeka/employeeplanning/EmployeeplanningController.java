@@ -4,6 +4,7 @@ import com.cegeka.employeeplanning.data.*;
 import com.cegeka.employeeplanning.data.enums.Enums;
 import com.cegeka.employeeplanning.service.EinsatzService;
 import com.cegeka.employeeplanning.service.EinsatzSuche;
+import com.cegeka.employeeplanning.service.MitarbeiterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.web.bind.WebDataBinder;
@@ -23,6 +24,8 @@ public class EmployeeplanningController {
     private EinsatzRepository einsatzRepository;
     @Autowired
     private EinsatzService einsatzService;
+    @Autowired
+    private MitarbeiterService mitarbeiterService;
 
     @GetMapping("/goToIndex")
     public ModelAndView goToIndex() {
@@ -108,6 +111,11 @@ public class EmployeeplanningController {
     public Mitarbeiter addMitarbeiter(Mitarbeiter mitarbeiter) {
         mitarbeiterRepository.save(mitarbeiter);
         return mitarbeiter;
+    }
+
+    @GetMapping("/getLastEndDateForMitarbeiter")
+    public Date getLastEndDateForMitarbeiter(@RequestParam("mitarbeiterId") Integer id) {
+        return mitarbeiterService.getLastEndDateForMitarbeiter(id);
     }
 
     @PostMapping(path = "/addEinsatz")
