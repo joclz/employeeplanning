@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Optional;
 
 @RestController
 public class EmployeeplanningController {
@@ -89,6 +90,16 @@ public class EmployeeplanningController {
     @GetMapping("/findEinsaetzeBySuchkriterien")
     public Iterable<Einsatz> findEinsaetzeBySuchkriterien(EinsatzSuche einsatzSuche) {
         return einsatzService.findEinsaetzeBySuchkriterien(einsatzSuche);
+    }
+
+    @GetMapping("/loadEinsatzById")
+    public ModelAndView loadEinsatzById(@RequestParam("EinsatzId") Integer id) {
+        ModelAndView mav = new ModelAndView();
+        Optional<Einsatz> einsatz = einsatzRepository.findById(id);
+        //mav.addObject("Einsatz", einsatz);
+        mav.addObject("id", id);
+        mav.setViewName("einsatzEdit.html");
+        return mav;
     }
 
     @PostMapping("/addMitarbeiterMitEinzelnenWerten")
