@@ -42,7 +42,7 @@
     </form>
     <hr/>
     <form action="/findEinsaetzeBySuchkriterien" method="GET">
-        <table>
+        <table class="editDataTable">
             <tr>
                 <td><label>Mitarbeiter Vertrieb (ID):</label></td>
                 <td><input input type=number step=1 name="mitarbeiterVertriebId"></td>
@@ -52,7 +52,7 @@
                 <td><input input type=number step=1 name="mitarbeiterId"></td>
             </tr>
             <tr>
-                <td width=200><label>Status:</label></td>
+                <td><label>Status:</label></td>
                 <td><select name="einsatzStatus">
                     <option value=""></option>
                     <option value="ANGEBOTEN">ANGEBOTEN</option>
@@ -83,7 +83,7 @@
     </form>
     <hr/>
     <form action="/addEinsatz" method="POST" content="">
-        <table>
+        <table class="editDataTable">
             <tr>
                 <td><label>Mitarbeiter Vertrieb (ID):</label></td>
                 <td><input name="mitarbeiterVertrieb.id" value="1"></td>
@@ -93,7 +93,7 @@
                 <td><input name="mitarbeiter.id" value="1"></td>
             </tr>
             <tr>
-                <td width=200><label>Status:</label></td>
+                <td><label>Status:</label></td>
                 <td><select name="einsatzStatus">
                     <option value="ANGEBOTEN">ANGEBOTEN</option>
                     <option value="BEAUFTRAGT">BEAUFTRAGT</option>
@@ -109,7 +109,7 @@
                 <td><input type=date name="ende" value="2020-12-31"></td>
             </tr>
             <tr>
-                <td><label>Wahrscheinlichkeit (für Status angeboten):</label></td>
+                <td width="230px"><label>Wahrscheinlichkeit (für Status angeboten):</label></td>
                 <td><input type=number step=1 name="wahrscheinlichkeit" value="0"> </td>
             </tr>
             <tr>
