@@ -1,6 +1,6 @@
 package com.cegeka.employeeplanning.service;
 
-import com.cegeka.employeeplanning.service.MitarbeiterService;
+import com.cegeka.employeeplanning.data.Mitarbeiter;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -48,5 +48,19 @@ public class MitarbeiterServiceTests {
     public void test_010_getChanceForMitarbeiter_given_Ma5_expected_50() {
         Integer chanceForMitarbeiter = mitarbeiterService.getChanceForMitarbeiter(5);
         assertThat(chanceForMitarbeiter).isEqualTo(50);
+    }
+
+    @Test
+    public void test_020_getMitarbeiterBank_given_Date_2020_08_14_expected_Ma1() {
+        Iterable<Mitarbeiter> mitarbeiterBank = mitarbeiterService.getMitarbeiterBank("2020-08-14");
+        assertThat(mitarbeiterBank.spliterator().getExactSizeIfKnown()).isEqualTo(1);
+        mitarbeiterBank.forEach(id -> assertThat(id.getId()).isEqualTo(1));
+    }
+
+    @Test
+    public void test_020_getMitarbeiterBank_given_Date_2020_09_01_expected_Ma1() {
+        Iterable<Mitarbeiter> mitarbeiterBank = mitarbeiterService.getMitarbeiterBank("2020-09-01");
+        assertThat(mitarbeiterBank.spliterator().getExactSizeIfKnown()).isEqualTo(2);
+        mitarbeiterBank.forEach(id -> assertThat(id.getId()).isIn(1, 4));
     }
 }
