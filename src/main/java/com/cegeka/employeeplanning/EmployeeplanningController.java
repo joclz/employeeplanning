@@ -113,6 +113,12 @@ public class EmployeeplanningController {
         return mitarbeiter;
     }
 
+    @PostMapping(path = "/addMitarbeiterVertrieb")
+    public MitarbeiterVertrieb addMitarbeiterVertrieb(MitarbeiterVertrieb mitarbeiterVertrieb) {
+        mitarbeiterVertriebRepository.save(mitarbeiterVertrieb);
+        return mitarbeiterVertrieb;
+    }
+
     @GetMapping("/getLastEndDateForMitarbeiter")
     public Date getLastEndDateForMitarbeiter(@RequestParam("mitarbeiterId") Integer id) {
         return mitarbeiterService.getLastEndDateForMitarbeiter(id);
