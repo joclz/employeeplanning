@@ -1,4 +1,4 @@
-package com.cegeka.employeeplanning;
+package com.cegeka.employeeplanning.service;
 
 import com.cegeka.employeeplanning.service.MitarbeiterService;
 import org.junit.FixMethodOrder;
