@@ -92,16 +92,6 @@ public class EmployeeplanningController {
         return einsatzService.findEinsaetzeBySuchkriterien(einsatzSuche);
     }
 
-    @GetMapping("/loadEinsatzById")
-    public ModelAndView loadEinsatzById(@RequestParam("EinsatzId") Integer id) {
-        ModelAndView mav = new ModelAndView();
-        Optional<Einsatz> einsatz = einsatzRepository.findById(id);
-        //mav.addObject("Einsatz", einsatz);
-        mav.addObject("id", id);
-        mav.setViewName("einsatzEdit.html");
-        return mav;
-    }
-
     @PostMapping("/addMitarbeiterMitEinzelnenWerten")
     public Mitarbeiter addMitarbeiterMitEinzelnenWerten(@RequestParam String vorname, @RequestParam String name,
                                                         @RequestParam String status, @RequestParam String unit,
