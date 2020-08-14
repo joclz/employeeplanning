@@ -32,4 +32,21 @@ public class MitarbeiterServiceTests {
         assertThat(calendar.get(Calendar.MONTH)).isEqualTo(Calendar.DECEMBER);
         assertThat(calendar.get(Calendar.DAY_OF_MONTH)).isEqualTo(31);
     }
+
+    @Test
+    public void test_002_getLastEndDateForMitarbeiter_given_Ma5_expected_2021_01_30() {
+        Date lastEndDateForMitarbeiter = mitarbeiterService.getLastEndDateForMitarbeiter(5);
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(lastEndDateForMitarbeiter);
+
+        assertThat(calendar.get(Calendar.YEAR)).isEqualTo(2021);
+        assertThat(calendar.get(Calendar.MONTH)).isEqualTo(Calendar.JANUARY);
+        assertThat(calendar.get(Calendar.DAY_OF_MONTH)).isEqualTo(30);
+    }
+
+    @Test
+    public void test_010_getChanceForMitarbeiter_given_Ma5_expected_50() {
+        Integer chanceForMitarbeiter = mitarbeiterService.getChanceForMitarbeiter(5);
+        assertThat(chanceForMitarbeiter).isEqualTo(50);
+    }
 }

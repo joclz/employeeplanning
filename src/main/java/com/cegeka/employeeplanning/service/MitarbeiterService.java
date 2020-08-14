@@ -33,10 +33,35 @@ public class MitarbeiterService {
         Date lastEndDate = null;
         List<Date> listEndDate = new ArrayList<Date>() {};
         einsaetzeByMitarbeiterId.forEach(it -> listEndDate.add(it.getEnde()));
-        Collections.sort(listEndDate, Collections.reverseOrder());
+        listEndDate.sort(Collections.reverseOrder());
         if (!listEndDate.isEmpty()) {
             lastEndDate = listEndDate.get(0);
         }
         return lastEndDate;
+    }
+
+    /**
+     * Frage: Wie hoch ist die Chance für Verlängerung?
+     * Gibt den Einsatz mit der höchsten Wahrscheinlichkeit für einen bestimmten Mitarbeiter zurück.
+     * Hierbei werden nur Einsätze mit dem Status = ANGEBOTEN berücksichtigt.
+     */
+    public Integer getChanceForMitarbeiter(Integer mitarbeiterId) {
+        Set<Integer> einsatzIds = new HashSet<>();
+        einsatzService.findEinsaetzeByMitarbeiterId(mitarbeiterId).forEach(id -> einsatzIds.add(id.getId()));
+
+        Set<Integer> einsatzIdsStatus = new HashSet<>();
+        einsatzRepository.findEinsaetzeByEinsatzStatus(Enums.EinsatzStatus.ANGEBOTEN).forEach(id -> einsatzIdsStatus.add(id.getId()));
+        einsatzIds.retainAll(einsatzIdsStatus);
+
+        Iterable<Einsatz> einsaetzeByMitarbeiterId = einsatzRepository.findAllById(einsatzIds);
+
+        int biggestChance = 0;
+        List<Integer> listChance = new ArrayList<Integer>() {};
+        einsaetzeByMitarbeiterId.forEach(it -> listChance.add(it.getWahrscheinlichkeit()));
+        listChance.sort(Collections.reverseOrder());
+        if (!listChance.isEmpty()) {
+            biggestChance = listChance.get(0);
+        }
+        return biggestChance;
     }
 }

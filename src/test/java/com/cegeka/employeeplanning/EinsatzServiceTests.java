@@ -69,17 +69,17 @@ public class EinsatzServiceTests {
 
 
     @Test
-    public void test_100_findEinsaetzeBySuchkriterien_given_keine_expected_6() {
+    public void test_100_findEinsaetzeBySuchkriterien_given_keine_expected_8() {
         EinsatzSuche einsatzSuche = new EinsatzSuche(null,null,null,null,null,null,null);
         Iterable<Einsatz> einsaetze = einsatzService.findEinsaetzeBySuchkriterien(einsatzSuche);
-        assertThat(einsaetze.spliterator().getExactSizeIfKnown()).isEqualTo(6);
+        assertThat(einsaetze.spliterator().getExactSizeIfKnown()).isEqualTo(8);
     }
 
     @Test
-    public void test_101_findEinsaetzeBySuchkriterien_given_BeginnVon20201002_expected_2() {
+    public void test_101_findEinsaetzeBySuchkriterien_given_BeginnVon20201002_expected_4() {
         EinsatzSuche einsatzSuche = new EinsatzSuche(null,null,null,"2020-10-02",null,null,null);
         Iterable<Einsatz> einsaetze = einsatzService.findEinsaetzeBySuchkriterien(einsatzSuche);
-        assertThat(einsaetze.spliterator().getExactSizeIfKnown()).isEqualTo(2);
+        assertThat(einsaetze.spliterator().getExactSizeIfKnown()).isEqualTo(4);
     }
 
     @Test
@@ -104,10 +104,10 @@ public class EinsatzServiceTests {
     }
 
     @Test
-    public void test_105_findEinsaetzeBySuchkriterien_given_EndeVon20201231_expected_5() {
+    public void test_105_findEinsaetzeBySuchkriterien_given_EndeVon20201231_expected_7() {
         EinsatzSuche einsatzSuche = new EinsatzSuche(null,null,null,null,null,"2020-12-31",null);
         Iterable<Einsatz> einsaetze = einsatzService.findEinsaetzeBySuchkriterien(einsatzSuche);
-        assertThat(einsaetze.spliterator().getExactSizeIfKnown()).isEqualTo(5);
+        assertThat(einsaetze.spliterator().getExactSizeIfKnown()).isEqualTo(7);
     }
 
     @Test

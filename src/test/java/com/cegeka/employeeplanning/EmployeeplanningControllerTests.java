@@ -109,18 +109,18 @@ public class EmployeeplanningControllerTests {
     }
 
     @Test
-    public void test_100_listEinsaetze_Expected_CorrectValuesAndNumber6() throws Exception {
+    public void test_100_listEinsaetze_Expected_CorrectValuesAndNumber8() throws Exception {
         MockHttpServletRequestBuilder requestBuilder = get("/listEinsaetze");
         ResultActions perform = this.mockMvc.perform(requestBuilder);
         perform.andExpect(status().isOk());
-        assertThat(einsatzRepository.count()).isEqualTo(6);
+        assertThat(einsatzRepository.count()).isEqualTo(8);
     }
 
     @Test
-    public void test_111_findEinsaetzeByEinsatzStatus_Expected_CorrectNumber2() throws Exception {
+    public void test_111_findEinsaetzeByEinsatzStatus_Expected_CorrectNumber3() throws Exception {
         MockHttpServletRequestBuilder requestBuilder = get("/findEinsaetzeByEinsatzStatus").param("status", "ANGEBOTEN");
         ResultActions perform = this.mockMvc.perform(requestBuilder);
         perform.andExpect(status().isOk());
-        perform.andExpect(jsonPath("$", hasSize(2)));
+        perform.andExpect(jsonPath("$", hasSize(3)));
     }
 }

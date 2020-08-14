@@ -118,6 +118,11 @@ public class EmployeeplanningController {
         return mitarbeiterService.getLastEndDateForMitarbeiter(id);
     }
 
+    @GetMapping("/getChanceForMitarbeiter")
+    public Integer getChanceForMitarbeiter(@RequestParam("mitarbeiterId") Integer id) {
+        return mitarbeiterService.getChanceForMitarbeiter(id);
+    }
+
     @PostMapping(path = "/addEinsatz")
     public Einsatz addEinsatz(Einsatz einsatz) {
         einsatzService.save(einsatz);

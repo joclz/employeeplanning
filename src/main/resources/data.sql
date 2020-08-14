@@ -32,3 +32,7 @@ insert into Einsatz
 values (5, 'BeaufNr5', DATE '2020-01-01', 21.0, 'BEAUFTRAGT', DATE '2020-08-31', 14.0, 'ProjektNr5', 100, 75, 15, 4, 2);
 insert into Einsatz
 values (6, 'BeaufNr6', DATE '2020-10-03', 21.0, 'ANGEBOTEN', DATE '2021-06-30', 13.0, 'ProjektNr6', 84, 25, 10, 5, 1);
+insert into Einsatz
+values (7, 'BeaufNr7', DATE '2020-10-03', 21.0, 'ANGEBOTEN', DATE '2021-06-30', 13.0, 'ProjektNr7', 84, 50, 10, 5, 2);
+insert into Einsatz
+values (8, 'BeaufNr8', DATE '2020-10-03', 21.0, 'BEAUFTRAGT', DATE '2021-01-30', 13.0, 'ProjektNr8', 84, 75, 10, 5, 2);
