@@ -21,4 +21,6 @@ public interface EinsatzRepository extends CrudRepository<Einsatz, Integer> {
     Iterable<Einsatz> findEinsaetzeByEndeGreaterThanEqual(Date ende);
 
     Iterable<Einsatz> findEinsaetzeByEndeLessThanEqual(Date ende);
+
+    Iterable<Einsatz> findEinsaetzeByMitarbeiter_MitarbeiterStatus(Enums.MitarbeiterStatus status);
 }

@@ -108,7 +108,7 @@ public class MitarbeiterService {
 
     @VisibleForTesting
     public Iterable<Mitarbeiter> getMitarbeiterBank(boolean intern, String todayString) {
-        EinsatzSuche einsatzSuche = new EinsatzSuche(null, null, "BEAUFTRAGT", null, null, todayString, null);
+        EinsatzSuche einsatzSuche = new EinsatzSuche(null, null, null,"BEAUFTRAGT", null, null, todayString, null);
         Iterable<Einsatz> einsaetze = einsatzService.findEinsaetzeBySuchkriterien(einsatzSuche);
 
         Set<Integer> mitarbeiterIdBeauftragtSet = new HashSet<>();
