@@ -1,5 +1,6 @@
 package com.cegeka.employeeplanning.service;
 
+import com.cegeka.employeeplanning.util.EmployeeplanningUtil;
 import com.cegeka.employeeplanning.data.Einsatz;
 import com.cegeka.employeeplanning.data.EinsatzRepository;
 import com.cegeka.employeeplanning.data.Mitarbeiter;
@@ -8,15 +9,13 @@ import org.assertj.core.util.VisibleForTesting;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static com.cegeka.employeeplanning.data.enums.Enums.EinsatzStatus;
 import static com.cegeka.employeeplanning.data.enums.Enums.MitarbeiterStatus;
-import static java.util.Calendar.getInstance;
 
 @Service
-public class MitarbeiterService {
+public class MitarbeiterService extends EmployeeplanningUtil {
     @Autowired
     private EinsatzService einsatzService;
     @Autowired
@@ -83,7 +82,7 @@ public class MitarbeiterService {
      * mit Parameter aufgerufen wird).
      */
     public Iterable<Mitarbeiter> getMitarbeiterBank() {
-        String todayString = formateDateString();
+        String todayString = formateTodayDateToString();
         return getMitarbeiterBank(todayString);
     }
 
@@ -91,14 +90,8 @@ public class MitarbeiterService {
      * Frage: Welche internen Mitarbeiter sind aktuell nicht im Einsatz bzw. sitzen auf der Bank?
      */
     public Iterable<Mitarbeiter> getMitarbeiterInternBank() {
-        String todayString = formateDateString();
+        String todayString = formateTodayDateToString();
         return getMitarbeiterBank(true, todayString);
-    }
-
-    private String formateDateString() {
-        Date today = getInstance().getTime();
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
-        return dateFormatter.format(today);
     }
 
     @VisibleForTesting
@@ -108,7 +101,7 @@ public class MitarbeiterService {
 
     @VisibleForTesting
     public Iterable<Mitarbeiter> getMitarbeiterBank(boolean intern, String todayString) {
-        EinsatzSuche einsatzSuche = new EinsatzSuche(null, null, null,"BEAUFTRAGT", null, null, todayString, null);
+        EinsatzSuche einsatzSuche = new EinsatzSuche(null, null, null, "BEAUFTRAGT", null, null, todayString, null);
         Iterable<Einsatz> einsaetze = einsatzService.findEinsaetzeBySuchkriterien(einsatzSuche);
 
         Set<Integer> mitarbeiterIdBeauftragtSet = new HashSet<>();

@@ -168,4 +168,22 @@ public class EinsatzServiceTests {
         Iterable<Einsatz> einsaetzeByMaStatus = einsatzRepository.findEinsaetzeByMitarbeiter_MitarbeiterStatus(Enums.MitarbeiterStatus.SUBUNTERNEHMER);
         assertThat(einsaetzeByMaStatus.spliterator().getExactSizeIfKnown()).isEqualTo(4);
     }
+
+    @Test
+    public void Test_301_getDeckungsbeitrag_given_Date_20200814_expected_21_0() {
+        double deckungsbeitrag = einsatzService.getDeckungsbeitrag("2020-08-14");
+        assertThat(deckungsbeitrag).isEqualTo(21.0);
+    }
+
+    @Test
+    public void Test_302_getDeckungsbeitrag_given_Date_20201002_expected_33_0() {
+        double deckungsbeitrag = einsatzService.getDeckungsbeitrag("2020-10-02");
+        assertThat(deckungsbeitrag).isEqualTo(33.0);
+    }
+
+    @Test
+    public void Test_303_getDeckungsbeitrag_given_Date_20201003_expected_54_0() {
+        double deckungsbeitrag = einsatzService.getDeckungsbeitrag("2020-10-03");
+        assertThat(deckungsbeitrag).isEqualTo(54.0);
+    }
 }

@@ -145,6 +145,11 @@ public class EmployeeplanningController {
         return mitarbeiterService.getMitarbeiterInternBank();
     }
 
+    @GetMapping("/getDeckungsbeitrag")
+    public double getDeckungsbeitrag() {
+        return einsatzService.getDeckungsbeitrag();
+    }
+
     @PostMapping(path = "/addEinsatz")
     public Einsatz addEinsatz(Einsatz einsatz) {
         einsatzService.save(einsatz);

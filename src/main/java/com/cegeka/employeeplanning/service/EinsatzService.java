@@ -6,9 +6,11 @@ import org.assertj.core.util.VisibleForTesting;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+
+import static com.cegeka.employeeplanning.util.EmployeeplanningUtil.formateTodayDateToString;
+import static com.cegeka.employeeplanning.util.EmployeeplanningUtil.parseDate;
 
 @Service
 public class EinsatzService {
@@ -136,13 +138,23 @@ public class EinsatzService {
         return einsatzRepository.findAllById(einsatzIds);
     }
 
-    private Date parseDate(String dateString, SimpleDateFormat formatter) {
-        Date date = null;
-        try {
-            date = formatter.parse(dateString);
-        } catch (ParseException e) {
-            e.printStackTrace();
+    /**
+     * Frage: Welchen UMsatz bzw. Deckungsbeitrag haben wir (aktueller Monat)
+     * Es werden die Deckungsbeiträge aller Beauftragten Einsätze, die aktuell sind, addiert.
+     */
+    public double getDeckungsbeitrag() {
+        String todayString = formateTodayDateToString();
+        return getDeckungsbeitrag(todayString);
+    }
+
+    @VisibleForTesting
+    public double getDeckungsbeitrag(String todayString) {
+        EinsatzSuche einsatzSuche = new EinsatzSuche(null, null, null, "BEAUFTRAGT", null, todayString, todayString, null);
+        Iterable<Einsatz> einsaetze = findEinsaetzeBySuchkriterien(einsatzSuche);
+        double summeDeckungsbeitrag = 0.;
+        for (Einsatz einsatz : einsaetze) {
+            summeDeckungsbeitrag += einsatz.getDeckungsbeitrag();
         }
-        return date;
+        return summeDeckungsbeitrag;
     }
 }
