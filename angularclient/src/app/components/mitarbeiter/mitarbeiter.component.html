@@ -1,4 +1,7 @@
-<div class="card my-5">
+<button (click)="listAllMitarbeiter()">Zeige Mitarbeiter</button>
+<button (click)="addMitarbeiter()">Füge Mitarbeiter hinzu</button>
+<button (click)="searchMitarbeiter()">Suche nach Mitarbeiter</button>
+<div *ngIf="zeigeMitarbeiter === true" class="card my-5">
   <div class="card-body">
     <table class="table table-bordered table-striped">
       <thead class="thead-dark">
@@ -12,7 +15,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let mitarbeiter of mitarbeiter">
+      <tr *ngFor="let mitarbeiter of mitarbeiterList">
         <td>{{ mitarbeiter.id }}</td>
         <td>{{ mitarbeiter.name }}</td>
         <td>{{ mitarbeiter.vorname }}</td>
@@ -23,4 +26,12 @@
       </tbody>
     </table>
   </div>
+</div>
+
+<div *ngIf="mitarbeiterHinzufuegen === true">
+  <app-mitarbeiter-form></app-mitarbeiter-form>
+</div>
+
+<div *ngIf="sucheMitarbeiter === true">
+  <app-mitarbeiter-search></app-mitarbeiter-search>
 </div>

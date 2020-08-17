@@ -3,17 +3,19 @@ import {NgModule} from '@angular/core';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {MitarbeiterListComponent} from './mitarbeiter-list/mitarbeiter-list.component';
-import {MitarbeiterFormComponent} from './mitarbeiter-form/mitarbeiter-form.component';
-import {MitarbeiterService} from "./mitarbeiter.service";
+import {MitarbeiterFormComponent} from './components/mitarbeiter/mitarbeiter-form.component';
+import {MitarbeiterService} from "./services/mitarbeiter.service";
 import {FormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
+import {MitarbeiterComponent} from './components/mitarbeiter/mitarbeiter.component';
+import {MitarbeiterSearchComponent} from './components/mitarbeiter/mitarbeiter-search.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MitarbeiterListComponent,
-    MitarbeiterFormComponent
+    MitarbeiterFormComponent,
+    MitarbeiterComponent,
+    MitarbeiterSearchComponent
   ],
   imports: [
     BrowserModule,
@@ -24,4 +26,5 @@ import {HttpClientModule} from "@angular/common/http";
   providers: [MitarbeiterService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

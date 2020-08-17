@@ -1,15 +1,14 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {MitarbeiterListComponent} from "./mitarbeiter-list/mitarbeiter-list.component";
-import {MitarbeiterFormComponent} from "./mitarbeiter-form/mitarbeiter-form.component";
+import {MitarbeiterComponent} from "./components/mitarbeiter/mitarbeiter.component";
 
 const routes: Routes = [
-  { path: 'mitarbeiter', component: MitarbeiterListComponent },
-  { path: 'addMitarbeiter', component: MitarbeiterFormComponent }
+  {path: 'mitarbeiter', component: MitarbeiterComponent},
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}
