@@ -1,0 +1,26 @@
+<div class="card my-5">
+  <div class="card-body">
+    <table class="table table-bordered table-striped">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Vorname</th>
+        <th scope="col">Status</th>
+        <th scope="col">Stundensatz</th>
+        <th scope="col">Unit</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let mitarbeiter of mitarbeiter">
+        <td>{{ mitarbeiter.id }}</td>
+        <td>{{ mitarbeiter.name }}</td>
+        <td>{{ mitarbeiter.vorname }}</td>
+        <td>{{ mitarbeiter.mitarbeiterStatus }}</td>
+        <td>{{ mitarbeiter.stundensatzEK }}</td>
+        <td>{{ mitarbeiter.mitarbeiterUnit }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
