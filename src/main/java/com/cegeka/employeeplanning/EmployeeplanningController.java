@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Optional;
 
 @RestController
 public class EmployeeplanningController {
@@ -84,6 +85,11 @@ public class EmployeeplanningController {
     @GetMapping("/findEinsaetzeByMitarbeiterVertrieb")
     public Iterable<Einsatz> findEinsaetzeByMitarbeiterVertrieb(@RequestParam("mitarbeiterVertriebId") Integer id) {
         return einsatzService.findEinsaetzeByMitarbeiterVertriebId(id);
+    }
+
+    @GetMapping("/getEinsatzById")
+    public Optional<Einsatz> getEinsatzById(@RequestParam("einsatzId") Integer id) {
+        return einsatzRepository.findById(id);
     }
 
     @GetMapping("/findEinsaetzeBySuchkriterien")
