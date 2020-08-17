@@ -32,16 +32,15 @@ public class EinsatzService {
 
     @VisibleForTesting
     public <S extends Einsatz> S calcEinsatzWerte(S einsatz) {
-        //Todo - Mitarbeiter und Mitarbeitervertrieb setzen
         Integer vertriebMitarbeiterId = einsatz.getMitarbeiterVertrieb().getId();
         Integer mitarbeiterId = einsatz.getMitarbeiter().getId();
         if (vertriebMitarbeiterId != null) {
-            Optional<MitarbeiterVertrieb> byId = mitarbeiterVertriebRepository.findById(vertriebMitarbeiterId);
-            einsatz.setMitarbeiterVertrieb(byId.orElse(null));
+            Optional<MitarbeiterVertrieb> maVertriebId = mitarbeiterVertriebRepository.findById(vertriebMitarbeiterId);
+            einsatz.setMitarbeiterVertrieb(maVertriebId.orElse(null));
         }
         if (mitarbeiterId != null) {
-            Optional<Mitarbeiter> byId1 = mitarbeiterRepository.findById(mitarbeiterId);
-            einsatz.setMitarbeiter(byId1.orElse(null));
+            Optional<Mitarbeiter> maId = mitarbeiterRepository.findById(mitarbeiterId);
+            einsatz.setMitarbeiter(maId.orElse(null));
         }
 
         double stundensatzEK = 0.;
