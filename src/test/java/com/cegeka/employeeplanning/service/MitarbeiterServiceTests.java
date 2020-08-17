@@ -51,15 +51,29 @@ public class MitarbeiterServiceTests {
     }
 
     @Test
-    public void test_020_getMitarbeiterBank_given_Date_2020_08_14_expected_Ma1() {
+    public void test_020_getMitarbeiterBank_given_Date_2020_08_14_expected_Ma2() {
         Iterable<Mitarbeiter> mitarbeiterBank = mitarbeiterService.getMitarbeiterBank("2020-08-14");
-        assertThat(mitarbeiterBank.spliterator().getExactSizeIfKnown()).isEqualTo(1);
-        mitarbeiterBank.forEach(id -> assertThat(id.getId()).isEqualTo(1));
+        assertThat(mitarbeiterBank.spliterator().getExactSizeIfKnown()).isEqualTo(2);
+        mitarbeiterBank.forEach(id -> assertThat(id.getId()).isIn(1, 6));
     }
 
     @Test
-    public void test_020_getMitarbeiterBank_given_Date_2020_09_01_expected_Ma1() {
+    public void test_020_getMitarbeiterBank_given_Date_2020_09_01_expected_Ma3() {
         Iterable<Mitarbeiter> mitarbeiterBank = mitarbeiterService.getMitarbeiterBank("2020-09-01");
+        assertThat(mitarbeiterBank.spliterator().getExactSizeIfKnown()).isEqualTo(3);
+        mitarbeiterBank.forEach(id -> assertThat(id.getId()).isIn(1, 4, 6));
+    }
+
+    @Test
+    public void test_020_getMitarbeiterInternBank_given_Date_2020_08_14_expected_Ma1() {
+        Iterable<Mitarbeiter> mitarbeiterBank = mitarbeiterService.getMitarbeiterBank(true, "2020-08-14");
+        assertThat(mitarbeiterBank.spliterator().getExactSizeIfKnown()).isEqualTo(1);
+        mitarbeiterBank.forEach(id -> assertThat(id.getId()).isIn(1));
+    }
+
+    @Test
+    public void test_020_getMitarbeiterInternBank_given_Date_2020_09_01_expected_Ma2() {
+        Iterable<Mitarbeiter> mitarbeiterBank = mitarbeiterService.getMitarbeiterBank(true, "2020-09-01");
         assertThat(mitarbeiterBank.spliterator().getExactSizeIfKnown()).isEqualTo(2);
         mitarbeiterBank.forEach(id -> assertThat(id.getId()).isIn(1, 4));
     }

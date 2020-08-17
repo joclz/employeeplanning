@@ -140,6 +140,11 @@ public class EmployeeplanningController {
         return mitarbeiterService.getMitarbeiterBank();
     }
 
+    @GetMapping("/listMitarbeiterInternBank")
+    public Iterable<Mitarbeiter> getMitarbeiterInternBank() {
+        return mitarbeiterService.getMitarbeiterInternBank();
+    }
+
     @PostMapping(path = "/addEinsatz")
     public Einsatz addEinsatz(Einsatz einsatz) {
         einsatzService.save(einsatz);

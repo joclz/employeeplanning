@@ -49,7 +49,7 @@ public class EmployeeplanningControllerTests {
     }
 
     @Test
-    public void test_001_listMitarbeiter_Expected_CorrectValuesAndNumber5() throws Exception {
+    public void test_001_listMitarbeiter_Expected_CorrectValuesAndNumber6() throws Exception {
         MockHttpServletRequestBuilder requestBuilder = get("/listMitarbeiter");
         ResultActions perform = this.mockMvc.perform(requestBuilder);
         perform.andExpect(status().isOk());
@@ -58,12 +58,13 @@ public class EmployeeplanningControllerTests {
                         "{\"id\":2,\"mitarbeiterStatus\":\"SUBUNTERNEHMER\",\"stundensatzEK\":50.0,\"name\":\"Stoteles\",\"vorname\":\"Ari\",\"mitarbeiterUnit\":\"FACTORY_MUENCHEN\"}," +
                         "{\"id\":3,\"mitarbeiterStatus\":\"ANGESTELLT\",\"stundensatzEK\":36.0,\"name\":\"LÃ¼hse\",\"vorname\":\"Anna\",\"mitarbeiterUnit\":\"FACTORY_MUENCHEN\"}," +
                         "{\"id\":4,\"mitarbeiterStatus\":\"ANGESTELLT\",\"stundensatzEK\":35.0,\"name\":\"MÃ¼ller\",\"vorname\":\"Werner\",\"mitarbeiterUnit\":\"FACTORY_NUERNBERG\"}," +
-                        "{\"id\":5,\"mitarbeiterStatus\":\"SUBUNTERNEHMER\",\"stundensatzEK\":55.0,\"name\":\"Schulz\",\"vorname\":\"Renate\",\"mitarbeiterUnit\":\"FACTORY_NUERNBERG\"}]"));
-        assertThat(mitarbeiterRepository.count()).isEqualTo(5);
+                        "{\"id\":5,\"mitarbeiterStatus\":\"SUBUNTERNEHMER\",\"stundensatzEK\":55.0,\"name\":\"Schulz\",\"vorname\":\"Renate\",\"mitarbeiterUnit\":\"FACTORY_NUERNBERG\"}," +
+                        "{\"id\":6,\"mitarbeiterStatus\":\"SUBUNTERNEHMER\",\"stundensatzEK\":60.0,\"name\":\"Schmidt\",\"vorname\":\"Wolfgang\",\"mitarbeiterUnit\":\"FACTORY_MUENCHEN\"}]"));
+        assertThat(mitarbeiterRepository.count()).isEqualTo(6);
     }
 
     @Test
-    public void test_011_addMitarbeiterMitEinzelnenWerten_Expected_CorrectValuesAndNumber6() throws Exception {
+    public void test_011_addMitarbeiterMitEinzelnenWerten_Expected_CorrectValuesAndNumber7() throws Exception {
         MultiValueMap multiValueMap = new LinkedMultiValueMap<>();
         multiValueMap.add("vorname", "Hannes");
         multiValueMap.add("name", "Wolf");
@@ -74,7 +75,7 @@ public class EmployeeplanningControllerTests {
         MockHttpServletRequestBuilder requestBuilder = post("/addMitarbeiterMitEinzelnenWerten").params(multiValueMap);
         ResultActions perform = this.mockMvc.perform(requestBuilder);
         perform.andExpect(status().isOk());
-        assertThat(mitarbeiterRepository.count()).isEqualTo(6);
+        assertThat(mitarbeiterRepository.count()).isEqualTo(7);
     }
 
     // Todo - Dieser Testfall geht aktuell nicht.
