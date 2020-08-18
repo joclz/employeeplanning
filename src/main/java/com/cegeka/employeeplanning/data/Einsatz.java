@@ -3,6 +3,8 @@ package com.cegeka.employeeplanning.data;
 import com.cegeka.employeeplanning.data.enums.Enums;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -16,8 +18,10 @@ public class Einsatz {
     private Integer id;
 
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Mitarbeiter mitarbeiter;
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private MitarbeiterVertrieb mitarbeiterVertrieb;
 
     @Enumerated(EnumType.STRING)

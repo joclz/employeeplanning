@@ -1,5 +1,6 @@
 package com.cegeka.employeeplanning;
 
+import com.cegeka.employeeplanning.data.Einsatz;
 import com.cegeka.employeeplanning.data.Mitarbeiter;
 import com.cegeka.employeeplanning.data.MitarbeiterRepository;
 import com.cegeka.employeeplanning.data.enums.Enums;
@@ -23,6 +24,17 @@ public class EmployeeplanningMitarbeiterController {
     //Todo - Der Unit-Test benötigt offensichtlich @RequestBody. Beim Aufruf innerhalb der Anwendung stört dies aber.
     //public Mitarbeiter addMitarbeiter(@RequestBody Mitarbeiter mitarbeiter) {
     public Mitarbeiter addMitarbeiter(Mitarbeiter mitarbeiter) {
+        mitarbeiterRepository.save(mitarbeiter);
+        return mitarbeiter;
+    }
+
+    @PostMapping(path = "/deleteMitarbeiter")
+    public void deleteMitarbeiter(@RequestParam("mitarbeiterId") int id) {
+        mitarbeiterRepository.deleteById(id);
+    }
+
+    @PostMapping(path = "/updateMitarbeiter")
+    public Mitarbeiter updateMitarbeiter(Mitarbeiter mitarbeiter) {
         mitarbeiterRepository.save(mitarbeiter);
         return mitarbeiter;
     }

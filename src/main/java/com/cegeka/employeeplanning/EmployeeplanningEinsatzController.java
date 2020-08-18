@@ -27,6 +27,17 @@ public class EmployeeplanningEinsatzController {
         return einsatz;
     }
 
+    @PostMapping(path = "/deleteEinsatz")
+    public void deleteEinsatz(@RequestParam("einsatzId") int id) {
+        einsatzRepository.deleteById(id);
+    }
+
+    @PostMapping(path = "/updateEinsatz")
+    public Einsatz updateEinsatz(Einsatz einsatz) {
+        einsatzService.save(einsatz);
+        return einsatz;
+    }
+
     @GetMapping("/findEinsaetzeByEinsatzStatus")
     public Iterable<Einsatz> findEinsaetzeByEinsatzStatus(@RequestParam("status") String status) {
         Enums.EinsatzStatus einsatzStatus;
