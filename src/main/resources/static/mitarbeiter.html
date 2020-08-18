@@ -33,6 +33,15 @@
     <button>Liste aller Mitarbeiter auf der Bank</button>
 </form>
 <br>
+<form action="/countMitarbeiterImEinsatz" method="GET">
+    <td><select name="mitarbeiterStatus">
+        <option value=""></option>
+        <option value="ANGESTELLT">ANGESTELLT</option>
+        <option value="SUBUNTERNEHMER">SUBUNTERNEHMER</option>
+    </select></td>
+    <button>Wieviele Mitarbeiter bzw. Subunternehmer sind im Einsatz</button>
+</form>
+<br>
 <form action="/listMitarbeiterInternBank" method="GET">
     <button>Welche internen Mitarbeiter sind aktuell nicht im Einsatz</button>
 </form>

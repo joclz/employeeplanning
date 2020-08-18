@@ -145,6 +145,11 @@ public class EmployeeplanningController {
         return mitarbeiterService.getMitarbeiterInternBank();
     }
 
+    @GetMapping("/countMitarbeiterImEinsatz")
+    public int countMitarbeiterImEinsatz(@RequestParam("mitarbeiterStatus") String status) {
+        return mitarbeiterService.countMitarbeiterImEinsatz(status);
+    }
+
     @GetMapping("/getDeckungsbeitrag")
     public double getDeckungsbeitrag() {
         return einsatzService.getDeckungsbeitrag();

@@ -1,10 +1,10 @@
 package com.cegeka.employeeplanning.service;
 
-import com.cegeka.employeeplanning.util.EmployeeplanningUtil;
 import com.cegeka.employeeplanning.data.Einsatz;
 import com.cegeka.employeeplanning.data.EinsatzRepository;
 import com.cegeka.employeeplanning.data.Mitarbeiter;
 import com.cegeka.employeeplanning.data.MitarbeiterRepository;
+import com.cegeka.employeeplanning.util.EmployeeplanningUtil;
 import org.assertj.core.util.VisibleForTesting;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -119,5 +119,24 @@ public class MitarbeiterService extends EmployeeplanningUtil {
 
         mitarbeiterIdSet.removeAll(mitarbeiterIdBeauftragtSet);
         return mitarbeiterRepository.findAllById(mitarbeiterIdSet);
+    }
+
+    /**
+     * Frage: Wieviele Mitarbeiter bzw. Subunternehmer sind im Einsatz?
+     */
+    public int countMitarbeiterImEinsatz(String mitarbeiterStatus) {
+        String todayString = formateTodayDateToString();
+        return countMitarbeiterImEinsatz(mitarbeiterStatus, todayString);
+    }
+
+    @VisibleForTesting
+    public int countMitarbeiterImEinsatz(String mitarbeiterStatus, String todayString) {
+        EinsatzSuche einsatzSuche = new EinsatzSuche(null, null, mitarbeiterStatus,
+                "BEAUFTRAGT", null, todayString, todayString, null);
+        Iterable<Einsatz> einsaetze = einsatzService.findEinsaetzeBySuchkriterien(einsatzSuche);
+
+        Set<Integer> mitarbeiterIdSet = new HashSet<>();
+        einsaetze.forEach(id -> mitarbeiterIdSet.add(id.getId()));
+        return mitarbeiterIdSet.size();
     }
 }
