@@ -1,19 +1,23 @@
 package com.cegeka.employeeplanning.service;
 
-import com.cegeka.employeeplanning.data.Einsatz;
-import com.cegeka.employeeplanning.data.EinsatzRepository;
-import com.cegeka.employeeplanning.data.enums.Enums;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import static com.cegeka.employeeplanning.util.EmployeeplanningUtil.TEST_IMPORT;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import com.cegeka.employeeplanning.data.Einsatz;
+import com.cegeka.employeeplanning.data.EinsatzRepository;
+import com.cegeka.employeeplanning.data.enums.Enums;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.jdbc.Sql;
 
 @SpringBootTest
+@Sql(TEST_IMPORT)
 public class EinsatzServiceTests {
     @Autowired
     private EinsatzRepository einsatzRepository;
