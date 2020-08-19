@@ -1,20 +1,20 @@
 package com.cegeka.employeeplanning.service;
 
-import static com.cegeka.employeeplanning.util.EmployeeplanningUtil.TEST_IMPORT;
-import static org.assertj.core.api.Assertions.assertThat;
+import com.cegeka.employeeplanning.data.Einsatz;
+import com.cegeka.employeeplanning.data.EinsatzRepository;
+import com.cegeka.employeeplanning.data.enums.Enums;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.jdbc.Sql;
 
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-import com.cegeka.employeeplanning.data.Einsatz;
-import com.cegeka.employeeplanning.data.EinsatzRepository;
-import com.cegeka.employeeplanning.data.enums.Enums;
-
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.jdbc.Sql;
+import static com.cegeka.employeeplanning.util.EmployeeplanningUtil.TEST_IMPORT;
+import static com.cegeka.employeeplanning.util.EmployeeplanningUtil.round;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @Sql(TEST_IMPORT)
@@ -30,8 +30,8 @@ public class EinsatzServiceTests {
         Optional<Einsatz> einsatzId1 = einsatzRepository.findById(1);
         Einsatz einsatz = einsatzService.calcEinsatzWerte(einsatzId1.get());
 
-        assertThat(einsatz.getDeckungsbeitrag()).isEqualTo(50);
-        assertThat(einsatz.getMarge()).isEqualTo(0.5555555555555556);
+        assertThat(einsatz.getDeckungsbeitrag()).isEqualTo(45);
+        assertThat(einsatz.getMarge()).isEqualTo(0.5);
     }
 
     @Test
@@ -41,6 +41,15 @@ public class EinsatzServiceTests {
 
         assertThat(einsatz.getDeckungsbeitrag()).isEqualTo(25);
         assertThat(einsatz.getMarge()).isEqualTo(0.25);
+    }
+
+    @Test
+    public void test_calcEinsatzWerteWithEinsatz4() {
+        Optional<Einsatz> einsatzId1 = einsatzRepository.findById(4);
+        Einsatz einsatz = einsatzService.calcEinsatzWerte(einsatzId1.get());
+
+        assertThat(einsatz.getDeckungsbeitrag()).isEqualTo(28);
+        assertThat(round(einsatz.getMarge(), 2)).isEqualTo(0.33);
     }
 
     @Test
@@ -168,20 +177,20 @@ public class EinsatzServiceTests {
     }
 
     @Test
-    public void Test_getDeckungsbeitrag_given_Date_20200814_expected_21_0() {
+    public void Test_getDeckungsbeitrag_given_Date_20200814_expected_50_0() {
         double deckungsbeitrag = einsatzService.getDeckungsbeitrag("2020-08-14");
-        assertThat(deckungsbeitrag).isEqualTo(21.0);
+        assertThat(deckungsbeitrag).isEqualTo(50.0);
     }
 
     @Test
-    public void Test_getDeckungsbeitrag_given_Date_20201002_expected_33_0() {
+    public void Test_getDeckungsbeitrag_given_Date_20201002_expected_53_0() {
         double deckungsbeitrag = einsatzService.getDeckungsbeitrag("2020-10-02");
-        assertThat(deckungsbeitrag).isEqualTo(33.0);
+        assertThat(deckungsbeitrag).isEqualTo(53.0);
     }
 
     @Test
-    public void Test_getDeckungsbeitrag_given_Date_20201003_expected_54_0() {
+    public void Test_getDeckungsbeitrag_given_Date_20201003_expected_71_5() {
         double deckungsbeitrag = einsatzService.getDeckungsbeitrag("2020-10-03");
-        assertThat(deckungsbeitrag).isEqualTo(54.0);
+        assertThat(deckungsbeitrag).isEqualTo(71.5);
     }
 }
