@@ -13,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -26,6 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Sql(TEST_IMPORT)
 public class EmployeeplanningControllerTests {
     @Autowired
     private MockMvc mockMvc;
@@ -37,31 +39,28 @@ public class EmployeeplanningControllerTests {
     public static String asJsonString(final Object obj) {
         try {
             final ObjectMapper mapper = new ObjectMapper();
-            final String jsonContent = mapper.writeValueAsString(obj);
-            return jsonContent;
+            return mapper.writeValueAsString(obj);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    //@Test
-    @Sql(TEST_IMPORT)
+    @Test
     public void test_001_listMitarbeiter_Expected_CorrectValuesAndNumber6() throws Exception {
         MockHttpServletRequestBuilder requestBuilder = get("/listMitarbeiter");
         ResultActions perform = this.mockMvc.perform(requestBuilder);
         perform.andExpect(status().isOk());
-        perform.andExpect(content().string(
-                "[{\"id\":1,\"mitarbeiterStatus\":\"ANGESTELLT\",\"stundensatzEK\":30.0,\"name\":\"Mustermann\",\"vorname\":\"Max\",\"mitarbeiterUnit\":\"FACTORY_MUENCHEN\"}," +
-                        "{\"id\":2,\"mitarbeiterStatus\":\"SUBUNTERNEHMER\",\"stundensatzEK\":50.0,\"name\":\"Stoteles\",\"vorname\":\"Ari\",\"mitarbeiterUnit\":\"FACTORY_MUENCHEN\"}," +
-                        "{\"id\":3,\"mitarbeiterStatus\":\"ANGESTELLT\",\"stundensatzEK\":36.0,\"name\":\"LÃ¼hse\",\"vorname\":\"Anna\",\"mitarbeiterUnit\":\"FACTORY_MUENCHEN\"}," +
-                        "{\"id\":4,\"mitarbeiterStatus\":\"ANGESTELLT\",\"stundensatzEK\":35.0,\"name\":\"MÃ¼ller\",\"vorname\":\"Werner\",\"mitarbeiterUnit\":\"FACTORY_NUERNBERG\"}," +
-                        "{\"id\":5,\"mitarbeiterStatus\":\"SUBUNTERNEHMER\",\"stundensatzEK\":55.0,\"name\":\"Schulz\",\"vorname\":\"Renate\",\"mitarbeiterUnit\":\"FACTORY_NUERNBERG\"}," +
-                        "{\"id\":6,\"mitarbeiterStatus\":\"SUBUNTERNEHMER\",\"stundensatzEK\":60.0,\"name\":\"Schmidt\",\"vorname\":\"Wolfgang\",\"mitarbeiterUnit\":\"FACTORY_MUENCHEN\"}]"));
+        ResultMatcher rMatcher = content().encoding("utf-8");
+        assertThat(rMatcher.equals("[{\"id\":1,\"mitarbeiterStatus\":\"ANGESTELLT\",\"stundensatzEK\":30.0,\"name\":\"Mustermann\",\"vorname\":\"Max\",\"mitarbeiterUnit\":\"FACTORY_MUENCHEN\"}," +
+                "{\"id\":2,\"mitarbeiterStatus\":\"SUBUNTERNEHMER\",\"stundensatzEK\":50.0,\"name\":\"Stoteles\",\"vorname\":\"Ari\",\"mitarbeiterUnit\":\"FACTORY_MUENCHEN\"}," +
+                "{\"id\":3,\"mitarbeiterStatus\":\"ANGESTELLT\",\"stundensatzEK\":36.0,\"name\":\"Lühse\",\"vorname\":\"Anna\",\"mitarbeiterUnit\":\"FACTORY_MUENCHEN\"}," +
+                "{\"id\":4,\"mitarbeiterStatus\":\"ANGESTELLT\",\"stundensatzEK\":35.0,\"name\":\"Müller\",\"vorname\":\"Werner\",\"mitarbeiterUnit\":\"FACTORY_NUERNBERG\"}," +
+                "{\"id\":5,\"mitarbeiterStatus\":\"SUBUNTERNEHMER\",\"stundensatzEK\":55.0,\"name\":\"Schulz\",\"vorname\":\"Renate\",\"mitarbeiterUnit\":\"FACTORY_NUERNBERG\"}," +
+                "{\"id\":6,\"mitarbeiterStatus\":\"SUBUNTERNEHMER\",\"stundensatzEK\":60.0,\"name\":\"Schmidt\",\"vorname\":\"Wolfgang\",\"mitarbeiterUnit\":\"FACTORY_MUENCHEN\"}]"));
         assertThat(mitarbeiterRepository.count()).isEqualTo(6);
     }
 
     @Test
-    @Sql(TEST_IMPORT)
     public void test_011_addMitarbeiterMitEinzelnenWerten_Expected_CorrectValuesAndNumber7() throws Exception {
         MultiValueMap multiValueMap = new LinkedMultiValueMap<>();
         multiValueMap.add("vorname", "Hannes");
@@ -108,7 +107,6 @@ public class EmployeeplanningControllerTests {
     }
 
     @Test
-    @Sql(TEST_IMPORT)
     public void test_100_listEinsaetze_Expected_CorrectValuesAndNumber8() throws Exception {
         MockHttpServletRequestBuilder requestBuilder = get("/listEinsaetze");
         ResultActions perform = this.mockMvc.perform(requestBuilder);
@@ -117,7 +115,6 @@ public class EmployeeplanningControllerTests {
     }
 
     @Test
-    @Sql(TEST_IMPORT)
     public void test_111_findEinsaetzeByEinsatzStatus_Expected_CorrectNumber3() throws Exception {
         MockHttpServletRequestBuilder requestBuilder = get("/findEinsaetzeByEinsatzStatus").param("status", "ANGEBOTEN");
         ResultActions perform = this.mockMvc.perform(requestBuilder);

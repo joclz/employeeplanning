@@ -21,6 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Sql(TEST_IMPORT)
 public class EmployeeplanningControllerDeleteTests {
     @Autowired
     private MockMvc mockMvc;
@@ -32,7 +33,6 @@ public class EmployeeplanningControllerDeleteTests {
     private EinsatzRepository einsatzRepository;
 
     @Test
-    @Sql(TEST_IMPORT)
     public void test_200_deleteMitarbeiter1_Expected_MitarbeiterCount5_reduziert_EinsatzCount7() throws Exception {
         MultiValueMap multiValueMap = new LinkedMultiValueMap<>();
         multiValueMap.add("mitarbeiterId", "1");
@@ -44,7 +44,6 @@ public class EmployeeplanningControllerDeleteTests {
     }
 
     @Test
-    @Sql(TEST_IMPORT)
     public void test_210_deleteMitarbeiterVertrieb1_Expected_MitarbeiterVertriebCount1_EinsatzCount4() throws Exception {
         MultiValueMap multiValueMap = new LinkedMultiValueMap<>();
         multiValueMap.add("mitarbeiterVertriebId", "1");
@@ -56,7 +55,6 @@ public class EmployeeplanningControllerDeleteTests {
     }
 
     @Test
-    @Sql(TEST_IMPORT)
     public void test_220_deleteEinsatz2_Expected_EinsatzCount7() throws Exception {
         MultiValueMap multiValueMap = new LinkedMultiValueMap<>();
         multiValueMap.add("einsatzId", "2");
