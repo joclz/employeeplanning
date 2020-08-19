@@ -56,6 +56,10 @@ public class EinsatzService {
         return einsatz;
     }
 
+    /**
+     * Liefert alle Einsätze für einen Vertriebsmitarbeiter.
+     * Hierbei wird das Datum nicht berücksichtigt.
+     */
     public Iterable<Einsatz> findEinsaetzeByMitarbeiterVertriebId(Integer id) {
         Optional<MitarbeiterVertrieb> mitarbeiterVertrieb;
         try {
@@ -66,6 +70,10 @@ public class EinsatzService {
         return einsatzRepository.findEinsaetzeByMitarbeiterVertrieb(mitarbeiterVertrieb);
     }
 
+    /**
+     * Liefert alle Einsätze für einen Mitarbeiter.
+     * Hierbei wird das Datum nicht berücksichtigt.
+     */
     public Iterable<Einsatz> findEinsaetzeByMitarbeiterId(Integer id) {
         Optional<Mitarbeiter> mitarbeiter;
         try {
@@ -139,7 +147,7 @@ public class EinsatzService {
     }
 
     /**
-     * Frage: Welchen UMsatz bzw. Deckungsbeitrag haben wir (aktueller Monat)
+     * Frage: Welchen Umsatz bzw. Deckungsbeitrag haben wir (aktueller Monat)
      * Es werden die Deckungsbeiträge aller Beauftragten Einsätze, die aktuell sind, addiert.
      */
     public double getDeckungsbeitrag() {

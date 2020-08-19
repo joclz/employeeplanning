@@ -1,6 +1,5 @@
 package com.cegeka.employeeplanning;
 
-import com.cegeka.employeeplanning.data.Einsatz;
 import com.cegeka.employeeplanning.data.Mitarbeiter;
 import com.cegeka.employeeplanning.data.MitarbeiterRepository;
 import com.cegeka.employeeplanning.data.enums.Enums;

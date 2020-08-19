@@ -1,6 +1,5 @@
 package com.cegeka.employeeplanning;
 
-import com.cegeka.employeeplanning.data.Mitarbeiter;
 import com.cegeka.employeeplanning.data.MitarbeiterVertrieb;
 import com.cegeka.employeeplanning.data.MitarbeiterVertriebRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -88,6 +88,9 @@ public class MitarbeiterService extends EmployeeplanningUtil {
 
     /**
      * Frage: Welche internen Mitarbeiter sind aktuell nicht im Einsatz bzw. sitzen auf der Bank?
+     * Gibt zurück welche internen Mitarbeiter aktuell keinen Einsatz mit dem Status "Beauftrag" haben.
+     * Das Ende des Einsatzes muss dabei in der Zukunft liegen (bzw. nach dem Datum "todayString" falls die Methode
+     * mit Parameter aufgerufen wird).
      */
     public Iterable<Mitarbeiter> getMitarbeiterInternBank() {
         String todayString = formateTodayDateToString();
@@ -123,6 +126,9 @@ public class MitarbeiterService extends EmployeeplanningUtil {
 
     /**
      * Frage: Wieviele Mitarbeiter bzw. Subunternehmer sind im Einsatz?
+     * Gibt zurück welche Mitarbeiter (Intern oder Subunternehmer) aktuell einen Einsatz mit dem Status "Beauftrag" haben.
+     * Das Ende des Einsatzes muss dabei in der Zukunft liegen (bzw. nach dem Datum "todayString" falls die Methode
+     * mit Parameter aufgerufen wird).
      */
     public int countMitarbeiterImEinsatz(String mitarbeiterStatus) {
         String todayString = formateTodayDateToString();
