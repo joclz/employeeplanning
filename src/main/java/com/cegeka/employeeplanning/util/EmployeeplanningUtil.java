@@ -8,6 +8,8 @@ import static java.util.Calendar.getInstance;
 
 public class EmployeeplanningUtil {
 
+    public static final String TEST_IMPORT = "/data.sql";
+
     public static String formateTodayDateToString() {
         Date today = getInstance().getTime();
         SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
