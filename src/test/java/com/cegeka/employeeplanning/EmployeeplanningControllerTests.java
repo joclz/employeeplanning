@@ -46,7 +46,7 @@ public class EmployeeplanningControllerTests {
     }
 
     @Test
-    public void test_001_listMitarbeiter_Expected_CorrectValuesAndNumber6() throws Exception {
+    public void test_listMitarbeiter_Expected_CorrectValuesAndNumber6() throws Exception {
         MockHttpServletRequestBuilder requestBuilder = get("/listMitarbeiter");
         ResultActions perform = this.mockMvc.perform(requestBuilder);
         perform.andExpect(status().isOk());
@@ -61,7 +61,7 @@ public class EmployeeplanningControllerTests {
     }
 
     @Test
-    public void test_011_addMitarbeiterMitEinzelnenWerten_Expected_CorrectValuesAndNumber7() throws Exception {
+    public void test_addMitarbeiterMitEinzelnenWerten_Expected_CorrectValuesAndNumber7() throws Exception {
         MultiValueMap multiValueMap = new LinkedMultiValueMap<>();
         multiValueMap.add("vorname", "Hannes");
         multiValueMap.add("name", "Wolf");
@@ -79,7 +79,7 @@ public class EmployeeplanningControllerTests {
     // Der Unit-Test benötigt offensichtlich @RequestBody beim Aufruf der Methode addMitarbeiter.
     // Beim Aufruf innerhalb der Anwendung stört dies aber.
     //@Test
-    public void test_012_addMitarbeiter_Expected_CorrectNamesAndNumber() throws Exception {
+    public void test_addMitarbeiter_Expected_CorrectNamesAndNumber() throws Exception {
         Mitarbeiter mitarbeiter = new Mitarbeiter();
         mitarbeiter.setVorname("Hans-Neu");
         mitarbeiter.setName("Schmidt-Neu");
@@ -107,7 +107,7 @@ public class EmployeeplanningControllerTests {
     }
 
     @Test
-    public void test_100_listEinsaetze_Expected_CorrectValuesAndNumber8() throws Exception {
+    public void test_listEinsaetze_Expected_CorrectValuesAndNumber8() throws Exception {
         MockHttpServletRequestBuilder requestBuilder = get("/listEinsaetze");
         ResultActions perform = this.mockMvc.perform(requestBuilder);
         perform.andExpect(status().isOk());
@@ -115,7 +115,7 @@ public class EmployeeplanningControllerTests {
     }
 
     @Test
-    public void test_111_findEinsaetzeByEinsatzStatus_Expected_CorrectNumber3() throws Exception {
+    public void test_findEinsaetzeByEinsatzStatus_Expected_CorrectNumber3() throws Exception {
         MockHttpServletRequestBuilder requestBuilder = get("/findEinsaetzeByEinsatzStatus").param("status", "ANGEBOTEN");
         ResultActions perform = this.mockMvc.perform(requestBuilder);
         perform.andExpect(status().isOk());

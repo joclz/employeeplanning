@@ -33,7 +33,7 @@ public class EmployeeplanningControllerDeleteTests {
     private EinsatzRepository einsatzRepository;
 
     @Test
-    public void test_200_deleteMitarbeiter1_Expected_MitarbeiterCount5_reduziert_EinsatzCount7() throws Exception {
+    public void test_deleteMitarbeiter1_Expected_MitarbeiterCount5_reduziert_EinsatzCount7() throws Exception {
         MultiValueMap multiValueMap = new LinkedMultiValueMap<>();
         multiValueMap.add("mitarbeiterId", "1");
         MockHttpServletRequestBuilder requestBuilder = post("/deleteMitarbeiter").params(multiValueMap);
@@ -44,7 +44,7 @@ public class EmployeeplanningControllerDeleteTests {
     }
 
     @Test
-    public void test_210_deleteMitarbeiterVertrieb1_Expected_MitarbeiterVertriebCount1_EinsatzCount4() throws Exception {
+    public void test_deleteMitarbeiterVertrieb1_Expected_MitarbeiterVertriebCount1_EinsatzCount4() throws Exception {
         MultiValueMap multiValueMap = new LinkedMultiValueMap<>();
         multiValueMap.add("mitarbeiterVertriebId", "1");
         MockHttpServletRequestBuilder requestBuilder = post("/deleteMitarbeiterVertrieb").params(multiValueMap);
@@ -55,7 +55,7 @@ public class EmployeeplanningControllerDeleteTests {
     }
 
     @Test
-    public void test_220_deleteEinsatz2_Expected_EinsatzCount7() throws Exception {
+    public void test_deleteEinsatz2_Expected_EinsatzCount7() throws Exception {
         MultiValueMap multiValueMap = new LinkedMultiValueMap<>();
         multiValueMap.add("einsatzId", "2");
         MockHttpServletRequestBuilder requestBuilder = post("/deleteEinsatz").params(multiValueMap);
