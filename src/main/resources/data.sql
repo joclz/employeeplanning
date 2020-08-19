@@ -43,3 +43,5 @@ insert into Einsatz
 values (7, 'BeaufNr7', DATE '2020-10-03', 21.0, 'ANGEBOTEN', DATE '2021-06-30', 0.25, 'ProjektNr7', 84, 50, 8, 5, 2);
 insert into Einsatz
 values (8, 'BeaufNr8', DATE '2020-10-03', 18.5, 'BEAUFTRAGT', DATE '2021-01-30', 0.22, 'ProjektNr8', 84, 75, 10.5, 5, 2);
+insert into Einsatz
+values (9, 'BeaufNr9', DATE '2020-09-01', 45.0, 'ABGELEHNT', DATE '2020-12-15', 0.5, 'ProjektNr9', 95, 25, 15, 6, 1);

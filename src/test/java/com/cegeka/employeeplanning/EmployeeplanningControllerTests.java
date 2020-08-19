@@ -108,11 +108,11 @@ public class EmployeeplanningControllerTests {
     }
 
     @Test
-    public void test_listEinsaetze_Expected_CorrectValuesAndNumber8() throws Exception {
+    public void test_listEinsaetze_Expected_CorrectValuesAndNumber9() throws Exception {
         MockHttpServletRequestBuilder requestBuilder = get("/listEinsaetze");
         ResultActions perform = this.mockMvc.perform(requestBuilder);
         perform.andExpect(status().isOk());
-        assertThat(einsatzRepository.count()).isEqualTo(8);
+        assertThat(einsatzRepository.count()).isEqualTo(9);
     }
 
     @Test
