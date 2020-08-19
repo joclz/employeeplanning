@@ -13,6 +13,8 @@ insert into Mitarbeiter
 values (5, 'SUBUNTERNEHMER', 'FACTORY_NUERNBERG', 'Schulz', 55.0, 'Renate');
 insert into Mitarbeiter
 values (6, 'SUBUNTERNEHMER', 'FACTORY_MUENCHEN', 'Schmidt', 60.0, 'Wolfgang');
+insert into Mitarbeiter
+values (7, 'ANGESTELLT', 'FACTORY_MUENCHEN', 'Lange', 29.5, 'Yvonne');
 
 -- MITARBEITER_VERTRIEB
 -- ID, NAME, VORNAME
