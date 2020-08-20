@@ -9,6 +9,7 @@ import {FormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import {MitarbeiterComponent} from './components/mitarbeiter/mitarbeiter.component';
 import {MitarbeiterSearchComponent} from './components/mitarbeiter/mitarbeiter-search.component';
+import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import {MitarbeiterSearchComponent} from './components/mitarbeiter/mitarbeiter-s
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    NoopAnimationsModule
   ],
   providers: [MitarbeiterService],
   bootstrap: [AppComponent]
