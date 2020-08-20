@@ -6,6 +6,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.cegeka.employeeplanning.controller.EmployeeplanningController;
+
 @SpringBootTest
 class EmployeeplanningApplicationTests {
 

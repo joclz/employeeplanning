@@ -1,4 +1,4 @@
-package com.cegeka.employeeplanning;
+package com.cegeka.employeeplanning.controller;
 
 import com.cegeka.employeeplanning.data.MitarbeiterVertrieb;
 import com.cegeka.employeeplanning.data.MitarbeiterVertriebRepository;
