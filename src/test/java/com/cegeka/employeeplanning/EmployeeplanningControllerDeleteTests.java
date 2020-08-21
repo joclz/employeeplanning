@@ -1,8 +1,9 @@
 package com.cegeka.employeeplanning;
 
-import com.cegeka.employeeplanning.data.EinsatzRepository;
-import com.cegeka.employeeplanning.data.MitarbeiterRepository;
-import com.cegeka.employeeplanning.data.MitarbeiterVertriebRepository;
+import com.cegeka.employeeplanning.repositories.EinsatzRepository;
+import com.cegeka.employeeplanning.repositories.MitarbeiterRepository;
+import com.cegeka.employeeplanning.repositories.MitarbeiterVertriebRepository;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;

@@ -1,16 +1,21 @@
 package com.cegeka.employeeplanning.service;
 
-import com.cegeka.employeeplanning.data.*;
-import com.cegeka.employeeplanning.data.enums.Enums;
+import java.util.Collections;
+import java.util.Date;
+import java.util.Optional;
+
+import com.cegeka.employeeplanning.data.Einsatz;
+import com.cegeka.employeeplanning.data.Mitarbeiter;
+import com.cegeka.employeeplanning.data.MitarbeiterVertrieb;
+import com.cegeka.employeeplanning.data.enums.Enums.EinsatzStatus;
+import com.cegeka.employeeplanning.repositories.EinsatzRepository;
+import com.cegeka.employeeplanning.repositories.MitarbeiterRepository;
+import com.cegeka.employeeplanning.repositories.MitarbeiterVertriebRepository;
+import com.cegeka.employeeplanning.util.EmployeeplanningUtil;
+
 import org.assertj.core.util.VisibleForTesting;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.text.SimpleDateFormat;
-import java.util.*;
-
-import static com.cegeka.employeeplanning.util.EmployeeplanningUtil.formateTodayDateToString;
-import static com.cegeka.employeeplanning.util.EmployeeplanningUtil.parseDate;
 
 @Service
 public class EinsatzService {
@@ -92,6 +97,18 @@ public class EinsatzService {
      * Status, BeginnDatum von bis und EndeDatum von bis erweitert werden.
      */
     public Iterable<Einsatz> findEinsaetzeBySuchkriterien(EinsatzSuche einsatzSuche) {
+
+        return einsatzRepository.findEinsaetzeBySuchkriterien(
+                einsatzSuche.getMitarbeiterVertriebId(),
+                einsatzSuche.getMitarbeiterId(),
+                einsatzSuche.getMitarbeiterStatus(),
+                einsatzSuche.getEinsatzStatus(),
+                einsatzSuche.getBeginnVon(),
+                einsatzSuche.getBeginnBis(),
+                einsatzSuche.getEndeVon(),
+                einsatzSuche.getEndeBis());
+
+/*
         Set<Integer> einsatzIds = new HashSet<>();
         einsatzRepository.findAll().forEach(id -> einsatzIds.add(id.getId()));
 
@@ -144,6 +161,7 @@ public class EinsatzService {
         }
 
         return einsatzRepository.findAllById(einsatzIds);
+*/
     }
 
     /**
@@ -151,13 +169,13 @@ public class EinsatzService {
      * Es werden die Deckungsbeiträge aller Beauftragten Einsätze, die aktuell sind, addiert.
      */
     public double getDeckungsbeitrag() {
-        String todayString = formateTodayDateToString();
-        return getDeckungsbeitrag(todayString);
+        Date today = EmployeeplanningUtil.today();
+        return getDeckungsbeitrag(today);
     }
 
     @VisibleForTesting
-    public double getDeckungsbeitrag(String todayString) {
-        EinsatzSuche einsatzSuche = new EinsatzSuche(null, null, null, "BEAUFTRAGT", null, todayString, todayString, null);
+    public double getDeckungsbeitrag(Date today) {
+        EinsatzSuche einsatzSuche = new EinsatzSuche(null, null, null, EinsatzStatus.BEAUFTRAGT, null, today, today, null);
         Iterable<Einsatz> einsaetze = findEinsaetzeBySuchkriterien(einsatzSuche);
         double summeDeckungsbeitrag = 0.;
         for (Einsatz einsatz : einsaetze) {

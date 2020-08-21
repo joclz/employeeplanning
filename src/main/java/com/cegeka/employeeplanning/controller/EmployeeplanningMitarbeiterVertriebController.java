@@ -1,7 +1,8 @@
 package com.cegeka.employeeplanning.controller;
 
 import com.cegeka.employeeplanning.data.MitarbeiterVertrieb;
-import com.cegeka.employeeplanning.data.MitarbeiterVertriebRepository;
+import com.cegeka.employeeplanning.repositories.MitarbeiterVertriebRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

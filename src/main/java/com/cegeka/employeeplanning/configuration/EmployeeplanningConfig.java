@@ -14,6 +14,8 @@ public class EmployeeplanningConfig implements WebMvcConfigurer
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
 
+        System.out.println("************************************** Aufgerufen *****************************************");
+
         converters.stream()
             .filter(converter -> converter instanceof MappingJackson2HttpMessageConverter)
             .findFirst()

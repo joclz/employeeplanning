@@ -1,16 +1,18 @@
 package com.cegeka.employeeplanning.controller;
 
+import java.util.Date;
+
 import com.cegeka.employeeplanning.data.Mitarbeiter;
-import com.cegeka.employeeplanning.data.MitarbeiterRepository;
 import com.cegeka.employeeplanning.data.enums.Enums;
+import com.cegeka.employeeplanning.data.enums.Enums.MitarbeiterStatus;
+import com.cegeka.employeeplanning.repositories.MitarbeiterRepository;
 import com.cegeka.employeeplanning.service.MitarbeiterService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Date;
 
 @RestController
 public class EmployeeplanningMitarbeiterController {
@@ -54,7 +56,8 @@ public class EmployeeplanningMitarbeiterController {
 
     @GetMapping("/countMitarbeiterImEinsatz")
     public int countMitarbeiterImEinsatz(@RequestParam("mitarbeiterStatus") String status) {
-        return mitarbeiterService.countMitarbeiterImEinsatz(status);
+        MitarbeiterStatus mitarbeiterStatus = Enums.MitarbeiterStatus.valueOf(status);
+        return mitarbeiterService.countMitarbeiterImEinsatz(mitarbeiterStatus);
     }
 
     @GetMapping("/getChanceForMitarbeiter")

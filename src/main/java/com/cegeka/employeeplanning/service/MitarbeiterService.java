@@ -1,18 +1,23 @@
 package com.cegeka.employeeplanning.service;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import com.cegeka.employeeplanning.data.Einsatz;
-import com.cegeka.employeeplanning.data.EinsatzRepository;
 import com.cegeka.employeeplanning.data.Mitarbeiter;
-import com.cegeka.employeeplanning.data.MitarbeiterRepository;
+import com.cegeka.employeeplanning.data.enums.Enums.EinsatzStatus;
+import com.cegeka.employeeplanning.data.enums.Enums.MitarbeiterStatus;
+import com.cegeka.employeeplanning.repositories.EinsatzRepository;
+import com.cegeka.employeeplanning.repositories.MitarbeiterRepository;
 import com.cegeka.employeeplanning.util.EmployeeplanningUtil;
+
 import org.assertj.core.util.VisibleForTesting;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.*;
-
-import static com.cegeka.employeeplanning.data.enums.Enums.EinsatzStatus;
-import static com.cegeka.employeeplanning.data.enums.Enums.MitarbeiterStatus;
 
 @Service
 public class MitarbeiterService extends EmployeeplanningUtil {
@@ -82,8 +87,8 @@ public class MitarbeiterService extends EmployeeplanningUtil {
      * mit Parameter aufgerufen wird).
      */
     public Iterable<Mitarbeiter> getMitarbeiterBank() {
-        String todayString = formateTodayDateToString();
-        return getMitarbeiterBank(todayString);
+        Date today = today();
+        return getMitarbeiterBank(today);
     }
 
     /**
@@ -93,18 +98,18 @@ public class MitarbeiterService extends EmployeeplanningUtil {
      * mit Parameter aufgerufen wird).
      */
     public Iterable<Mitarbeiter> getMitarbeiterInternBank() {
-        String todayString = formateTodayDateToString();
-        return getMitarbeiterBank(true, todayString);
+        Date today = today();
+        return getMitarbeiterBank(true, today);
     }
 
     @VisibleForTesting
-    public Iterable<Mitarbeiter> getMitarbeiterBank(String todayString) {
-        return getMitarbeiterBank(false, todayString);
+    public Iterable<Mitarbeiter> getMitarbeiterBank(Date today) {
+        return getMitarbeiterBank(false, today);
     }
 
     @VisibleForTesting
-    public Iterable<Mitarbeiter> getMitarbeiterBank(boolean intern, String todayString) {
-        EinsatzSuche einsatzSuche = new EinsatzSuche(null, null, null, "BEAUFTRAGT", null, null, todayString, null);
+    public Iterable<Mitarbeiter> getMitarbeiterBank(boolean intern, Date today) {
+        EinsatzSuche einsatzSuche = new EinsatzSuche(null, null, null, EinsatzStatus.BEAUFTRAGT, null, null, today, null);
         Iterable<Einsatz> einsaetze = einsatzService.findEinsaetzeBySuchkriterien(einsatzSuche);
 
         Set<Integer> mitarbeiterIdBeauftragtSet = new HashSet<>();
@@ -130,15 +135,15 @@ public class MitarbeiterService extends EmployeeplanningUtil {
      * Das Ende des Einsatzes muss dabei in der Zukunft liegen (bzw. nach dem Datum "todayString" falls die Methode
      * mit Parameter aufgerufen wird).
      */
-    public int countMitarbeiterImEinsatz(String mitarbeiterStatus) {
-        String todayString = formateTodayDateToString();
-        return countMitarbeiterImEinsatz(mitarbeiterStatus, todayString);
+    public int countMitarbeiterImEinsatz(MitarbeiterStatus mitarbeiterStatus) {
+        Date today = today();
+        return countMitarbeiterImEinsatz(mitarbeiterStatus, today);
     }
 
     @VisibleForTesting
-    public int countMitarbeiterImEinsatz(String mitarbeiterStatus, String todayString) {
+    public int countMitarbeiterImEinsatz(MitarbeiterStatus mitarbeiterStatus, Date today) {
         EinsatzSuche einsatzSuche = new EinsatzSuche(null, null, mitarbeiterStatus,
-                "BEAUFTRAGT", null, todayString, todayString, null);
+                EinsatzStatus.BEAUFTRAGT, null, today, today, null);
         Iterable<Einsatz> einsaetze = einsatzService.findEinsaetzeBySuchkriterien(einsatzSuche);
 
         Set<Integer> mitarbeiterIdSet = new HashSet<>();

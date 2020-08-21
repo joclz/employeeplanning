@@ -1,5 +1,6 @@
-package com.cegeka.employeeplanning.data;
+package com.cegeka.employeeplanning.repositories;
 
+import com.cegeka.employeeplanning.data.Mitarbeiter;
 import com.cegeka.employeeplanning.data.enums.Enums;
 import org.springframework.data.repository.CrudRepository;
 
