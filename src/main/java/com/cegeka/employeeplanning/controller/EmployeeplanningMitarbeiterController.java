@@ -1,15 +1,14 @@
 package com.cegeka.employeeplanning.controller;
 
-import java.util.Date;
-
 import com.cegeka.employeeplanning.data.Mitarbeiter;
 import com.cegeka.employeeplanning.data.enums.Enums;
 import com.cegeka.employeeplanning.data.enums.Enums.MitarbeiterStatus;
 import com.cegeka.employeeplanning.repositories.MitarbeiterRepository;
 import com.cegeka.employeeplanning.service.MitarbeiterService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
 
 @CrossOrigin
 @RestController
@@ -22,18 +21,18 @@ public class EmployeeplanningMitarbeiterController {
     @PostMapping(path = "/addMitarbeiter")
     //Todo - Der Unit-Test benötigt offensichtlich @RequestBody. Beim Aufruf innerhalb der Anwendung stört dies aber.
     //public Mitarbeiter addMitarbeiter(@RequestBody Mitarbeiter mitarbeiter) {
-    public Mitarbeiter addMitarbeiter(Mitarbeiter mitarbeiter) {
+    public Mitarbeiter addMitarbeiter(@RequestBody Mitarbeiter mitarbeiter) {
         mitarbeiterRepository.save(mitarbeiter);
         return mitarbeiter;
     }
 
     @PostMapping(path = "/deleteMitarbeiter")
-    public void deleteMitarbeiter(@RequestParam("mitarbeiterId") int id) {
+    public void deleteMitarbeiter(@RequestParam("mitarbeiterId") Integer id) {
         mitarbeiterRepository.deleteById(id);
     }
 
     @PostMapping(path = "/updateMitarbeiter")
-    public Mitarbeiter updateMitarbeiter(Mitarbeiter mitarbeiter) {
+    public Mitarbeiter updateMitarbeiter(@RequestBody Mitarbeiter mitarbeiter) {
         mitarbeiterRepository.save(mitarbeiter);
         return mitarbeiter;
     }

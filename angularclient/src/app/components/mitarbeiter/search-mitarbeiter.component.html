@@ -1,0 +1,32 @@
+<form class="searchLengthForm" [formGroup]="searchLengthFormGroup" (ngSubmit)="searchLengthOnSubmit()">
+  <mat-form-field class="half-width">
+    <mat-label>Wie lange ist Mitarbeiter (mit ID) noch im Einsatz</mat-label>
+    <input matInput type="number" formControlName="id" placeholder="1">
+    <mat-error *ngIf="searchLengthFormGroup.get('id').hasError('pattern')">
+      Bitte geben Sie eine gültige Id ein. (Positive ganzzahlige Werte und 0)
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field *ngIf="searchLengthDate.value" class="qaurter-width">
+    <mat-label>Mitarbeiter ist im Einsatz bis</mat-label>
+    <input matInput type="datetime-local" formControlName="searchLengthDate" >
+  </mat-form-field>
+  <button mat-raised-button color="primary" type="submit" class="button" [disabled]="!searchLengthFormGroup.valid">Submit</button>
+</form>
+
+
+
+<form class="searchChanceForm" [formGroup]="searchChanceFormGroup" (ngSubmit)="searchChanceOnSubmit()">
+  <mat-form-field class="half-width">
+    <mat-label>Wie hoch ist die Chance auf Verlängerung (für Mitarbeiter mit ID)</mat-label>
+    <input matInput type="number" formControlName="id" placeholder="1">
+    <mat-error *ngIf="searchChanceFormGroup.get('id').hasError('pattern')">
+      Bitte geben Sie eine gültige Id ein. (Positive ganzzahlige Werte und 0)
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field *ngIf="searchChance.value" class="qaurter-width">
+    <mat-label>Chance auf Verlängerung</mat-label>
+    <input matInput type="number" formControlName="searchChance">
+  </mat-form-field>
+  <button mat-raised-button color="primary" type="submit" class="button" [disabled]="!searchChanceFormGroup.valid">Submit</button>
+</form>
+

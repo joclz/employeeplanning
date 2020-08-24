@@ -1,9 +1,9 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {MitarbeiterComponent} from "./components/mitarbeiter/mitarbeiter.component";
+import {TableMitarbeiterComponent} from "./components/mitarbeiter/table-mitarbeiter.component";
 
 const routes: Routes = [
-  {path: 'mitarbeiter', component: MitarbeiterComponent},
+  {path: 'mitarbeiter', component: TableMitarbeiterComponent},
 ];
 
 @NgModule({

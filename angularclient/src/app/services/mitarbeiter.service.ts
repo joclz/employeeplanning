@@ -29,4 +29,13 @@ export class MitarbeiterService {
     return this.http.get<string>('http://localhost:8080/getChanceForMitarbeiter', {params: params});
   }
 
+  public delete(id: string) {
+    let params = new HttpParams().set("mitarbeiterId", id);
+    return this.http.post<Mitarbeiter>('http://localhost:8080/deleteMitarbeiter', '', {params: params});
+  }
+
+  public update(mitarbeiter: Mitarbeiter) {
+    return this.http.post<Mitarbeiter>('http://localhost:8080/updateMitarbeiter', mitarbeiter);
+  }
+
 }

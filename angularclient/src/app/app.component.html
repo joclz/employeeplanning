@@ -1,23 +1,41 @@
-<div class="container">
-  <div class="row">
-    <div class="col-md-12">
-      <div class="card bg-dark my-5">
-        <div class="card-body">
-          <h2 class="card-title text-center text-white py-3">{{ title }}</h2>
-          <ul class="text-center list-inline py-3">
-            <li class="list-inline-item">
-              <a routerLink="/mitarbeiter" class="btn btn-info">Mitarbeiter</a>
-            </li>
-            <li class="list-inline-item">
-              <a routerLink="/mitarbeiterVertrieb" class="btn btn-info">Mitarbeiter Vertrieb</a>
-            </li>
-            <li class="list-inline-item">
-              <a routerLink="/einsatz" class="btn btn-info">Einsatz</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <router-outlet></router-outlet>
-    </div>
-  </div>
-</div>
+<mat-card class="mainCard">
+  <mat-card-title>{{ title }}</mat-card-title>
+  <mat-card-content>
+    <mat-card-actions>
+      <button mat-button color="accent" [matMenuTriggerFor]="menu">Mitarbeiter</button>
+      <mat-menu #menu="matMenu">
+        <a mat-menu-item (click)="onClickListMitarbeiter()">Zeige Mitarbeiter</a>
+        <a mat-menu-item (click)="onClickAddMitarbeiter()">Füge Mitarbeiter hinzu</a>
+        <a mat-menu-item (click)="onClickSearchMitarbeiter()">Suche nach Mitarbeiter</a>
+      </mat-menu>
+    </mat-card-actions>
+  </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="listMitarbeiter" class="listMitarbeiter">
+  <mat-card-title>Liste der Mitarbeiter</mat-card-title>
+  <mat-card-content>
+    <app-list-mitarbeiter></app-list-mitarbeiter>
+  </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="addMitarbeiter" class="addMitarbeiter">
+  <mat-card-title>Mitarbeiter hinzufügen</mat-card-title>
+  <mat-card-content>
+    <app-add-mitarbeiter-form></app-add-mitarbeiter-form>
+  </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="updateMitarbeiter" class="updateMitarbeiter">
+  <mat-card-title>Mitarbeiter bearbeiten</mat-card-title>
+  <mat-card-content>
+    <app-update-mitarbeiter-form [mitarbeiterInput]="mitarbeiter"></app-update-mitarbeiter-form>
+  </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="searchMitarbeiter" class="searchMitarbeiter">
+  <mat-card-title>Mitarbeiter Suchen</mat-card-title>
+  <mat-card-content>
+    <app-search-mitarbeiter></app-search-mitarbeiter>
+  </mat-card-content>
+</mat-card>

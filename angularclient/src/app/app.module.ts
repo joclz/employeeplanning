@@ -3,27 +3,52 @@ import {NgModule} from '@angular/core';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {MitarbeiterFormComponent} from './components/mitarbeiter/mitarbeiter-form.component';
+import {AddMitarbeiterFormComponent} from './components/mitarbeiter/add-mitarbeiter-form.component';
 import {MitarbeiterService} from "./services/mitarbeiter.service";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
-import {MitarbeiterComponent} from './components/mitarbeiter/mitarbeiter.component';
-import {MitarbeiterSearchComponent} from './components/mitarbeiter/mitarbeiter-search.component';
+import {TableMitarbeiterComponent} from './components/mitarbeiter/table-mitarbeiter.component';
+import {SearchMitarbeiterComponent} from './components/mitarbeiter/search-mitarbeiter.component';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
+import {MatCardModule} from "@angular/material/card";
+import {MatButtonModule} from "@angular/material/button";
+import {MatMenuModule} from "@angular/material/menu";
+import {MatTableModule} from "@angular/material/table";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatSortModule} from "@angular/material/sort";
+import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatInputModule} from "@angular/material/input";
+import {MatOptionModule} from "@angular/material/core";
+import {MatSelectModule} from "@angular/material/select";
+import {UpdateMitarbeiterFormComponent} from './components/mitarbeiter/update-mitarbeiter-form.component';
+import {ListMitarbeiterComponent} from './components/mitarbeiter/list-mitarbeiter.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MitarbeiterFormComponent,
-    MitarbeiterComponent,
-    MitarbeiterSearchComponent
+    AddMitarbeiterFormComponent,
+    TableMitarbeiterComponent,
+    SearchMitarbeiterComponent,
+    UpdateMitarbeiterFormComponent,
+    ListMitarbeiterComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    NoopAnimationsModule
+    NoopAnimationsModule,
+    MatCardModule,
+    MatButtonModule,
+    MatMenuModule,
+    MatTableModule,
+    MatFormFieldModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatOptionModule,
+    MatSelectModule
   ],
   providers: [MitarbeiterService],
   bootstrap: [AppComponent]
