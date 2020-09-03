@@ -1,41 +1,130 @@
-<mat-card class="mainCard">
-  <mat-card-title>{{ title }}</mat-card-title>
-  <mat-card-content>
-    <mat-card-actions>
-      <button mat-button color="accent" [matMenuTriggerFor]="menu">Mitarbeiter</button>
-      <mat-menu #menu="matMenu">
-        <a mat-menu-item (click)="onClickListMitarbeiter()">Zeige Mitarbeiter</a>
-        <a mat-menu-item (click)="onClickAddMitarbeiter()">Füge Mitarbeiter hinzu</a>
-        <a mat-menu-item (click)="onClickSearchMitarbeiter()">Suche nach Mitarbeiter</a>
-      </mat-menu>
-    </mat-card-actions>
-  </mat-card-content>
-</mat-card>
+<div class="center">
+  <mat-card class="mainCard">
+    <mat-card-title>{{ title }}</mat-card-title>
+    <mat-card-content>
+      <mat-card-actions>
+        <button mat-button color="accent" [matMenuTriggerFor]="menuMitarbeiter">Mitarbeiter</button>
+        <mat-menu #menuMitarbeiter="matMenu">
+          <a mat-menu-item (click)="onClickListMitarbeiter()">Liste aller Mitarbeiter</a>
+          <a mat-menu-item (click)="onClickAddMitarbeiter()">Mitarbeiter hinzufügen</a>
+          <a mat-menu-item (click)="onClickSearchMitarbeiter()">Suche nach Mitarbeiter</a>
+        </mat-menu>
+        <button mat-button color="accent" [matMenuTriggerFor]="menuVertrieb">Vertrieb</button>
+        <mat-menu #menuVertrieb="matMenu">
+          <a mat-menu-item (click)="onClickListMitarbeiterVertrieb()">Liste aller Vertriebsmitarbeiter</a>
+          <a mat-menu-item (click)="onClickAddMitarbeiterVertrieb()">Vertriebsmitarbeiter hinzufügen</a>
+        </mat-menu>
+        <button mat-button color="accent" [matMenuTriggerFor]="menuEinsatz">Einsatz</button>
+        <mat-menu #menuEinsatz="matMenu">
+          <a mat-menu-item (click)="onClickListEinsatz()">Liste aller Einsätze</a>
+          <a mat-menu-item (click)="onClickAddEinsatz()">Einsatz hinzufügen</a>
+          <a mat-menu-item (click)="onClickSearchEinsatz()">Suche nach Einsatz</a>
+        </mat-menu>
+      </mat-card-actions>
+    </mat-card-content>
+  </mat-card>
+</div>
 
-<mat-card *ngIf="listMitarbeiter" class="listMitarbeiter">
-  <mat-card-title>Liste der Mitarbeiter</mat-card-title>
-  <mat-card-content>
-    <app-list-mitarbeiter></app-list-mitarbeiter>
-  </mat-card-content>
-</mat-card>
+<div class="center">
+  <mat-card *ngIf="listMitarbeiter" class="listMitarbeiter">
+    <mat-card-title>Liste der Mitarbeiter</mat-card-title>
+    <mat-card-content>
+      <app-table-mitarbeiter></app-table-mitarbeiter>
+    </mat-card-content>
+  </mat-card>
 
-<mat-card *ngIf="addMitarbeiter" class="addMitarbeiter">
-  <mat-card-title>Mitarbeiter hinzufügen</mat-card-title>
-  <mat-card-content>
-    <app-add-mitarbeiter-form></app-add-mitarbeiter-form>
-  </mat-card-content>
-</mat-card>
+  <mat-card *ngIf="addMitarbeiter" class="addMitarbeiter">
+    <mat-card-title>Mitarbeiter hinzufügen</mat-card-title>
+    <mat-card-content>
+      <app-add-mitarbeiter-form></app-add-mitarbeiter-form>
+    </mat-card-content>
+  </mat-card>
 
-<mat-card *ngIf="updateMitarbeiter" class="updateMitarbeiter">
-  <mat-card-title>Mitarbeiter bearbeiten</mat-card-title>
-  <mat-card-content>
-    <app-update-mitarbeiter-form [mitarbeiterInput]="mitarbeiter"></app-update-mitarbeiter-form>
-  </mat-card-content>
-</mat-card>
+  <mat-card *ngIf="updateMitarbeiter" class="updateMitarbeiter">
+    <mat-card-title>Mitarbeiter bearbeiten</mat-card-title>
+    <mat-card-content>
+      <app-update-mitarbeiter-form [mitarbeiterInput]="mitarbeiter"></app-update-mitarbeiter-form>
+    </mat-card-content>
+  </mat-card>
 
-<mat-card *ngIf="searchMitarbeiter" class="searchMitarbeiter">
-  <mat-card-title>Mitarbeiter Suchen</mat-card-title>
-  <mat-card-content>
-    <app-search-mitarbeiter></app-search-mitarbeiter>
-  </mat-card-content>
-</mat-card>
+  <mat-card *ngIf="searchMitarbeiter" class="searchMitarbeiter">
+    <mat-card-title>Mitarbeiter Suchen</mat-card-title>
+    <mat-card-content>
+      <app-search-mitarbeiter></app-search-mitarbeiter>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card *ngIf="listMitarbeiterVertrieb" class="listMitarbeiterVertrieb">
+    <mat-card-title>Liste der Mitarbeiter im Vertrieb</mat-card-title>
+    <mat-card-content>
+      <app-table-vertrieb></app-table-vertrieb>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card *ngIf="addMitarbeiterVertrieb" class="addMitarbeiterVertrieb">
+    <mat-card-title>MitarbeiterVertrieb hinzufügen</mat-card-title>
+    <mat-card-content>
+      <app-add-vertrieb></app-add-vertrieb>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card *ngIf="updateMitarbeiterVertrieb" class="updateMitarbeiterVertrieb">
+    <mat-card-title>MitarbeiterVertrieb bearbeiten</mat-card-title>
+    <mat-card-content>
+      <app-update-vertrieb [mitarbeiterVertriebInput]="mitarbeiterVertrieb"></app-update-vertrieb>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card *ngIf="listEinsatz" class="listEinsatz">
+    <mat-card-title>Liste der Einsätze</mat-card-title>
+    <mat-card-content>
+      <app-table-einsatz></app-table-einsatz>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card *ngIf="addEinsatz" class="addEinsatz">
+    <mat-card-title>Einsatz hinzufügen</mat-card-title>
+    <mat-card-content>
+      <app-add-einsatz></app-add-einsatz>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card *ngIf="updateEinsatz" class="updateEinsatz">
+    <mat-card-title>Einsatz bearbeiten</mat-card-title>
+    <mat-card-content>
+      <app-update-einsatz [einsatzInput]="einsatz"></app-update-einsatz>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card *ngIf="searchEinsatz" class="searchEinsatz">
+    <mat-card-title>Einsatz Suchen</mat-card-title>
+    <mat-card-content>
+      <app-search-einsatz></app-search-einsatz>
+    </mat-card-content>
+  </mat-card>
+
+</div>
+<!--<mat-sidenav-container class="sidenav-container">-->
+<!--  <mat-sidenav mode="side" opened>-->
+
+<!--    <mat-selection-list #shoes [multiple]="false">-->
+<!--      <mat-list-option>-->
+<!--        Test-->
+<!--      </mat-list-option>-->
+<!--    </mat-selection-list>-->
+
+<!--    Sidenav content</mat-sidenav>-->
+<!--  <mat-sidenav-content>-->
+<!--    <p>-->
+<!--    Main content-->
+<!--    </p>-->
+<!--    <p>-->
+<!--      Main content-->
+<!--    </p>-->
+<!--    <p>-->
+<!--      Main content-->
+<!--    </p>-->
+<!--  </mat-sidenav-content>-->
+<!--</mat-sidenav-container>-->
+
+

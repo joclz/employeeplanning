@@ -1,7 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {MitarbeiterService} from "../../services/mitarbeiter.service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {MitarbeiterStatus} from "../../models/mitarbeiter-status.enum";
+import {TableMitarbeiterComponent} from "./table-mitarbeiter.component";
 
 const patternId = Validators.pattern('^\\d+$');
 
@@ -12,35 +14,107 @@ const patternId = Validators.pattern('^\\d+$');
 })
 export class SearchMitarbeiterComponent implements OnInit {
 
-  searchLengthDate = new FormControl({value: '', disabled: true});
-  searchChance = new FormControl({value: '', disabled: true});
-  searchLengthFormGroup: FormGroup;
-  searchChanceFormGroup: FormGroup;
+  lastEndDate = new FormControl({value: '', disabled: true});
+  lastEndDateId = new FormControl('', [Validators.required, patternId]);
+  lastEndDateFormGroup: FormGroup;
 
-  searchLengthId = new FormControl('', [Validators.required, patternId]);
-  searchChanceId = new FormControl('', [Validators.required, patternId]);
+  chance = new FormControl({value: '', disabled: true});
+  chanceId = new FormControl('', [Validators.required, patternId]);
+  chanceFormGroup: FormGroup;
+
+  mitarbeiterEinsatz = new FormControl({value: '', disabled: true});
+  mitarbeiterEinsatzFormGroup: FormGroup;
+
+  subunternehmerEinsatz = new FormControl({value: '', disabled: true});
+  subunternehmerEinsatzFormGroup: FormGroup;
+
+  deckungsbeitrag = new FormControl({value: '', disabled: true});
+  deckungsbeitragFormGroup: FormGroup;
+
+  isMitarbeiterBank = false;
+  mitarbeiterBankFormGroup: FormGroup;
+
+  isMitarbeiterInternBank = false;
+  mitarbeiterInternBankFormGroup: FormGroup;
+
+  @ViewChild('tableMitarbeiterBank') tableMitarbeiterBank: TableMitarbeiterComponent;
+  @ViewChild('tableMitarbeiterInternBank') tableMitarbeiterInternBank: TableMitarbeiterComponent;
 
   constructor(private route: ActivatedRoute, private router: Router, private mitarbeiterService: MitarbeiterService) {
   }
 
-  searchLengthOnSubmit() {
-    this.mitarbeiterService.getLastEndDateForMitarbeiter(this.searchLengthId.value).subscribe(result => {
-      this.searchLengthDate.setValue(result.substr(0, result.indexOf('+')));
-    });
-  }
-
-  searchChanceOnSubmit() {
-    this.mitarbeiterService.getChanceForMitarbeiter(this.searchChanceId.value).subscribe(result => this.searchChance.setValue(result));
-  }
-
   ngOnInit(): void {
-    this.searchLengthFormGroup = new FormGroup({
-      id: this.searchLengthId,
-      searchLengthDate: this.searchLengthDate
+    this.lastEndDateFormGroup = new FormGroup({
+      id: this.lastEndDateId,
+      lastEndDate: this.lastEndDate
     });
-    this.searchChanceFormGroup = new FormGroup({
-      id: this.searchChanceId,
-      searchChance: this.searchChance
+    this.chanceFormGroup = new FormGroup({
+      id: this.chanceId,
+      chance: this.chance
     });
+    this.mitarbeiterEinsatzFormGroup = new FormGroup({
+      mitarbeiterEinsatz: this.mitarbeiterEinsatz
+    });
+    this.subunternehmerEinsatzFormGroup = new FormGroup({
+      subunternehmerEinsatz: this.subunternehmerEinsatz
+    });
+    this.deckungsbeitragFormGroup = new FormGroup({
+      deckungsbeitrag: this.deckungsbeitrag
+    });
+    this.mitarbeiterBankFormGroup = new FormGroup({});
+    this.mitarbeiterInternBankFormGroup = new FormGroup({});
+  }
+
+  getLastEndDateOnSubmit() {
+    this.mitarbeiterService.getLastEndDateForMitarbeiter(this.lastEndDateId.value).subscribe(result => {
+      if (result) {
+        let endDate = new Date(result);
+        endDate.setHours(2);
+        this.lastEndDate.setValue(endDate.toISOString().slice(0, 16));
+      } else {
+        this.lastEndDate.reset();
+      }
+    });
+  }
+
+  getChanceOnSubmit() {
+    this.mitarbeiterService.getChanceForMitarbeiter(this.chanceId.value)
+      .subscribe(result => this.chance.setValue(result.toString()));
+  }
+
+  getMitarbeiterEinsatzOnSubmit() {
+    this.mitarbeiterService.getMitarbeiterImEinsatz(MitarbeiterStatus.ANGESTELLT)
+      .subscribe(result => this.mitarbeiterEinsatz.setValue(result.toString()));
+  }
+
+  getSubunternehmerEinsatzOnSubmit() {
+    this.mitarbeiterService.getMitarbeiterImEinsatz(MitarbeiterStatus.SUBUNTERNEHMER)
+      .subscribe(result => this.subunternehmerEinsatz.setValue(result.toString()));
+  }
+
+  getDeckungsbeitragOnSubmit() {
+    this.mitarbeiterService.getDeckungsbeitrag().subscribe(result => this.deckungsbeitrag.setValue(result.toString()));
+  }
+
+  getMitarbeiterBankOnSubmit() {
+    this.initMitarbeiterBank();
+    this.isMitarbeiterBank = true;
+  }
+
+  private initMitarbeiterBank() {
+    if (this.tableMitarbeiterBank) {
+      this.tableMitarbeiterBank.ngOnInit();
+    }
+  }
+
+  getMitarbeiterInternBankOnSubmit() {
+    this.initMitarbeiterInternBank();
+    this.isMitarbeiterInternBank = true;
+  }
+
+  private initMitarbeiterInternBank() {
+    if (this.tableMitarbeiterInternBank) {
+      this.tableMitarbeiterInternBank.ngOnInit();
+    }
   }
 }

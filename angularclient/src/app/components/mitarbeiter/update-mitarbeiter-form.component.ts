@@ -41,6 +41,8 @@ export class UpdateMitarbeiterFormComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
+    //TODO Wohin weiterleiten nach Update? Zurück zur letzten Seite?
+
     let mitarbeiter = new Mitarbeiter();
     mitarbeiter.id = this.id.value;
     mitarbeiter.name = this.name.value;

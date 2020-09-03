@@ -53,7 +53,7 @@ public class EmployeeplanningMitarbeiterController {
 
     @GetMapping("/countMitarbeiterImEinsatz")
     public int countMitarbeiterImEinsatz(@RequestParam("mitarbeiterStatus") String status) {
-        MitarbeiterStatus mitarbeiterStatus = Enums.MitarbeiterStatus.valueOf(status);
+        MitarbeiterStatus mitarbeiterStatus = Enums.MitarbeiterStatus.valueOf(status.toUpperCase());
         return mitarbeiterService.countMitarbeiterImEinsatz(mitarbeiterStatus);
     }
 

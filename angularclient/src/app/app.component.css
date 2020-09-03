@@ -1,22 +1,25 @@
 .mainCard {
-  max-width: 1200px;
+  width: 75%;
   text-align:center;
 }
 
 .listMitarbeiter {
-  max-width: 1200px;
+  width: 75%;
 }
 
 .addMitarbeiter {
-  max-width: 1200px;
+  width: 75%;
 }
 
 .searchMitarbeiter {
-  max-width: 1200px;
+  width: 75%;
 }
 
 .updateMitarbeiter {
-  max-width: 1200px;
+  width: 75%;
 }
 
-
+.center{
+  display: flex;
+  justify-content: center;
+}

@@ -1,4 +1,4 @@
-import {Component, OnDestroy, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {Mitarbeiter} from "../../models/mitarbeiter";
 import {MitarbeiterService} from "../../services/mitarbeiter.service";
 import {MatTableDataSource} from "@angular/material/table";
@@ -11,7 +11,7 @@ import {UpdateMitarbeiterService} from "../../services/update-mitarbeiter.servic
   templateUrl: './table-mitarbeiter.component.html',
   styleUrls: ['./table-mitarbeiter.component.css']
 })
-export class TableMitarbeiterComponent implements OnDestroy{
+export class TableMitarbeiterComponent implements OnInit {
 
   displayedColumns: string[] = ['id', 'name', 'vorname', 'mitarbeiterStatus', 'stundensatzEK', 'mitarbeiterUnit', 'actions'];
   dataSource: MatTableDataSource<Mitarbeiter>;
@@ -19,14 +19,41 @@ export class TableMitarbeiterComponent implements OnDestroy{
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
+  @Input() isMitarbeiterBank: boolean;
+  @Input() isMitarbeiterInternBank: boolean;
+
+  @Output() deleteMitarbeiterEvent = new EventEmitter();
+
   constructor(private mitarbeiterService: MitarbeiterService, private updateMitarbeiterService: UpdateMitarbeiterService) {
   }
 
-  init(mitarbeiter: Mitarbeiter[]): void {
-      this.dataSource = new MatTableDataSource(mitarbeiter);
+  ngOnInit() {
+    console.log('ON_INIT')
+    this.initDependingOnInput();
+  }
 
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+  initDependingOnInput() {
+    if (this.isMitarbeiterBank) {
+      console.log('isMitarbeiterBank')
+      this.mitarbeiterService.getMitarbeiterBank().subscribe(result =>
+        this.init(result));
+    }
+    if (this.isMitarbeiterInternBank) {
+      console.log('isMitarbeiterInternBank')
+      this.mitarbeiterService.getMitarbeiterInternBank().subscribe(result =>
+        this.init(result));
+    }
+    if (!this.isMitarbeiterBank && !this.isMitarbeiterInternBank) {
+      this.mitarbeiterService.findAll().subscribe(result =>
+        this.init(result));
+    }
+  }
+
+  init(mitarbeiter: Mitarbeiter[]): void {
+    this.dataSource = new MatTableDataSource(mitarbeiter);
+
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   applyFilter(event: Event) {
@@ -40,17 +67,12 @@ export class TableMitarbeiterComponent implements OnDestroy{
 
   deleteMitarbeiter(id: string) {
     this.mitarbeiterService.delete(id).subscribe(() => {
-      this.mitarbeiterService.findAll().subscribe(data => {
-        this.init(data);
-      })
+      this.initDependingOnInput();
+      this.deleteMitarbeiterEvent.emit();
     });
   }
 
   updateMitarbeiter(row: Mitarbeiter) {
     this.updateMitarbeiterService.updateMitarbeiter(row);
-    // this.updateMitarbeiterEvent.emit(row);
-  }
-
-  ngOnDestroy(): void {
   }
 }

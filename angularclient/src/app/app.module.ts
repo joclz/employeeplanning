@@ -21,7 +21,16 @@ import {MatInputModule} from "@angular/material/input";
 import {MatOptionModule} from "@angular/material/core";
 import {MatSelectModule} from "@angular/material/select";
 import {UpdateMitarbeiterFormComponent} from './components/mitarbeiter/update-mitarbeiter-form.component';
-import {ListMitarbeiterComponent} from './components/mitarbeiter/list-mitarbeiter.component';
+import {MatDividerModule} from "@angular/material/divider";
+import {MatSidenavModule} from "@angular/material/sidenav";
+import {MatListModule} from "@angular/material/list";
+import {TableVertriebComponent} from './components/vertrieb/table-vertrieb.component';
+import {AddVertriebComponent} from './components/vertrieb/add-vertrieb.component';
+import {UpdateVertriebComponent} from './components/vertrieb/update-vertrieb.component';
+import {UpdateEinsatzComponent} from './components/einsatz/update-einsatz.component';
+import {SearchEinsatzComponent} from './components/einsatz/search-einsatz.component';
+import {TableEinsatzComponent} from './components/einsatz/table-einsatz.component';
+import {AddEinsatzComponent} from './components/einsatz/add-einsatz.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +39,13 @@ import {ListMitarbeiterComponent} from './components/mitarbeiter/list-mitarbeite
     TableMitarbeiterComponent,
     SearchMitarbeiterComponent,
     UpdateMitarbeiterFormComponent,
-    ListMitarbeiterComponent
+    TableVertriebComponent,
+    AddVertriebComponent,
+    UpdateVertriebComponent,
+    UpdateEinsatzComponent,
+    SearchEinsatzComponent,
+    TableEinsatzComponent,
+    AddEinsatzComponent
   ],
   imports: [
     BrowserModule,
@@ -48,7 +63,10 @@ import {ListMitarbeiterComponent} from './components/mitarbeiter/list-mitarbeite
     MatInputModule,
     ReactiveFormsModule,
     MatOptionModule,
-    MatSelectModule
+    MatSelectModule,
+    MatDividerModule,
+    MatSidenavModule,
+    MatListModule
   ],
   providers: [MitarbeiterService],
   bootstrap: [AppComponent]
