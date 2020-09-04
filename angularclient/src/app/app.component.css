@@ -19,6 +19,34 @@
   width: 75%;
 }
 
+.listMitarbeiterVertrieb {
+  width: 75%;
+}
+
+.addMitarbeiterVertrieb {
+  width: 75%;
+}
+
+.updateMitarbeiterVertrieb {
+  width: 75%;
+}
+
+.listEinsatz {
+  width: 75%;
+}
+
+.addEinsatz {
+  width: 75%;
+}
+
+.searchEinsatz {
+  width: 75%;
+}
+
+.updateEinsatz {
+  width: 75%;
+}
+
 .center{
   display: flex;
   justify-content: center;

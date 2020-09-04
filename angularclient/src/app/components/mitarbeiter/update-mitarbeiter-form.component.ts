@@ -41,7 +41,7 @@ export class UpdateMitarbeiterFormComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    //TODO Wohin weiterleiten nach Update? Zurück zur letzten Seite?
+    //TODO Weiterleitung nach Update? Oder nur Meldung ausgeben?
 
     let mitarbeiter = new Mitarbeiter();
     mitarbeiter.id = this.id.value;
@@ -51,9 +51,7 @@ export class UpdateMitarbeiterFormComponent implements OnInit, OnDestroy {
     mitarbeiter.mitarbeiterStatus = <MitarbeiterStatus>this.status.value;
     mitarbeiter.mitarbeiterUnit = <MitarbeiterUnit>this.unit.value;
 
-    this.mitarbeiterService.update(mitarbeiter).subscribe(() =>
-      this.formRef.resetForm()
-    );
+    this.mitarbeiterService.update(mitarbeiter).subscribe();
   }
 
   ngOnInit(): void {

@@ -1,1 +1,31 @@
-<p>update-vertrieb works!</p>
+<form class="mitarbeiterVertriebForm" [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+  <mat-form-field class="half-width">
+    <mat-label>ID</mat-label>
+    <input matInput formControlName="id">
+  </mat-form-field>
+
+  <mat-form-field class="half-width">
+    <mat-label>Name</mat-label>
+    <input required matInput formControlName="name" placeholder="Mustermann">
+    <mat-error *ngIf="formGroup.get('name').hasError('pattern') && !formGroup.get('name').hasError('required')">
+      Bitte geben Sie einen gültigen Namen ein
+    </mat-error>
+    <mat-error *ngIf="formGroup.get('name').hasError('required')">
+      Name ist ein <strong>Pflichtfeld</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="half-width">
+    <mat-label>Vorname</mat-label>
+    <input required matInput formControlName="vorname" placeholder="Max">
+    <mat-error *ngIf="formGroup.get('vorname').hasError('pattern') && !formGroup.get('vorname').hasError('required')">
+      Bitte geben Sie einen gültigen Vornamen ein
+    </mat-error>
+    <mat-error *ngIf="formGroup.get('vorname').hasError('required')">
+      Vorname ist ein <strong>Pflichtfeld</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" type="submit" class="button" [disabled]="!formGroup.valid">Bestätigen</button>
+
+</form>

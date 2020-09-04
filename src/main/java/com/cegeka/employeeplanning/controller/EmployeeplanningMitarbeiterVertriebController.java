@@ -2,7 +2,6 @@ package com.cegeka.employeeplanning.controller;
 
 import com.cegeka.employeeplanning.data.MitarbeiterVertrieb;
 import com.cegeka.employeeplanning.repositories.MitarbeiterVertriebRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +12,7 @@ public class EmployeeplanningMitarbeiterVertriebController {
     private MitarbeiterVertriebRepository mitarbeiterVertriebRepository;
 
     @PostMapping(path = "/addMitarbeiterVertrieb")
-    public MitarbeiterVertrieb addMitarbeiterVertrieb(MitarbeiterVertrieb mitarbeiterVertrieb) {
+    public MitarbeiterVertrieb addMitarbeiterVertrieb(@RequestBody MitarbeiterVertrieb mitarbeiterVertrieb) {
         mitarbeiterVertriebRepository.save(mitarbeiterVertrieb);
         return mitarbeiterVertrieb;
     }
@@ -24,7 +23,7 @@ public class EmployeeplanningMitarbeiterVertriebController {
     }
 
     @PostMapping(path = "/updateMitarbeiterVertrieb")
-    public MitarbeiterVertrieb updateMitarbeiterVertrieb(MitarbeiterVertrieb mitarbeiterVertrieb) {
+    public MitarbeiterVertrieb updateMitarbeiterVertrieb(@RequestBody MitarbeiterVertrieb mitarbeiterVertrieb) {
         mitarbeiterVertriebRepository.save(mitarbeiterVertrieb);
         return mitarbeiterVertrieb;
     }

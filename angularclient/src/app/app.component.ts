@@ -3,6 +3,8 @@ import {Mitarbeiter} from "./models/mitarbeiter";
 import {UpdateMitarbeiterService} from "./services/update-mitarbeiter.service";
 import {Einsatz} from "./models/einsatz";
 import {MitarbeiterVertrieb} from "./models/mitarbeiter-vertrieb";
+import {UpdateMitarbeiterVertriebService} from "./services/update-mitarbeiter-vertrieb.service";
+import {UpdateEinsatzService} from "./services/update-einsatz.service";
 
 @Component({
   selector: 'app-root',
@@ -11,6 +13,9 @@ import {MitarbeiterVertrieb} from "./models/mitarbeiter-vertrieb";
   providers: [UpdateMitarbeiterService]
 })
 export class AppComponent {
+
+  //TODO allgemein: Fehler- und Bestätigungsmeldungen ausgeben
+
   title: string = 'Mitarbeiter-Planung';
 
   listMitarbeiter: boolean = false;
@@ -30,9 +35,17 @@ export class AppComponent {
   updateEinsatz: boolean = false;
   einsatz: Einsatz;
 
-  constructor(private updateMitarbeiterService: UpdateMitarbeiterService) {
+  constructor(private updateMitarbeiterService: UpdateMitarbeiterService,
+              private updateMitarbeiterVertriebService: UpdateMitarbeiterVertriebService,
+              private updateEinsatzService: UpdateEinsatzService) {
     updateMitarbeiterService.updateMitarbeiter$.subscribe(data =>
       this.onClickUpdateMitarbeiter(data)
+    );
+    updateMitarbeiterVertriebService.updateMitarbeiterVertrieb$.subscribe(data =>
+      this.onClickUpdateMitarbeiterVertrieb(data)
+    );
+    updateEinsatzService.updateEinsatz$.subscribe(data =>
+      this.onClickUpdateEinsatz(data)
     );
   }
 
