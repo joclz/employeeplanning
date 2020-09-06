@@ -28,18 +28,15 @@ export class TableMitarbeiterComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('ON_INIT')
     this.initDependingOnInput();
   }
 
   initDependingOnInput() {
     if (this.isMitarbeiterBank) {
-      console.log('isMitarbeiterBank')
       this.mitarbeiterService.getMitarbeiterBank().subscribe(result =>
         this.init(result));
     }
     if (this.isMitarbeiterInternBank) {
-      console.log('isMitarbeiterInternBank')
       this.mitarbeiterService.getMitarbeiterInternBank().subscribe(result =>
         this.init(result));
     }
@@ -75,4 +72,6 @@ export class TableMitarbeiterComponent implements OnInit {
   updateMitarbeiter(row: Mitarbeiter) {
     this.updateMitarbeiterService.updateMitarbeiter(row);
   }
+
+  //TODO Enums übersetzen
 }

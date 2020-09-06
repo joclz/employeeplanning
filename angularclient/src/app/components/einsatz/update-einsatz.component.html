@@ -1,1 +1,59 @@
-<p>update-einsatz works!</p>
+<form class="mitarbeiterForm" [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+  <mat-form-field class="half-width">
+    <mat-label>ID</mat-label>
+    <input matInput formControlName="id">
+  </mat-form-field>
+
+  <mat-form-field class="half-width">
+    <mat-label>Name</mat-label>
+    <input required matInput formControlName="name" placeholder="Mustermann">
+    <mat-error *ngIf="formGroup.get('name').hasError('pattern') && !formGroup.get('name').hasError('required')">
+      Bitte geben Sie einen gültigen Namen ein
+    </mat-error>
+    <mat-error *ngIf="formGroup.get('name').hasError('required')">
+      Name ist ein <strong>Pflichtfeld</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="half-width">
+    <mat-label>Vorname</mat-label>
+    <input required matInput formControlName="vorname" placeholder="Max">
+    <mat-error *ngIf="formGroup.get('vorname').hasError('pattern') && !formGroup.get('vorname').hasError('required')">
+      Bitte geben Sie einen gültigen Vornamen ein
+    </mat-error>
+    <mat-error *ngIf="formGroup.get('vorname').hasError('required')">
+      Vorname ist ein <strong>Pflichtfeld</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="half-width">
+    <mat-label>Stundensatz EK</mat-label>
+    <input required matInput type="number" formControlName="stundensatz" placeholder="80.50">
+    <mat-error *ngIf="formGroup.get('stundensatz').hasError('required')">
+      Stundensatz ist ein <strong>Pflichtfeld</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="half-width">
+    <mat-label>Status</mat-label>
+    <mat-select required formControlName="status">
+      <mat-option *ngFor="let key of mitarbeiterStatusList" [value]="key">{{mitarbeiterStatus[key]}}</mat-option>
+    </mat-select>
+    <mat-error *ngIf="formGroup.get('status').hasError('required')">
+      Status ist ein <strong>Pflichtfeld</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="half-width">
+    <mat-label>Unit</mat-label>
+    <mat-select required formControlName="unit">
+      <mat-option *ngFor="let key of mitarbeiterUnits" [value]="key">{{mitarbeiterUnit[key]}}</mat-option>
+    </mat-select>
+    <mat-error *ngIf="formGroup.get('unit').hasError('required')">
+      Unit ist ein <strong>Pflichtfeld</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" type="submit" class="button" [disabled]="!formGroup.valid">Bestätigen</button>
+
+</form>

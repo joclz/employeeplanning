@@ -1,1 +1,111 @@
-<p>add-einsatz works!</p>
+<form class="einsatzForm" [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+
+  <mat-form-field class="half-width">
+    <mat-label>Mitarbeiter</mat-label>
+    <mat-select required formControlName="mitarbeiter">
+      <mat-option *ngFor="let key of mitarbeiterIds" [value]="key">{{mitarbeiterName.get(key)}}</mat-option>
+    </mat-select>
+    <mat-error *ngIf="formGroup.get('mitarbeiter').hasError('required')">
+      Mitarbeiter ist ein <strong>Pflichtfeld</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="half-width">
+    <mat-label>Mitarbeiter Vertrieb</mat-label>
+    <mat-select required formControlName="mitarbeiterVertrieb">
+      <mat-option *ngFor="let key of mitarbeiterVertriebIds" [value]="key">{{mitarbeiterVertriebName.get(key)}}</mat-option>
+    </mat-select>
+    <mat-error *ngIf="formGroup.get('mitarbeiterVertrieb').hasError('required')">
+      Mitarbeiter Vertrieb ist ein <strong>Pflichtfeld</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="half-width">
+    <mat-label>Einsatz Status</mat-label>
+    <mat-select required formControlName="einsatzStatus">
+      <mat-option *ngFor="let key of einsatzStatusList" [value]="key">{{einsatzStatusEnum[key]}}</mat-option>
+    </mat-select>
+    <mat-error *ngIf="formGroup.get('einsatzStatus').hasError('required')">
+      Einsatz Status ist ein <strong>Pflichtfeld</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="half-width">
+    <mat-label>Beginndatum</mat-label>
+    <input matInput required formControlName="beginn" [matDatepicker]="beginnPicker">
+    <mat-datepicker-toggle matSuffix [for]="beginnPicker"></mat-datepicker-toggle>
+    <mat-datepicker #beginnPicker></mat-datepicker>
+    <mat-error *ngIf="formGroup.get('beginn').hasError('required')">
+      Beginndatum ist ein <strong>Pflichtfeld</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="half-width">
+    <mat-label>Enddatum</mat-label>
+    <input matInput required formControlName="ende" [matDatepicker]="endePicker">
+    <mat-datepicker-toggle matSuffix [for]="endePicker"></mat-datepicker-toggle>
+    <mat-datepicker #endePicker></mat-datepicker>
+    <mat-error *ngIf="formGroup.get('ende').hasError('required')">
+      Enddatum ist ein <strong>Pflichtfeld</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="half-width">
+    <mat-label>Wahrscheinlichkeit</mat-label>
+    <input required matInput formControlName="wahrscheinlichkeit" placeholder="50">
+    <mat-error *ngIf="formGroup.get('wahrscheinlichkeit').hasError('required')">
+      Wahrscheinlichkeit ist ein <strong>Pflichtfeld</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="half-width">
+    <mat-label>Zusatzkosten</mat-label>
+    <input required matInput formControlName="zusatzkosten" placeholder="12">
+    <mat-error *ngIf="formGroup.get('zusatzkosten').hasError('required')">
+      Zusatzkosten ist ein <strong>Pflichtfeld</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="half-width">
+    <mat-label>Stundensatz VK</mat-label>
+    <input required matInput formControlName="stundensatzVK" placeholder="100">
+    <mat-error *ngIf="formGroup.get('stundensatzVK').hasError('required')">
+      Stundensatz VK ist ein <strong>Pflichtfeld</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="half-width">
+    <mat-label>Projektnummer Nettime</mat-label>
+    <input required matInput formControlName="projektnummerNettime" placeholder="4.0.0.0">
+    <mat-error *ngIf="formGroup.get('projektnummerNettime').hasError('required')">
+      Projektnummer Nettime ist ein <strong>Pflichtfeld</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="half-width">
+    <mat-label>Beauftragungsnummer</mat-label>
+    <input required matInput formControlName="beauftragungsnummer" placeholder="123456">
+    <mat-error *ngIf="formGroup.get('beauftragungsnummer').hasError('required')">
+      Beauftragungsnummer ist ein <strong>Pflichtfeld</strong>
+    </mat-error>
+  </mat-form-field>
+
+<!--  <mat-form-field class="half-width">-->
+<!--    <mat-label>Deckungsbeitrag</mat-label>-->
+<!--    <input required matInput formControlName="deckungsbeitrag" placeholder="50">-->
+<!--    <mat-error *ngIf="formGroup.get('deckungsbeitrag').hasError('required')">-->
+<!--      Deckungsbeitrag ist ein <strong>Pflichtfeld</strong>-->
+<!--    </mat-error>-->
+<!--  </mat-form-field>-->
+
+<!--  <mat-form-field class="half-width">-->
+<!--    <mat-label>Marge</mat-label>-->
+<!--    <input required matInput formControlName="marge" placeholder="20">-->
+<!--    <mat-error *ngIf="formGroup.get('marge').hasError('required')">-->
+<!--      Marge ist ein <strong>Pflichtfeld</strong>-->
+<!--    </mat-error>-->
+<!--  </mat-form-field>-->
+
+  <button mat-raised-button color="primary" type="submit" class="button" [disabled]="!formGroup.valid">Hinzufügen</button>
+
+</form>

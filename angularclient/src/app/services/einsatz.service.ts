@@ -14,7 +14,7 @@ export class EinsatzService {
   }
 
   public findAll(): Observable<Einsatz[]> {
-    return this.http.get<Einsatz[]>('http://localhost:8080/listEinsatz');
+    return this.http.get<Einsatz[]>('http://localhost:8080/listEinsaetze');
   }
 
   public save(Einsatz: Einsatz) {
@@ -22,7 +22,7 @@ export class EinsatzService {
   }
 
   public delete(id: string) {
-    let params = new HttpParams().set("EinsatzId", id);
+    let params = new HttpParams().set("einsatzId", id);
     return this.http.post<Einsatz>('http://localhost:8080/deleteEinsatz', '', {params: params});
   }
 

@@ -1,5 +1,13 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {Einsatz} from "../../models/einsatz";
+import {FormControl, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
+import {Mitarbeiter} from "../../models/mitarbeiter";
+import {MitarbeiterUnit} from "../../models/mitarbeiter-unit.enum";
+import {MitarbeiterStatus} from "../../models/mitarbeiter-status.enum";
+import {ActivatedRoute, Router} from "@angular/router";
+import {MitarbeiterService} from "../../services/mitarbeiter.service";
+
+const patternNames = Validators.pattern('[a-zA-Z_äÄöÖüÜß\-]*');
 
 @Component({
   selector: 'app-update-einsatz',
@@ -9,10 +17,65 @@ import {Einsatz} from "../../models/einsatz";
 export class UpdateEinsatzComponent implements OnInit {
 
   @Input() einsatzInput: Einsatz;
+  @ViewChild(FormGroupDirective) formRef: FormGroupDirective;
 
-  constructor() { }
+  @Input()
+  mitarbeiterInput: Mitarbeiter;
+
+  formGroup: FormGroup;
+
+  id = new FormControl({value: '', disabled: true});
+  name = new FormControl('', [Validators.required, patternNames]);
+  vorname = new FormControl('', [Validators.required, patternNames]);
+  stundensatz = new FormControl('', [Validators.required]);
+  status = new FormControl('', [Validators.required]);
+  unit = new FormControl('', [Validators.required]);
+
+  mitarbeiterUnit = MitarbeiterUnit;
+  mitarbeiterUnits = [];
+
+  mitarbeiterStatus = MitarbeiterStatus;
+  mitarbeiterStatusList = [];
+
+  constructor(private route: ActivatedRoute, private router: Router, private mitarbeiterService: MitarbeiterService) {
+    this.mitarbeiterUnits = Object.keys(this.mitarbeiterUnit);
+    this.mitarbeiterStatusList = Object.keys(this.mitarbeiterStatus);
+  }
+
+  onSubmit() {
+    //TODO Weiterleitung nach Update? Oder nur Meldung ausgeben?
+
+    let mitarbeiter = new Mitarbeiter();
+    mitarbeiter.id = this.id.value;
+    mitarbeiter.name = this.name.value;
+    mitarbeiter.vorname = this.vorname.value;
+    mitarbeiter.stundensatzEK = this.stundensatz.value;
+    mitarbeiter.mitarbeiterStatus = <MitarbeiterStatus>this.status.value;
+    mitarbeiter.mitarbeiterUnit = <MitarbeiterUnit>this.unit.value;
+
+    this.mitarbeiterService.update(mitarbeiter).subscribe();
+  }
 
   ngOnInit(): void {
+    this.id.setValue(this.mitarbeiterInput.id);
+    this.name.setValue(this.mitarbeiterInput.name);
+    this.vorname.setValue(this.mitarbeiterInput.vorname);
+    this.stundensatz.setValue(this.mitarbeiterInput.stundensatzEK);
+    this.status.setValue(this.mitarbeiterInput.mitarbeiterStatus);
+    this.unit.setValue(this.mitarbeiterInput.mitarbeiterUnit);
+
+    this.formGroup = new FormGroup({
+      id: this.id,
+      name: this.name,
+      vorname: this.vorname,
+      stundensatz: this.stundensatz,
+      status: this.status,
+      unit: this.unit
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.formRef.resetForm();
   }
 
 }

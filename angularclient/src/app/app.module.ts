@@ -18,7 +18,7 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatSortModule} from "@angular/material/sort";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatInputModule} from "@angular/material/input";
-import {MatOptionModule} from "@angular/material/core";
+import {MatNativeDateModule, MatOptionModule} from "@angular/material/core";
 import {MatSelectModule} from "@angular/material/select";
 import {UpdateMitarbeiterFormComponent} from './components/mitarbeiter/update-mitarbeiter-form.component';
 import {MatDividerModule} from "@angular/material/divider";
@@ -31,6 +31,7 @@ import {UpdateEinsatzComponent} from './components/einsatz/update-einsatz.compon
 import {SearchEinsatzComponent} from './components/einsatz/search-einsatz.component';
 import {TableEinsatzComponent} from './components/einsatz/table-einsatz.component';
 import {AddEinsatzComponent} from './components/einsatz/add-einsatz.component';
+import {MatDatepickerModule} from "@angular/material/datepicker";
 
 @NgModule({
   declarations: [
@@ -66,7 +67,9 @@ import {AddEinsatzComponent} from './components/einsatz/add-einsatz.component';
     MatSelectModule,
     MatDividerModule,
     MatSidenavModule,
-    MatListModule
+    MatListModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [MitarbeiterService],
   bootstrap: [AppComponent]

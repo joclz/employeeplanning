@@ -25,7 +25,7 @@ public class EmployeeplanningEinsatzController {
     private EinsatzService einsatzService;
 
     @PostMapping(path = "/addEinsatz")
-    public Einsatz addEinsatz(Einsatz einsatz) {
+    public Einsatz addEinsatz(@RequestBody Einsatz einsatz) {
         einsatzService.save(einsatz);
         return einsatz;
     }
