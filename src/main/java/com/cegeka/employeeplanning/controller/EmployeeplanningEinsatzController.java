@@ -24,8 +24,14 @@ public class EmployeeplanningEinsatzController {
     @Autowired
     private EinsatzService einsatzService;
 
-    @PostMapping(path = "/addEinsatz")
+    @PostMapping(path = "/addEinsatz", consumes = "application/json")
     public Einsatz addEinsatz(@RequestBody Einsatz einsatz) {
+        einsatzService.save(einsatz);
+        return einsatz;
+    }
+
+    @PostMapping(path = "/addEinsatz", consumes = "application/x-www-form-urlencoded")
+    public Einsatz addEinsatzUrlencoded(Einsatz einsatz) {
         einsatzService.save(einsatz);
         return einsatz;
     }
