@@ -15,5 +15,11 @@ Datenbank:
 Datenbank zur Laufzeit: c:\temp\h2-db-employeeplanning.mv.db
 Diese DB wird aktuell noch initial mit einigen Testdaten vorbelegt.
 
+Zugangsdaten für die DB:
+JDBC-URL: jdbc:h2:c:/temp/h2-db-employeeplanning
+Username: sa
+Password: 
+
+
 Für die Unit-Tests wird aktuell eine Memory-DB herangezogen.
 

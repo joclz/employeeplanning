@@ -1,11 +1,11 @@
 package com.cegeka.employeeplanning.service;
 
+import java.util.Date;
+
 import com.cegeka.employeeplanning.data.enums.Enums;
+
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.lang.Nullable;
-
-import java.util.Date;
 
 
 @Getter
@@ -15,7 +15,6 @@ public class EinsatzSuche {
     Integer mitarbeiterId;
     Enums.MitarbeiterStatus mitarbeiterStatus;
     Enums.EinsatzStatus einsatzStatus;
-    @Nullable
     Date beginnVon;
     Date beginnBis;
     Date endeVon;
