@@ -77,10 +77,7 @@ public class EmployeeplanningControllerTests {
         assertThat(mitarbeiterRepository.count()).isEqualTo(8);
     }
 
-    // Todo - Dieser Testfall geht aktuell nicht.
-    // Der Unit-Test benötigt offensichtlich @RequestBody beim Aufruf der Methode addMitarbeiter.
-    // Beim Aufruf innerhalb der Anwendung stört dies aber.
-    //@Test
+    @Test
     public void test_addMitarbeiter_Expected_CorrectNamesAndNumber() throws Exception {
         Mitarbeiter mitarbeiter = new Mitarbeiter();
         mitarbeiter.setVorname("Hans-Neu");

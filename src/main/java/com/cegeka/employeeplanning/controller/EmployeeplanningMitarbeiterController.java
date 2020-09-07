@@ -18,10 +18,14 @@ public class EmployeeplanningMitarbeiterController {
     @Autowired
     private MitarbeiterService mitarbeiterService;
 
-    @PostMapping(path = "/addMitarbeiter")
-    //Todo - Der Unit-Test benötigt offensichtlich @RequestBody. Beim Aufruf innerhalb der Anwendung stört dies aber.
-    //public Mitarbeiter addMitarbeiter(@RequestBody Mitarbeiter mitarbeiter) {
+    @PostMapping(path = "/addMitarbeiter", consumes = "application/json")
     public Mitarbeiter addMitarbeiter(@RequestBody Mitarbeiter mitarbeiter) {
+        mitarbeiterRepository.save(mitarbeiter);
+        return mitarbeiter;
+    }
+
+    @PostMapping(path = "/addMitarbeiter", consumes = "application/x-www-form-urlencoded")
+    public Mitarbeiter addMitarbeiterUrlencoded(Mitarbeiter mitarbeiter) {
         mitarbeiterRepository.save(mitarbeiter);
         return mitarbeiter;
     }
