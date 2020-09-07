@@ -1,13 +1,24 @@
 package com.cegeka.employeeplanning.data;
 
+import java.util.Date;
+
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
 import com.cegeka.employeeplanning.data.enums.Enums;
-import lombok.Getter;
-import lombok.Setter;
+
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import javax.persistence.*;
-import java.util.Date;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Getter
@@ -26,7 +37,9 @@ public class Einsatz {
 
     @Enumerated(EnumType.STRING)
     private Enums.EinsatzStatus einsatzStatus;
+    @Temporal(TemporalType.DATE)
     private Date beginn;
+    @Temporal(TemporalType.DATE)
     private Date ende;
     private int wahrscheinlichkeit;
     private double zusatzkostenReise;
