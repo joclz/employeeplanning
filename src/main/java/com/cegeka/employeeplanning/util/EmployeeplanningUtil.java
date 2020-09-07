@@ -8,7 +8,7 @@ import java.util.Date;
 
 public class EmployeeplanningUtil {
 
-    public static final String TEST_IMPORT = "/data.sql";
+    public static final String TEST_IMPORT = "/insertTestData.sql";
     public static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
     public static Date today()
