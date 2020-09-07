@@ -1,20 +1,25 @@
 package com.cegeka.employeeplanning.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Optional;
+
 import com.cegeka.employeeplanning.data.Einsatz;
 import com.cegeka.employeeplanning.data.enums.Enums;
 import com.cegeka.employeeplanning.repositories.EinsatzRepository;
 import com.cegeka.employeeplanning.service.EinsatzService;
 import com.cegeka.employeeplanning.service.EinsatzSuche;
-import com.cegeka.employeeplanning.service.EinsatzSucheType;
-import com.cegeka.employeeplanning.util.EmployeeplanningUtil;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Optional;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin
 @RestController
@@ -58,17 +63,7 @@ public class EmployeeplanningEinsatzController {
     }
 
     @GetMapping("/findEinsaetzeBySuchkriterien")
-    public Iterable<Einsatz> findEinsaetzeBySuchkriterien(EinsatzSucheType einsatzSucheType) {
-        EinsatzSuche einsatzSuche = new EinsatzSuche(
-                einsatzSucheType.getMitarbeiterVertriebId(),
-                einsatzSucheType.getMitarbeiterId(),
-                einsatzSucheType.getMitarbeiterStatus(),
-                einsatzSucheType.getEinsatzStatus(),
-                EmployeeplanningUtil.parseDate(einsatzSucheType.getBeginnVon()),
-                EmployeeplanningUtil.parseDate(einsatzSucheType.getBeginnBis()),
-                EmployeeplanningUtil.parseDate(einsatzSucheType.getEndeVon()),
-                EmployeeplanningUtil.parseDate(einsatzSucheType.getEndeBis())
-        );
+    public Iterable<Einsatz> findEinsaetzeBySuchkriterien(EinsatzSuche einsatzSuche) {
         return einsatzService.findEinsaetzeBySuchkriterien(einsatzSuche);
     }
 
@@ -93,6 +88,6 @@ public class EmployeeplanningEinsatzController {
     public void initBinder(WebDataBinder binder) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         dateFormat.setLenient(false);
-        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
     }
 }
