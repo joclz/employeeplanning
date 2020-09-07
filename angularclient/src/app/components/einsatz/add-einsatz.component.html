@@ -21,16 +21,6 @@
   </mat-form-field>
 
   <mat-form-field appearance="fill" class="half-width">
-    <mat-label>Einsatz Status</mat-label>
-    <mat-select required formControlName="einsatzStatus">
-      <mat-option *ngFor="let key of einsatzStatusList" [value]="key">{{einsatzStatusEnum[key]}}</mat-option>
-    </mat-select>
-    <mat-error *ngIf="formGroup.get('einsatzStatus').hasError('required')">
-      Einsatz Status ist ein <strong>Pflichtfeld</strong>
-    </mat-error>
-  </mat-form-field>
-
-  <mat-form-field appearance="fill" class="half-width">
     <mat-label>Beginndatum</mat-label>
     <input matInput required formControlName="beginn" [matDatepicker]="beginnPicker">
     <mat-datepicker-toggle matSuffix [for]="beginnPicker"></mat-datepicker-toggle>
@@ -50,6 +40,16 @@
     </mat-error>
   </mat-form-field>
 
+  <mat-form-field appearance="fill" class="half-width">
+    <mat-label>Einsatz Status</mat-label>
+    <mat-select required formControlName="einsatzStatus">
+      <mat-option *ngFor="let key of einsatzStatusList" [value]="key">{{einsatzStatusEnum[key]}}</mat-option>
+    </mat-select>
+    <mat-error *ngIf="formGroup.get('einsatzStatus').hasError('required')">
+      Einsatz Status ist ein <strong>Pflichtfeld</strong>
+    </mat-error>
+  </mat-form-field>
+
   <mat-form-field class="half-width">
     <mat-label>Wahrscheinlichkeit</mat-label>
     <input required matInput formControlName="wahrscheinlichkeit" placeholder="50">
@@ -59,9 +59,9 @@
   </mat-form-field>
 
   <mat-form-field class="half-width">
-    <mat-label>Zusatzkosten</mat-label>
-    <input required matInput formControlName="zusatzkosten" placeholder="12">
-    <mat-error *ngIf="formGroup.get('zusatzkosten').hasError('required')">
+    <mat-label>Zusatzkosten Reise</mat-label>
+    <input required matInput formControlName="zusatzkostenReise" placeholder="12">
+    <mat-error *ngIf="formGroup.get('zusatzkostenReise').hasError('required')">
       Zusatzkosten ist ein <strong>Pflichtfeld</strong>
     </mat-error>
   </mat-form-field>

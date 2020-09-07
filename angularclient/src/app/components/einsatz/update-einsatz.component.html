@@ -2,55 +2,95 @@
   <mat-form-field class="half-width">
     <mat-label>ID</mat-label>
     <input matInput formControlName="id">
-  </mat-form-field>
+  </mat-form-field> <br>
 
   <mat-form-field class="half-width">
-    <mat-label>Name</mat-label>
-    <input required matInput formControlName="name" placeholder="Mustermann">
-    <mat-error *ngIf="formGroup.get('name').hasError('pattern') && !formGroup.get('name').hasError('required')">
-      Bitte geben Sie einen gültigen Namen ein
-    </mat-error>
-    <mat-error *ngIf="formGroup.get('name').hasError('required')">
-      Name ist ein <strong>Pflichtfeld</strong>
-    </mat-error>
-  </mat-form-field>
-
-  <mat-form-field class="half-width">
-    <mat-label>Vorname</mat-label>
-    <input required matInput formControlName="vorname" placeholder="Max">
-    <mat-error *ngIf="formGroup.get('vorname').hasError('pattern') && !formGroup.get('vorname').hasError('required')">
-      Bitte geben Sie einen gültigen Vornamen ein
-    </mat-error>
-    <mat-error *ngIf="formGroup.get('vorname').hasError('required')">
-      Vorname ist ein <strong>Pflichtfeld</strong>
+    <mat-label>Mitarbeiter</mat-label>
+    <mat-select required formControlName="mitarbeiter">
+      <mat-option *ngFor="let key of mitarbeiterIds" [value]="key">{{mitarbeiterName.get(key)}}</mat-option>
+    </mat-select>
+    <mat-error *ngIf="formGroup.get('mitarbeiter').hasError('required')">
+      Mitarbeiter ist ein <strong>Pflichtfeld</strong>
     </mat-error>
   </mat-form-field>
 
   <mat-form-field class="half-width">
-    <mat-label>Stundensatz EK</mat-label>
-    <input required matInput type="number" formControlName="stundensatz" placeholder="80.50">
-    <mat-error *ngIf="formGroup.get('stundensatz').hasError('required')">
-      Stundensatz ist ein <strong>Pflichtfeld</strong>
+    <mat-label>Mitarbeiter Vertrieb</mat-label>
+    <mat-select required formControlName="mitarbeiterVertrieb">
+      <mat-option *ngFor="let key of mitarbeiterVertriebIds" [value]="key">{{mitarbeiterVertriebName.get(key)}}</mat-option>
+    </mat-select>
+    <mat-error *ngIf="formGroup.get('mitarbeiterVertrieb').hasError('required')">
+      Mitarbeiter Vertrieb ist ein <strong>Pflichtfeld</strong>
     </mat-error>
   </mat-form-field>
 
   <mat-form-field appearance="fill" class="half-width">
-    <mat-label>Status</mat-label>
-    <mat-select required formControlName="status">
-      <mat-option *ngFor="let key of mitarbeiterStatusList" [value]="key">{{mitarbeiterStatus[key]}}</mat-option>
-    </mat-select>
-    <mat-error *ngIf="formGroup.get('status').hasError('required')">
-      Status ist ein <strong>Pflichtfeld</strong>
+    <mat-label>Beginndatum</mat-label>
+    <input matInput required formControlName="beginn" [matDatepicker]="beginnPicker">
+    <mat-datepicker-toggle matSuffix [for]="beginnPicker"></mat-datepicker-toggle>
+    <mat-datepicker #beginnPicker></mat-datepicker>
+    <mat-error *ngIf="formGroup.get('beginn').hasError('required')">
+      Beginndatum ist ein <strong>Pflichtfeld</strong>
     </mat-error>
   </mat-form-field>
 
   <mat-form-field appearance="fill" class="half-width">
-    <mat-label>Unit</mat-label>
-    <mat-select required formControlName="unit">
-      <mat-option *ngFor="let key of mitarbeiterUnits" [value]="key">{{mitarbeiterUnit[key]}}</mat-option>
+    <mat-label>Enddatum</mat-label>
+    <input matInput required formControlName="ende" [matDatepicker]="endePicker">
+    <mat-datepicker-toggle matSuffix [for]="endePicker"></mat-datepicker-toggle>
+    <mat-datepicker #endePicker></mat-datepicker>
+    <mat-error *ngIf="formGroup.get('ende').hasError('required')">
+      Enddatum ist ein <strong>Pflichtfeld</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="half-width">
+    <mat-label>Einsatz Status</mat-label>
+    <mat-select required formControlName="einsatzStatus">
+      <mat-option *ngFor="let key of einsatzStatusList" [value]="key">{{einsatzStatusEnum[key]}}</mat-option>
     </mat-select>
-    <mat-error *ngIf="formGroup.get('unit').hasError('required')">
-      Unit ist ein <strong>Pflichtfeld</strong>
+    <mat-error *ngIf="formGroup.get('einsatzStatus').hasError('required')">
+      Einsatz Status ist ein <strong>Pflichtfeld</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="half-width">
+    <mat-label>Wahrscheinlichkeit</mat-label>
+    <input required matInput formControlName="wahrscheinlichkeit" placeholder="50">
+    <mat-error *ngIf="formGroup.get('wahrscheinlichkeit').hasError('required')">
+      Wahrscheinlichkeit ist ein <strong>Pflichtfeld</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="half-width">
+    <mat-label>Zusatzkosten Reise</mat-label>
+    <input required matInput formControlName="zusatzkostenReise" placeholder="12">
+    <mat-error *ngIf="formGroup.get('zusatzkostenReise').hasError('required')">
+      Zusatzkosten ist ein <strong>Pflichtfeld</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="half-width">
+    <mat-label>Stundensatz VK</mat-label>
+    <input required matInput formControlName="stundensatzVK" placeholder="100">
+    <mat-error *ngIf="formGroup.get('stundensatzVK').hasError('required')">
+      Stundensatz VK ist ein <strong>Pflichtfeld</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="half-width">
+    <mat-label>Projektnummer Nettime</mat-label>
+    <input required matInput formControlName="projektnummerNettime" placeholder="4.0.0.0">
+    <mat-error *ngIf="formGroup.get('projektnummerNettime').hasError('required')">
+      Projektnummer Nettime ist ein <strong>Pflichtfeld</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="half-width">
+    <mat-label>Beauftragungsnummer</mat-label>
+    <input required matInput formControlName="beauftragungsnummer" placeholder="123456">
+    <mat-error *ngIf="formGroup.get('beauftragungsnummer').hasError('required')">
+      Beauftragungsnummer ist ein <strong>Pflichtfeld</strong>
     </mat-error>
   </mat-form-field>
 

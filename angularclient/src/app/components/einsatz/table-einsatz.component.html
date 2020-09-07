@@ -33,13 +33,13 @@
     <!-- Beginn Column -->
     <ng-container matColumnDef="beginn">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Beginn</th>
-      <td mat-cell *matCellDef="let row"> {{row.beginn}} </td>
+      <td mat-cell *matCellDef="let row"> {{row.beginn | date:'dd.MM.yyyy'}} </td>
     </ng-container>
 
     <!-- Ende Column -->
     <ng-container matColumnDef="ende">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Ende</th>
-      <td mat-cell *matCellDef="let row"> {{row.ende}} </td>
+      <td mat-cell *matCellDef="let row"> {{row.ende | date:'dd.MM.yyyy'}} </td>
     </ng-container>
 
     <!-- Wahrscheinlichkeit Column -->

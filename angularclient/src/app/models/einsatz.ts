@@ -10,7 +10,7 @@ export class Einsatz {
   beginn: Date;
   ende: Date;
   wahrscheinlichkeit: bigint;
-  zusatzkosten: number;
+  zusatzkostenReise: number;
   stundensatzVK: number;
   projektnummerNettime: string;
   beauftragungsnummer: string;

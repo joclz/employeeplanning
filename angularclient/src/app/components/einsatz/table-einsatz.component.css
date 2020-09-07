@@ -1,5 +1,14 @@
 table {
   width: 100%;
+  text-align: center;
+}
+
+.mat-column-beginn {
+  width: 6%;
+}
+
+.mat-column-ende {
+  width: 6%;
 }
 
 .mat-form-field {

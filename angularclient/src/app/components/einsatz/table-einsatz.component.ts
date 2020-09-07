@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
@@ -6,7 +6,6 @@ import {Einsatz} from "../../models/einsatz";
 import {EinsatzService} from "../../services/einsatz.service";
 import {UpdateEinsatzService} from "../../services/update-einsatz.service";
 import {EinsatzStatus} from "../../models/einsatz-status.enum";
-import {MitarbeiterStatus} from "../../models/mitarbeiter-status.enum";
 
 @Component({
   selector: 'app-table-einsatz',
@@ -25,15 +24,9 @@ export class TableEinsatzComponent implements OnInit {
 
   @Output() deleteEinsatzEvent = new EventEmitter();
 
-  einsatzStaus: EinsatzStatus;
-  einsatzStatusList: any;
-
-  mitarbeiterStatus = MitarbeiterStatus;
-  mitarbeiterStatusList = [];
+  @Input() einsaetze: Einsatz[];
 
   constructor(private einsatzService: EinsatzService, private updateEinsatzService: UpdateEinsatzService) {
-    this.mitarbeiterStatusList = Object.keys(this.mitarbeiterStatus);
-    // this.einsatzStatusList = Object.keys(this.einsatzStaus);
   }
 
   ngOnInit() {
@@ -41,8 +34,12 @@ export class TableEinsatzComponent implements OnInit {
   }
 
   initDependingOnInput() {
-    this.einsatzService.findAll().subscribe(result =>
-      this.init(result));
+    if (this.einsaetze) {
+      this.init(this.einsaetze);
+    } else {
+      this.einsatzService.findAll().subscribe(result =>
+        this.init(result));
+    }
   }
 
   init(einsatz: Einsatz[]): void {
@@ -72,7 +69,7 @@ export class TableEinsatzComponent implements OnInit {
     this.updateEinsatzService.updateEinsatz(row);
   }
 
-  getEinsatzStatus(status: EinsatzStatus): string{
+  getEinsatzStatus(status: EinsatzStatus): string {
     return EinsatzStatus[status];
   }
 

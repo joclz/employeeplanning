@@ -32,6 +32,7 @@ import {SearchEinsatzComponent} from './components/einsatz/search-einsatz.compon
 import {TableEinsatzComponent} from './components/einsatz/table-einsatz.component';
 import {AddEinsatzComponent} from './components/einsatz/add-einsatz.component';
 import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatTabsModule} from "@angular/material/tabs";
 
 @NgModule({
   declarations: [
@@ -48,29 +49,30 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
     TableEinsatzComponent,
     AddEinsatzComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    FormsModule,
-    NoopAnimationsModule,
-    MatCardModule,
-    MatButtonModule,
-    MatMenuModule,
-    MatTableModule,
-    MatFormFieldModule,
-    MatSortModule,
-    MatPaginatorModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    MatOptionModule,
-    MatSelectModule,
-    MatDividerModule,
-    MatSidenavModule,
-    MatListModule,
-    MatDatepickerModule,
-    MatNativeDateModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        FormsModule,
+        NoopAnimationsModule,
+        MatCardModule,
+        MatButtonModule,
+        MatMenuModule,
+        MatTableModule,
+        MatFormFieldModule,
+        MatSortModule,
+        MatPaginatorModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        MatOptionModule,
+        MatSelectModule,
+        MatDividerModule,
+        MatSidenavModule,
+        MatListModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatTabsModule
+    ],
   providers: [MitarbeiterService],
   bootstrap: [AppComponent]
 })

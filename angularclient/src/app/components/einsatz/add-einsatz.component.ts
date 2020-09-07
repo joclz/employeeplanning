@@ -63,7 +63,7 @@ export class AddEinsatzComponent implements OnInit {
     einsatz.beginn = this.beginn.value;
     einsatz.ende = this.ende.value;
     einsatz.wahrscheinlichkeit = this.wahrscheinlichkeit.value;
-    einsatz.zusatzkosten = this.zusatzkostenReise.value;
+    einsatz.zusatzkostenReise = this.zusatzkostenReise.value;
     einsatz.stundensatzVK = this.stundensatzVK.value;
     einsatz.projektnummerNettime = this.projektnummerNettime.value;
     einsatz.beauftragungsnummer = this.beauftragungsnummer.value;
@@ -94,7 +94,6 @@ export class AddEinsatzComponent implements OnInit {
       });
     });
 
-
     this.formGroup = new FormGroup({
       mitarbeiter: this.mitarbeiter,
       mitarbeiterVertrieb: this.mitarbeiterVertrieb,
@@ -102,7 +101,7 @@ export class AddEinsatzComponent implements OnInit {
       beginn: this.beginn,
       ende: this.ende,
       wahrscheinlichkeit: this.wahrscheinlichkeit,
-      zusatzkosten: this.zusatzkostenReise,
+      zusatzkostenReise: this.zusatzkostenReise,
       stundensatzVK: this.stundensatzVK,
       projektnummerNettime: this.projektnummerNettime,
       beauftragungsnummer: this.beauftragungsnummer
