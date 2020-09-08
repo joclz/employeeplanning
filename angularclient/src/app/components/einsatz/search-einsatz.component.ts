@@ -163,4 +163,8 @@ export class SearchEinsatzComponent implements OnInit, OnDestroy {
       this.isEinsatzAngeboten = true;
     });
   }
+
+  resetForm() {
+    this.searchFormGroup.reset();
+  }
 }

@@ -93,11 +93,15 @@
         <mat-datepicker #endeBisPicker></mat-datepicker>
       </mat-form-field>
 
-      <button mat-raised-button color="primary" type="submit" class="button">
+      <button mat-raised-button color="primary" type="submit" class="button, half-width">
         Suche
       </button>
+
+      <button mat-raised-button color="warn" type="button" class="button, half-width" (click)="resetForm()">
+        Reset Formular
+      </button>
     </form>
+
     <app-table-einsatz *ngIf="isSearch" [einsaetze]="einsaetzeSearchList"></app-table-einsatz>
   </mat-tab>
-
 </mat-tab-group>
