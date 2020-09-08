@@ -11,11 +11,12 @@ import com.cegeka.employeeplanning.data.Einsatz;
 import com.cegeka.employeeplanning.data.Mitarbeiter;
 import com.cegeka.employeeplanning.data.enums.Enums.EinsatzStatus;
 import com.cegeka.employeeplanning.data.enums.Enums.MitarbeiterStatus;
+import com.cegeka.employeeplanning.data.util.EinsatzSuche;
 import com.cegeka.employeeplanning.repositories.EinsatzRepository;
 import com.cegeka.employeeplanning.repositories.MitarbeiterRepository;
 import com.cegeka.employeeplanning.util.EmployeeplanningUtil;
 
-import com.cegeka.employeeplanning.data.util.MitarbeiterItem;
+import com.cegeka.employeeplanning.data.dto.MitarbeiterDTO;
 import org.assertj.core.util.VisibleForTesting;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -152,15 +153,15 @@ public class MitarbeiterService extends EmployeeplanningUtil {
         return mitarbeiterIdSet.size();
     }
 
-    public List<MitarbeiterItem> getMitarbeiterListOrderByName() {
+    public List<MitarbeiterDTO> getMitarbeiterListOrderByName() {
         Iterable<Mitarbeiter> mitarbeiterOrderByName = mitarbeiterRepository.findMitarbeiterByOrderByName();
-        List<MitarbeiterItem> mitarbeiterItemList = new ArrayList<MitarbeiterItem>();
+        List<MitarbeiterDTO> mitarbeiterDTOList = new ArrayList<MitarbeiterDTO>();
 
         for (Mitarbeiter mitarbeiter : mitarbeiterOrderByName) {
             String name = mitarbeiter.getName() + ", " + mitarbeiter.getVorname();
-            MitarbeiterItem mitarbeiterItem = new MitarbeiterItem(name, mitarbeiter.getId().toString());
-            mitarbeiterItemList.add(mitarbeiterItem);
+            MitarbeiterDTO mitarbeiterDTO = new MitarbeiterDTO(name, mitarbeiter.getId().toString());
+            mitarbeiterDTOList.add(mitarbeiterDTO);
         }
-        return mitarbeiterItemList;
+        return mitarbeiterDTOList;
     }
 }

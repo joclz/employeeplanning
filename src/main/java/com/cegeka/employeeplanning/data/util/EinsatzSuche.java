@@ -1,4 +1,4 @@
-package com.cegeka.employeeplanning.service;
+package com.cegeka.employeeplanning.data.util;
 
 import java.util.Date;
 

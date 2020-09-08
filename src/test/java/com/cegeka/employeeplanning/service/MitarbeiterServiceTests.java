@@ -3,7 +3,7 @@ package com.cegeka.employeeplanning.service;
 import com.cegeka.employeeplanning.data.Mitarbeiter;
 import com.cegeka.employeeplanning.data.enums.Enums.MitarbeiterStatus;
 import com.cegeka.employeeplanning.util.EmployeeplanningUtil;
-import com.cegeka.employeeplanning.data.util.MitarbeiterItem;
+import com.cegeka.employeeplanning.data.dto.MitarbeiterDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -105,7 +105,7 @@ public class MitarbeiterServiceTests {
 
     @Test
     public void test_getMitarbeiterListOrderByName_expected_correctNumberAndCorrectOrder() {
-        final List<MitarbeiterItem> mitarbeiterListOrderByName = mitarbeiterService.getMitarbeiterListOrderByName();
+        final List<MitarbeiterDTO> mitarbeiterListOrderByName = mitarbeiterService.getMitarbeiterListOrderByName();
         assertThat(mitarbeiterListOrderByName.size()).isEqualTo(7);
         assertThat(mitarbeiterListOrderByName.get(0).getName()).isEqualTo("Lange, Yvonne");
     }

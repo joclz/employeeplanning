@@ -1,4 +1,4 @@
-package com.cegeka.employeeplanning.data;
+package com.cegeka.employeeplanning.data.dto;
 
 import com.cegeka.employeeplanning.data.enums.Enums;
 import lombok.Getter;

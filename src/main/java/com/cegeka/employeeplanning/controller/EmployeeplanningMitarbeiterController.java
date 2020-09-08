@@ -5,7 +5,7 @@ import com.cegeka.employeeplanning.data.enums.Enums;
 import com.cegeka.employeeplanning.data.enums.Enums.MitarbeiterStatus;
 import com.cegeka.employeeplanning.repositories.MitarbeiterRepository;
 import com.cegeka.employeeplanning.service.MitarbeiterService;
-import com.cegeka.employeeplanning.data.util.MitarbeiterItem;
+import com.cegeka.employeeplanning.data.dto.MitarbeiterDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -89,7 +89,7 @@ public class EmployeeplanningMitarbeiterController {
     }
 
     @GetMapping("/getMitarbeiterListOrderByName")
-    public List<MitarbeiterItem> getMitarbeiterListOrderByName() {
+    public List<MitarbeiterDTO> getMitarbeiterListOrderByName() {
         return mitarbeiterService.getMitarbeiterListOrderByName();
     }
 }

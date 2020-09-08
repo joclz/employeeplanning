@@ -1,7 +1,7 @@
 package com.cegeka.employeeplanning.controller;
 
 import com.cegeka.employeeplanning.data.MitarbeiterVertrieb;
-import com.cegeka.employeeplanning.data.util.MitarbeiterItem;
+import com.cegeka.employeeplanning.data.dto.MitarbeiterDTO;
 import com.cegeka.employeeplanning.repositories.MitarbeiterVertriebRepository;
 import com.cegeka.employeeplanning.service.MitarbeiterVertriebService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +46,7 @@ public class EmployeeplanningMitarbeiterVertriebController {
     }
 
     @GetMapping("/getMitarbeiterVertriebListOrderByName")
-    public List<MitarbeiterItem> getMitarbeiterVertriebListOrderByName() {
+    public List<MitarbeiterDTO> getMitarbeiterVertriebListOrderByName() {
         return mitarbeiterVertriebService.getMitarbeiterVertriebListOrderByName();
     }
 }

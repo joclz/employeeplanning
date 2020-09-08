@@ -5,10 +5,11 @@ import java.util.Date;
 import java.util.Optional;
 
 import com.cegeka.employeeplanning.data.Einsatz;
-import com.cegeka.employeeplanning.data.EinsatzDTO;
+import com.cegeka.employeeplanning.data.dto.EinsatzDTO;
 import com.cegeka.employeeplanning.data.Mitarbeiter;
 import com.cegeka.employeeplanning.data.MitarbeiterVertrieb;
 import com.cegeka.employeeplanning.data.enums.Enums.EinsatzStatus;
+import com.cegeka.employeeplanning.data.util.EinsatzSuche;
 import com.cegeka.employeeplanning.exceptions.NoSuchEinsatzException;
 import com.cegeka.employeeplanning.repositories.EinsatzRepository;
 import com.cegeka.employeeplanning.repositories.MitarbeiterRepository;

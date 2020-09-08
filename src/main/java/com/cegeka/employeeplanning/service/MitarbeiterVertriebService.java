@@ -1,7 +1,7 @@
 package com.cegeka.employeeplanning.service;
 
 import com.cegeka.employeeplanning.data.MitarbeiterVertrieb;
-import com.cegeka.employeeplanning.data.util.MitarbeiterItem;
+import com.cegeka.employeeplanning.data.dto.MitarbeiterDTO;
 import com.cegeka.employeeplanning.repositories.MitarbeiterVertriebRepository;
 import com.cegeka.employeeplanning.util.EmployeeplanningUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,15 +15,15 @@ public class MitarbeiterVertriebService extends EmployeeplanningUtil {
     @Autowired
     private MitarbeiterVertriebRepository mitarbeiterVertriebRepository;
 
-    public List<MitarbeiterItem> getMitarbeiterVertriebListOrderByName() {
+    public List<MitarbeiterDTO> getMitarbeiterVertriebListOrderByName() {
         Iterable<MitarbeiterVertrieb> mitarbeiterOrderByName = mitarbeiterVertriebRepository.findMitarbeiterVertriebByOrderByName();
-        List<MitarbeiterItem> mitarbeiterItemList = new ArrayList<MitarbeiterItem>();
+        List<MitarbeiterDTO> mitarbeiterDTOList = new ArrayList<MitarbeiterDTO>();
 
         for (MitarbeiterVertrieb mitarbeiter : mitarbeiterOrderByName) {
             String name = mitarbeiter.getName() + ", " + mitarbeiter.getVorname();
-            MitarbeiterItem mitarbeiterItem = new MitarbeiterItem(name, mitarbeiter.getId().toString());
-            mitarbeiterItemList.add(mitarbeiterItem);
+            MitarbeiterDTO mitarbeiterDTO = new MitarbeiterDTO(name, mitarbeiter.getId().toString());
+            mitarbeiterDTOList.add(mitarbeiterDTO);
         }
-        return mitarbeiterItemList;
+        return mitarbeiterDTOList;
     }
 }

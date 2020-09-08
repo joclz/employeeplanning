@@ -2,19 +2,18 @@ package com.cegeka.employeeplanning.service;
 
 import static com.cegeka.employeeplanning.util.EmployeeplanningUtil.TEST_IMPORT;
 import static com.cegeka.employeeplanning.util.EmployeeplanningUtil.round;
-import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
 import com.cegeka.employeeplanning.data.Einsatz;
-import com.cegeka.employeeplanning.data.EinsatzDTO;
+import com.cegeka.employeeplanning.data.dto.EinsatzDTO;
 import com.cegeka.employeeplanning.data.enums.Enums;
 import com.cegeka.employeeplanning.data.enums.Enums.EinsatzStatus;
 import com.cegeka.employeeplanning.data.enums.Enums.MitarbeiterStatus;
+import com.cegeka.employeeplanning.data.util.EinsatzSuche;
 import com.cegeka.employeeplanning.repositories.EinsatzRepository;
 import com.cegeka.employeeplanning.util.EmployeeplanningUtil;
 

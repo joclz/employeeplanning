@@ -1,11 +1,11 @@
 package com.cegeka.employeeplanning.controller;
 
 import com.cegeka.employeeplanning.data.Einsatz;
-import com.cegeka.employeeplanning.data.EinsatzDTO;
+import com.cegeka.employeeplanning.data.dto.EinsatzDTO;
 import com.cegeka.employeeplanning.data.enums.Enums;
 import com.cegeka.employeeplanning.repositories.EinsatzRepository;
 import com.cegeka.employeeplanning.service.EinsatzService;
-import com.cegeka.employeeplanning.service.EinsatzSuche;
+import com.cegeka.employeeplanning.data.util.EinsatzSuche;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.web.bind.WebDataBinder;
@@ -63,9 +63,14 @@ public class EmployeeplanningEinsatzController {
         return einsatzService.findEinsaetzeByMitarbeiterVertriebId(id);
     }
 
-    @PostMapping("/findEinsaetzeBySuchkriterien")
+    @PostMapping(path = "/findEinsaetzeBySuchkriterien", consumes = "application/json")
     public Iterable<Einsatz> findEinsaetzeBySuchkriterien(@RequestBody EinsatzSuche einsatzSuche) {
-       return einsatzService.findEinsaetzeBySuchkriterien(einsatzSuche);
+        return einsatzService.findEinsaetzeBySuchkriterien(einsatzSuche);
+    }
+
+    @PostMapping(path = "/findEinsaetzeBySuchkriterien", consumes = "application/x-www-form-urlencoded")
+    public Iterable<Einsatz> findEinsaetzeBySuchkriterienUrlencoded(EinsatzSuche einsatzSuche) {
+        return einsatzService.findEinsaetzeBySuchkriterien(einsatzSuche);
     }
 
     @GetMapping("/getDeckungsbeitrag")
