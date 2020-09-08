@@ -9,6 +9,7 @@ import java.util.Date;
 @Getter
 @Setter
 public class EinsatzDTO {
+    private Integer id;
     private Integer mitarbeiterId;
     private Integer mitarbeiterVertriebId;
 
