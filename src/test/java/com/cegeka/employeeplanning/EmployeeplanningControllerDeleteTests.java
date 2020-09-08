@@ -45,13 +45,13 @@ public class EmployeeplanningControllerDeleteTests {
     }
 
     @Test
-    public void test_deleteMitarbeiterVertrieb1_Expected_MitarbeiterVertriebCount1_EinsatzCount4() throws Exception {
+    public void test_deleteMitarbeiterVertrieb1_Expected_MitarbeiterVertriebCount2_EinsatzCount4() throws Exception {
         MultiValueMap multiValueMap = new LinkedMultiValueMap<>();
         multiValueMap.add("mitarbeiterVertriebId", "1");
         MockHttpServletRequestBuilder requestBuilder = post("/deleteMitarbeiterVertrieb").params(multiValueMap);
         ResultActions perform = this.mockMvc.perform(requestBuilder);
         perform.andExpect(status().isOk());
-        assertThat(mitarbeiterVertriebRepository.count()).isEqualTo(1);
+        assertThat(mitarbeiterVertriebRepository.count()).isEqualTo(2);
         assertThat(einsatzRepository.count()).isEqualTo(4);
     }
 

@@ -104,7 +104,7 @@ public class MitarbeiterServiceTests {
     }
 
     @Test
-    public void test_getMitarbeiterListOrderByName() {
+    public void test_getMitarbeiterListOrderByName_expected_correctNumberAndCorrectOrder() {
         final List<MitarbeiterItem> mitarbeiterListOrderByName = mitarbeiterService.getMitarbeiterListOrderByName();
         assertThat(mitarbeiterListOrderByName.size()).isEqualTo(7);
         assertThat(mitarbeiterListOrderByName.get(0).getName()).isEqualTo("Lange, Yvonne");
