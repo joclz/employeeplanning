@@ -20,6 +20,10 @@ public class EinsatzSuche {
     Date endeVon;
     Date endeBis;
 
+    public EinsatzSuche()
+    {
+    }
+
     public EinsatzSuche(Integer mitarbeiterVertriebId,
                         Integer mitarbeiterId,
                         Enums.MitarbeiterStatus mitarbeiterStatus,

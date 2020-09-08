@@ -5,9 +5,10 @@ import java.util.Date;
 import java.util.Optional;
 
 import com.cegeka.employeeplanning.data.Einsatz;
-import com.cegeka.employeeplanning.data.dto.EinsatzDTO;
 import com.cegeka.employeeplanning.data.Mitarbeiter;
 import com.cegeka.employeeplanning.data.MitarbeiterVertrieb;
+import com.cegeka.employeeplanning.data.dto.EinsatzDTO;
+import com.cegeka.employeeplanning.data.dto.EinsatzSucheDTO;
 import com.cegeka.employeeplanning.data.enums.Enums.EinsatzStatus;
 import com.cegeka.employeeplanning.data.util.EinsatzSuche;
 import com.cegeka.employeeplanning.exceptions.NoSuchEinsatzException;
@@ -73,6 +74,12 @@ public class EinsatzService {
             einsatz.setMitarbeiter(maId.orElse(null));
         }
         return einsatz;
+    }
+
+    public EinsatzSuche convertToEntity(EinsatzSucheDTO einsatzSucheDTO) {
+        ModelMapper modelMapper = new ModelMapper();
+        EinsatzSuche einsatzSuche = modelMapper.map(einsatzSucheDTO, EinsatzSuche.class);
+        return einsatzSuche;
     }
 
     /**
@@ -143,61 +150,6 @@ public class EinsatzService {
                 einsatzSuche.getBeginnBis(),
                 einsatzSuche.getEndeVon(),
                 einsatzSuche.getEndeBis());
-
-/*
-        Set<Integer> einsatzIds = new HashSet<>();
-        einsatzRepository.findAll().forEach(id -> einsatzIds.add(id.getId()));
-
-        if (einsatzSuche.getMitarbeiterVertriebId() != null) {
-            Set<Integer> einsatzIdsMaV = new HashSet<>();
-            findEinsaetzeByMitarbeiterVertriebId(einsatzSuche.getMitarbeiterVertriebId()).forEach(id -> einsatzIdsMaV.add(id.getId()));
-            einsatzIds.retainAll(einsatzIdsMaV);
-        }
-        if (einsatzSuche.getMitarbeiterId() != null) {
-            Set<Integer> einsatzIdsMa = new HashSet<>();
-            findEinsaetzeByMitarbeiterId(einsatzSuche.getMitarbeiterId()).forEach(id -> einsatzIdsMa.add(id.getId()));
-            einsatzIds.retainAll(einsatzIdsMa);
-        }
-        if (einsatzSuche.getMitarbeiterStatus() != null && !einsatzSuche.getMitarbeiterStatus().isEmpty()) {
-            Set<Integer> einsatzIdsMaStatus = new HashSet<>();
-            einsatzRepository.findEinsaetzeByMitarbeiter_MitarbeiterStatus(Enums.MitarbeiterStatus.valueOf(
-                    einsatzSuche.getMitarbeiterStatus())).forEach(id -> einsatzIdsMaStatus.add(id.getId()));
-            einsatzIds.retainAll(einsatzIdsMaStatus);
-        }
-        if (einsatzSuche.getEinsatzStatus() != null && !einsatzSuche.getEinsatzStatus().isEmpty()) {
-            Set<Integer> einsatzIdsStatus = new HashSet<>();
-            einsatzRepository.findEinsaetzeByEinsatzStatus(Enums.EinsatzStatus.valueOf(
-                    einsatzSuche.getEinsatzStatus())).forEach(id -> einsatzIdsStatus.add(id.getId()));
-            einsatzIds.retainAll(einsatzIdsStatus);
-        }
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        if (einsatzSuche.getBeginnVon() != null && !einsatzSuche.getBeginnVon().isEmpty()) {
-            Set<Integer> einsatzIdsBeginnVon = new HashSet<>();
-            Date beginnDateVon = parseDate(einsatzSuche.getBeginnVon(), formatter);
-            einsatzRepository.findEinsaetzeByBeginnGreaterThanEqual(beginnDateVon).forEach(id -> einsatzIdsBeginnVon.add(id.getId()));
-            einsatzIds.retainAll(einsatzIdsBeginnVon);
-        }
-        if (einsatzSuche.getBeginnBis() != null && !einsatzSuche.getBeginnBis().isEmpty()) {
-            Set<Integer> einsatzIdsBeginnBis = new HashSet<>();
-            Date beginnDateBis = parseDate(einsatzSuche.getBeginnBis(), formatter);
-            einsatzRepository.findEinsaetzeByBeginnLessThanEqual(beginnDateBis).forEach(id -> einsatzIdsBeginnBis.add(id.getId()));
-            einsatzIds.retainAll(einsatzIdsBeginnBis);
-        }
-        if (einsatzSuche.getEndeVon() != null && !einsatzSuche.getEndeVon().isEmpty()) {
-            Set<Integer> einsatzIdsEndeVon = new HashSet<>();
-            Date endeDateVon = parseDate(einsatzSuche.getEndeVon(), formatter);
-            einsatzRepository.findEinsaetzeByEndeGreaterThanEqual(endeDateVon).forEach(id -> einsatzIdsEndeVon.add(id.getId()));
-            einsatzIds.retainAll(einsatzIdsEndeVon);
-        }
-        if (einsatzSuche.getEndeBis() != null && !einsatzSuche.getEndeBis().isEmpty()) {
-            Set<Integer> einsatzIdsEndeBis = new HashSet<>();
-            Date endeDateBis = parseDate(einsatzSuche.getEndeBis(), formatter);
-            einsatzRepository.findEinsaetzeByEndeLessThanEqual(endeDateBis).forEach(id -> einsatzIdsEndeBis.add(id.getId()));
-            einsatzIds.retainAll(einsatzIdsEndeBis);
-        }
-
-        return einsatzRepository.findAllById(einsatzIds);
-*/
     }
 
     /**
