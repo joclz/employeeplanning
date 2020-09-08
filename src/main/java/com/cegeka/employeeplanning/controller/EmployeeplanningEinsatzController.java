@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.Optional;
 
 import com.cegeka.employeeplanning.data.Einsatz;
+import com.cegeka.employeeplanning.data.EinsatzDTO;
 import com.cegeka.employeeplanning.data.enums.Enums;
 import com.cegeka.employeeplanning.repositories.EinsatzRepository;
 import com.cegeka.employeeplanning.service.EinsatzService;
@@ -30,13 +31,15 @@ public class EmployeeplanningEinsatzController {
     private EinsatzService einsatzService;
 
     @PostMapping(path = "/addEinsatz", consumes = "application/json")
-    public Einsatz addEinsatz(@RequestBody Einsatz einsatz) {
+    public Einsatz addEinsatz(@RequestBody EinsatzDTO einsatzDTO) {
+        final Einsatz einsatz = einsatzService.convertToEntity(einsatzDTO);
         einsatzService.save(einsatz);
         return einsatz;
     }
 
     @PostMapping(path = "/addEinsatz", consumes = "application/x-www-form-urlencoded")
-    public Einsatz addEinsatzUrlencoded(Einsatz einsatz) {
+    public Einsatz addEinsatzUrlencoded(EinsatzDTO einsatzDTO) {
+        final Einsatz einsatz = einsatzService.convertToEntity(einsatzDTO);
         einsatzService.save(einsatz);
         return einsatz;
     }

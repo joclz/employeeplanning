@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.Optional;
 
 import com.cegeka.employeeplanning.data.Einsatz;
+import com.cegeka.employeeplanning.data.EinsatzDTO;
 import com.cegeka.employeeplanning.data.Mitarbeiter;
 import com.cegeka.employeeplanning.data.MitarbeiterVertrieb;
 import com.cegeka.employeeplanning.data.enums.Enums.EinsatzStatus;
@@ -14,6 +15,7 @@ import com.cegeka.employeeplanning.repositories.MitarbeiterVertriebRepository;
 import com.cegeka.employeeplanning.util.EmployeeplanningUtil;
 
 import org.assertj.core.util.VisibleForTesting;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,16 +31,13 @@ public class EinsatzService {
     private MitarbeiterRepository mitarbeiterRepository;
 
     /**
-     * Vor der Methode 'save' des Repositories, wird zusätzlich noch die Methode 'calcEinsatzWerte' aufgerufen,
-     * um die berechneten Attribute des Einsatzes zu berechnen.
+     * Konvertiert das EinsatzDTO zu einem Einsatz.
+     * Die meisten Felder werden hierbei automatisch gemapt.
+     * Die Daten für Mitarbeiter und MitarbeiterVertrieb müssen an hand der Id ermittelt werden.
      */
-    public <S extends Einsatz> void save(S einsatz) {
-        einsatz = calcEinsatzWerte(einsatz);
-        einsatzRepository.save(einsatz);
-    }
-
-    @VisibleForTesting
-    public <S extends Einsatz> S calcEinsatzWerte(S einsatz) {
+    public Einsatz convertToEntity(EinsatzDTO einsatzDTO) {
+        ModelMapper modelMapper = new ModelMapper();
+        Einsatz einsatz = modelMapper.map(einsatzDTO, Einsatz.class);
         Integer vertriebMitarbeiterId = einsatz.getMitarbeiterVertrieb().getId();
         Integer mitarbeiterId = einsatz.getMitarbeiter().getId();
         if (vertriebMitarbeiterId != null) {
@@ -49,7 +48,20 @@ public class EinsatzService {
             Optional<Mitarbeiter> maId = mitarbeiterRepository.findById(mitarbeiterId);
             einsatz.setMitarbeiter(maId.orElse(null));
         }
+        return einsatz;
+    }
 
+    /**
+     * Vor der Methode 'save' des Repositories, wird zusätzlich noch die Methode 'calcEinsatzWerte' aufgerufen,
+     * um die berechneten Attribute des Einsatzes zu berechnen.
+     */
+    public <S extends Einsatz> void save(S einsatz) {
+        einsatz = calcEinsatzWerte(einsatz);
+        einsatzRepository.save(einsatz);
+    }
+
+    @VisibleForTesting
+    public <S extends Einsatz> S calcEinsatzWerte(S einsatz) {
         double stundensatzEK = 0.;
         if (einsatz.getMitarbeiter() != null) {
             stundensatzEK = einsatz.getMitarbeiter().getStundensatzEK();

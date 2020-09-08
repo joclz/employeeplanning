@@ -2,13 +2,16 @@ package com.cegeka.employeeplanning.service;
 
 import static com.cegeka.employeeplanning.util.EmployeeplanningUtil.TEST_IMPORT;
 import static com.cegeka.employeeplanning.util.EmployeeplanningUtil.round;
+import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
 import com.cegeka.employeeplanning.data.Einsatz;
+import com.cegeka.employeeplanning.data.EinsatzDTO;
 import com.cegeka.employeeplanning.data.enums.Enums;
 import com.cegeka.employeeplanning.data.enums.Enums.EinsatzStatus;
 import com.cegeka.employeeplanning.data.enums.Enums.MitarbeiterStatus;
@@ -217,5 +220,45 @@ public class EinsatzServiceTests {
     public void Test_getDeckungsbeitrag_given_Date_20201003_expected_71_5() {
         double deckungsbeitrag = einsatzService.getDeckungsbeitrag(EmployeeplanningUtil.parseDate("2020-10-03"));
         assertThat(deckungsbeitrag).isEqualTo(71.5);
+    }
+
+    @Test
+    public void test_convertToEntity_givenMA1_MAV1_expected_correctValues() {
+        EinsatzDTO einsatzDTO = new EinsatzDTO(1,1, EinsatzStatus.ANGEBOTEN,
+                EmployeeplanningUtil.parseDate("2020-09-01"), EmployeeplanningUtil.parseDate("2021-08-31"),
+                50, 20, 100,
+                "projektnummerNettime", "beauftragungsnummer");
+        Einsatz einsatz = einsatzService.convertToEntity(einsatzDTO);
+        assertThat(einsatz.getMitarbeiter().getName()).isEqualTo("Mustermann");
+        assertThat(einsatz.getMitarbeiter().getId()).isEqualTo(1);
+        assertThat(einsatz.getMitarbeiterVertrieb().getName()).isEqualTo("Günzkofer");
+        assertThat(einsatz.getMitarbeiterVertrieb().getId()).isEqualTo(1);
+        assertThat(einsatz.getBeginn()).isEqualTo("2020-09-01");
+        assertThat(einsatz.getEnde()).isEqualTo("2021-08-31");
+        assertThat(einsatz.getEinsatzStatus()).isEqualTo(EinsatzStatus.ANGEBOTEN);
+        assertThat(einsatz.getWahrscheinlichkeit()).isEqualTo(50);
+        assertThat(einsatz.getZusatzkostenReise()).isEqualTo(20);
+        assertThat(einsatz.getStundensatzVK()).isEqualTo(100);
+        assertThat(einsatz.getProjektnummerNettime()).isEqualTo("projektnummerNettime");
+        assertThat(einsatz.getBeauftragungsnummer()).isEqualTo("beauftragungsnummer");
+    }
+
+    @Test
+    public void test_convertToEntity_givenMA0_MAV0_expected_MaNullAndMavNull_But_remainingValuesCorrect() {
+        EinsatzDTO einsatzDTO = new EinsatzDTO(0,0, EinsatzStatus.ANGEBOTEN,
+                EmployeeplanningUtil.parseDate("2020-09-01"), EmployeeplanningUtil.parseDate("2021-08-31"),
+                50, 20, 100,
+                "projektnummerNettime", "beauftragungsnummer");
+        Einsatz einsatz = einsatzService.convertToEntity(einsatzDTO);
+        assertThat(einsatz.getMitarbeiter()).isEqualTo(null);
+        assertThat(einsatz.getMitarbeiterVertrieb()).isEqualTo(null);
+        assertThat(einsatz.getBeginn()).isEqualTo("2020-09-01");
+        assertThat(einsatz.getEnde()).isEqualTo("2021-08-31");
+        assertThat(einsatz.getEinsatzStatus()).isEqualTo(EinsatzStatus.ANGEBOTEN);
+        assertThat(einsatz.getWahrscheinlichkeit()).isEqualTo(50);
+        assertThat(einsatz.getZusatzkostenReise()).isEqualTo(20);
+        assertThat(einsatz.getStundensatzVK()).isEqualTo(100);
+        assertThat(einsatz.getProjektnummerNettime()).isEqualTo("projektnummerNettime");
+        assertThat(einsatz.getBeauftragungsnummer()).isEqualTo("beauftragungsnummer");
     }
 }
