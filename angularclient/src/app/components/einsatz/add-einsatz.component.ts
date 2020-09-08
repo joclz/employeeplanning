@@ -1,13 +1,13 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
-import {Einsatz} from "../../models/einsatz";
 import {EinsatzStatus} from "../../models/einsatz-status.enum";
 import {EinsatzService} from "../../services/einsatz.service";
 import {Mitarbeiter} from "../../models/mitarbeiter";
 import {MitarbeiterService} from "../../services/mitarbeiter.service";
 import {MitarbeiterVertriebService} from "../../services/mitarbeiter-vertrieb.service";
 import {MitarbeiterVertrieb} from "../../models/mitarbeiter-vertrieb";
+import {EinsatzDTO} from "../../models/einsatz-dto";
 
 const patternNames = Validators.pattern('[a-zA-Z_äÄöÖüÜß\-]*');
 
@@ -41,12 +41,12 @@ export class AddEinsatzComponent implements OnInit {
   mitarbeiterList: Array<Mitarbeiter>;
   mitarbeiterName = new Map();
   mitarbeiterIds = [];
-  mitarbeiterMap = new Map();
+  // mitarbeiterMap = new Map();
 
   mitarbeiterVertriebList: Array<MitarbeiterVertrieb>;
   mitarbeiterVertriebName = new Map();
   mitarbeiterVertriebIds = [];
-  mitarbeiterVertriebMap = new Map();
+  // mitarbeiterVertriebMap = new Map();
 
   constructor(private route: ActivatedRoute, private router: Router,
               private einsatzService: EinsatzService,
@@ -56,21 +56,19 @@ export class AddEinsatzComponent implements OnInit {
   }
 
   onSubmit() {
-    let einsatz = new Einsatz();
-    einsatz.mitarbeiter = this.mitarbeiterMap.get(this.mitarbeiter.value);
-    einsatz.mitarbeiterVertrieb = this.mitarbeiterVertriebMap.get(this.mitarbeiterVertrieb.value);
-    einsatz.einsatzStatus = <EinsatzStatus>this.einsatzStatus.value;
-    einsatz.beginn = this.beginn.value;
-    einsatz.ende = this.ende.value;
-    einsatz.wahrscheinlichkeit = this.wahrscheinlichkeit.value;
-    einsatz.zusatzkostenReise = this.zusatzkostenReise.value;
-    einsatz.stundensatzVK = this.stundensatzVK.value;
-    einsatz.projektnummerNettime = this.projektnummerNettime.value;
-    einsatz.beauftragungsnummer = this.beauftragungsnummer.value;
-    // einsatz.deckungsbeitrag = this.deckungsbeitrag.value;
-    // einsatz.marge = this.marge.value;
+    let einsatzDTO = new EinsatzDTO();
+    einsatzDTO.mitarbeiterId = this.mitarbeiter.value;
+    einsatzDTO.mitarbeiterVertriebId = this.mitarbeiterVertrieb.value;
+    einsatzDTO.einsatzStatus = <EinsatzStatus>this.einsatzStatus.value;
+    einsatzDTO.beginn = this.beginn.value;
+    einsatzDTO.ende = this.ende.value;
+    einsatzDTO.wahrscheinlichkeit = this.wahrscheinlichkeit.value;
+    einsatzDTO.zusatzkostenReise = this.zusatzkostenReise.value;
+    einsatzDTO.stundensatzVK = this.stundensatzVK.value;
+    einsatzDTO.projektnummerNettime = this.projektnummerNettime.value;
+    einsatzDTO.beauftragungsnummer = this.beauftragungsnummer.value;
 
-    this.einsatzService.save(einsatz).subscribe(() =>
+    this.einsatzService.save(einsatzDTO).subscribe(() =>
       this.formRef.resetForm()
     );
   }
@@ -80,7 +78,7 @@ export class AddEinsatzComponent implements OnInit {
       this.mitarbeiterList = result;
       this.mitarbeiterList.forEach( (mitarbeiter) => {
         this.mitarbeiterName.set(mitarbeiter.id, mitarbeiter.name + ', ' + mitarbeiter.vorname);
-        this.mitarbeiterMap.set(mitarbeiter.id, mitarbeiter);
+        // this.mitarbeiterMap.set(mitarbeiter.id, mitarbeiter);
         this.mitarbeiterIds.push(mitarbeiter.id);
       });
     });
@@ -89,7 +87,7 @@ export class AddEinsatzComponent implements OnInit {
       this.mitarbeiterVertriebList = result;
       this.mitarbeiterVertriebList.forEach( (mitarbeiterVertrieb) => {
         this.mitarbeiterVertriebName.set(mitarbeiterVertrieb.id, mitarbeiterVertrieb.name + ', ' + mitarbeiterVertrieb.vorname);
-        this.mitarbeiterVertriebMap.set(mitarbeiterVertrieb.id, mitarbeiterVertrieb);
+        // this.mitarbeiterVertriebMap.set(mitarbeiterVertrieb.id, mitarbeiterVertrieb);
         this.mitarbeiterVertriebIds.push(mitarbeiterVertrieb.id);
       });
     });
@@ -105,8 +103,6 @@ export class AddEinsatzComponent implements OnInit {
       stundensatzVK: this.stundensatzVK,
       projektnummerNettime: this.projektnummerNettime,
       beauftragungsnummer: this.beauftragungsnummer
-      // deckungsbeitrag: this.deckungsbeitrag,
-      // marge: this.marge
     });
   }
 

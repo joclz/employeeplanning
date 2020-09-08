@@ -4,6 +4,7 @@ import {HttpClient, HttpParams} from "@angular/common/http";
 import {EinsatzStatus} from "../models/einsatz-status.enum";
 import {EinsatzSuche} from "../models/einsatz-suche";
 import {Einsatz} from "../models/einsatz";
+import {EinsatzDTO} from "../models/einsatz-dto";
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +18,8 @@ export class EinsatzService {
     return this.http.get<Einsatz[]>('http://localhost:8080/listEinsaetze');
   }
 
-  public save(Einsatz: Einsatz) {
-    return this.http.post<Einsatz>('http://localhost:8080/addEinsatz', Einsatz);
+  public save(einsatzDto: EinsatzDTO) {
+    return this.http.post<EinsatzDTO>('http://localhost:8080/addEinsatz', einsatzDto);
   }
 
   public delete(id: string) {
