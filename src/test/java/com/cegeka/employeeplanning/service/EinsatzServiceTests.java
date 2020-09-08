@@ -230,8 +230,9 @@ public class EinsatzServiceTests {
                 "projektnummerNettime", "beauftragungsnummer");
         Einsatz einsatz = einsatzService.convertToEntity(einsatzDTO);
         assertThat(einsatz.getMitarbeiter().getName()).isEqualTo("Mustermann");
+        assertThat(einsatz.getMitarbeiter().getVorname()).isEqualTo("Max");
         assertThat(einsatz.getMitarbeiter().getId()).isEqualTo(1);
-        assertThat(einsatz.getMitarbeiterVertrieb().getName()).isEqualTo("Günzkofer");
+        assertThat(einsatz.getMitarbeiterVertrieb().getVorname()).isEqualTo("Werner");
         assertThat(einsatz.getMitarbeiterVertrieb().getId()).isEqualTo(1);
         assertThat(einsatz.getBeginn()).isEqualTo("2020-09-01");
         assertThat(einsatz.getEnde()).isEqualTo("2021-08-31");
