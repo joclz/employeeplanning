@@ -2,7 +2,6 @@ package com.cegeka.employeeplanning.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Optional;
 
 import com.cegeka.employeeplanning.data.Einsatz;
 import com.cegeka.employeeplanning.data.EinsatzDTO;
@@ -34,25 +33,25 @@ public class EmployeeplanningEinsatzController {
     public Einsatz addEinsatz(@RequestBody EinsatzDTO einsatzDTO) {
         final Einsatz einsatz = einsatzService.convertToEntity(einsatzDTO);
         einsatzService.save(einsatz);
-        return einsatz;
+        return einsatzService.getEinsatzById(einsatz.getId());
     }
 
     @PostMapping(path = "/addEinsatz", consumes = "application/x-www-form-urlencoded")
     public Einsatz addEinsatzUrlencoded(EinsatzDTO einsatzDTO) {
         final Einsatz einsatz = einsatzService.convertToEntity(einsatzDTO);
         einsatzService.save(einsatz);
-        return einsatz;
+        return einsatzService.getEinsatzById(einsatz.getId());
     }
 
     @PostMapping(path = "/deleteEinsatz")
-    public void deleteEinsatz(@RequestParam("einsatzId") int id) {
-        einsatzRepository.deleteById(id);
+    public void deleteEinsatz(@RequestParam("einsatzId") Integer id) {
+        einsatzService.deleteById(id);
     }
 
     @PostMapping(path = "/updateEinsatz")
     public Einsatz updateEinsatz(@RequestBody Einsatz einsatz) {
         einsatzService.save(einsatz);
-        return einsatz;
+        return einsatzService.getEinsatzById(einsatz.getId());
     }
 
     @GetMapping("/findEinsaetzeByEinsatzStatus")
@@ -82,8 +81,8 @@ public class EmployeeplanningEinsatzController {
     }
 
     @GetMapping("/getEinsatzById")
-    public Optional<Einsatz> getEinsatzById(@RequestParam("einsatzId") Integer id) {
-        return einsatzRepository.findById(id);
+    public Einsatz getEinsatzById(@RequestParam("einsatzId") Integer id) {
+        return einsatzService.getEinsatzById(id);
     }
 
     @GetMapping("/listEinsaetze")

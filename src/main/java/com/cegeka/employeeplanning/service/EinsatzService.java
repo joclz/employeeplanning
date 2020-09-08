@@ -9,6 +9,7 @@ import com.cegeka.employeeplanning.data.EinsatzDTO;
 import com.cegeka.employeeplanning.data.Mitarbeiter;
 import com.cegeka.employeeplanning.data.MitarbeiterVertrieb;
 import com.cegeka.employeeplanning.data.enums.Enums.EinsatzStatus;
+import com.cegeka.employeeplanning.exceptions.NoSuchEinsatzException;
 import com.cegeka.employeeplanning.repositories.EinsatzRepository;
 import com.cegeka.employeeplanning.repositories.MitarbeiterRepository;
 import com.cegeka.employeeplanning.repositories.MitarbeiterVertriebRepository;
@@ -29,6 +30,28 @@ public class EinsatzService {
 
     @Autowired
     private MitarbeiterRepository mitarbeiterRepository;
+
+    public Einsatz getEinsatzById(Integer id)
+    {
+        Optional<Einsatz> einsatz = einsatzRepository.findById(id);
+        if (!einsatz.isPresent())
+        {
+            throw new NoSuchEinsatzException();
+        }
+
+        return einsatz.get();
+    }
+
+    public void deleteById(Integer id)
+    {
+        Optional<Einsatz> einsatz = einsatzRepository.findById(id);
+        if (!einsatz.isPresent())
+        {
+            throw new NoSuchEinsatzException();
+        }
+
+        einsatzRepository.delete(einsatz.get());
+    }
 
     /**
      * Konvertiert das EinsatzDTO zu einem Einsatz.
