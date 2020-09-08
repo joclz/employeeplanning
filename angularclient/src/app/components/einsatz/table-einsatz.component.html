@@ -3,7 +3,7 @@
   <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
 </mat-form-field>
 
-<div class="mat-elevation-z8">
+<div class="einsatz-container">
   <table mat-table [dataSource]="dataSource" class="tableEinsatz" matSort>
 
     <!-- ID Column -->
@@ -33,13 +33,13 @@
     <!-- Beginn Column -->
     <ng-container matColumnDef="beginn">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Beginn</th>
-      <td mat-cell *matCellDef="let row"> {{row.beginn | date:'dd.MM.yyyy'}} </td>
+      <td mat-cell *matCellDef="let row"> {{row.beginn | date:'d.M.yyyy'}} </td>
     </ng-container>
 
     <!-- Ende Column -->
     <ng-container matColumnDef="ende">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Ende</th>
-      <td mat-cell *matCellDef="let row"> {{row.ende | date:'dd.MM.yyyy'}} </td>
+      <td mat-cell *matCellDef="let row"> {{row.ende | date:'d.M.yyyy'}} </td>
     </ng-container>
 
     <!-- Wahrscheinlichkeit Column -->

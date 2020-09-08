@@ -37,7 +37,7 @@
     Einsatz
   </button>
   <mat-form-field *ngIf="mitarbeiterEinsatz.value" class="qaurter-width">
-    <mat-label>Menge der Mitarbeiter im Einsatz</mat-label>
+    <mat-label>Menge der Mitarbeiter die aktuell im Einsatz sind</mat-label>
     <input matInput type="string" formControlName="mitarbeiterEinsatz">
   </mat-form-field>
 </form>
@@ -68,8 +68,8 @@
 </div>
 
 <form class="mitarbeiterBankForm" [formGroup]="mitarbeiterBankFormGroup" (ngSubmit)="getMitarbeiterBankOnSubmit()">
-  <button mat-raised-button color="primary" type="submit" class="button, half-width">Liste aller Mitarbeiter ohne
-    Einsatz
+  <button mat-raised-button color="primary" type="submit" class="button, half-width">
+    Liste aller Mitarbeiter ohne gegenwärtigen und zukünftigen Einsatz
   </button>
   <app-table-mitarbeiter (deleteMitarbeiterEvent)="initMitarbeiterInternBank()"
                          #tableMitarbeiterBank *ngIf="isMitarbeiterBank"
@@ -83,8 +83,8 @@
 
 <form class="mitarbeiterInternBankForm" [formGroup]="mitarbeiterInternBankFormGroup"
       (ngSubmit)="getMitarbeiterInternBankOnSubmit()">
-  <button mat-raised-button color="primary" type="submit" class="button, half-width">Liste interner Mitarbeiter ohne
-    Einsatz
+  <button mat-raised-button color="primary" type="submit" class="button, half-width">
+    Liste interner Mitarbeiter ohne gegenwärtigen und zukünftigen Einsatz
   </button>
   <app-table-mitarbeiter (deleteMitarbeiterEvent)="initMitarbeiterBank()"
                          #tableMitarbeiterInternBank *ngIf="isMitarbeiterInternBank"

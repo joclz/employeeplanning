@@ -1,7 +1,7 @@
 import {MitarbeiterStatus} from "./mitarbeiter-status.enum";
 import {EinsatzStatus} from "./einsatz-status.enum";
 
-export class EinsatzSucheType {
+export class EinsatzSuche {
 
   mitarbeiterVertriebId: string;
   mitarbeiterId: string;

@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Observable} from "rxjs";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {EinsatzStatus} from "../models/einsatz-status.enum";
-import {EinsatzSucheType} from "../models/einsatz-suche-type";
+import {EinsatzSuche} from "../models/einsatz-suche";
 import {Einsatz} from "../models/einsatz";
 
 @Injectable({
@@ -32,22 +32,21 @@ export class EinsatzService {
 
   public findEinsaetzeByEinsatzStatus(status: EinsatzStatus) {
     let params = new HttpParams().set("status", status);
-    return this.http.get<Einsatz>('http://localhost:8080/findEinsaetzeByEinsatzStatus', {params: params});
+    return this.http.get<Einsatz[]>('http://localhost:8080/findEinsaetzeByEinsatzStatus', {params: params});
   }
 
   public findEinsaetzeByMitarbeiterVertrieb(id: string) {
     let params = new HttpParams().set("mitarbeiterVertriebId", id);
-    return this.http.get<Einsatz>('http://localhost:8080/findEinsaetzeByMitarbeiterVertrieb', {params: params});
+    return this.http.get<Einsatz[]>('http://localhost:8080/findEinsaetzeByMitarbeiterVertrieb', {params: params});
   }
 
-  public findEinsaetzeBySuchkriterien(einsatzSucheType: EinsatzSucheType) {
-    let params = new HttpParams().set("einsatzSucheType", JSON.stringify(einsatzSucheType));
-    return this.http.get<Einsatz>('http://localhost:8080/findEinsaetzeBySuchkriterien', {params: params});
+  public findEinsaetzeBySuchkriterien(einsatzSuche: EinsatzSuche) {
+    return this.http.post<Einsatz[]>('http://localhost:8080/findEinsaetzeBySuchkriterien', einsatzSuche);
   }
 
   public getEinsatzById(id: string) {
     let params = new HttpParams().set("einsatzId", id);
-    return this.http.get<Einsatz>('http://localhost:8080/getEinsatzById', {params: params});
+    return this.http.get<Einsatz[]>('http://localhost:8080/getEinsatzById', {params: params});
   }
 
 }

@@ -18,7 +18,7 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatSortModule} from "@angular/material/sort";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatInputModule} from "@angular/material/input";
-import {MatNativeDateModule, MatOptionModule} from "@angular/material/core";
+import {MAT_DATE_LOCALE, MatNativeDateModule, MatOptionModule} from "@angular/material/core";
 import {MatSelectModule} from "@angular/material/select";
 import {UpdateMitarbeiterFormComponent} from './components/mitarbeiter/update-mitarbeiter-form.component';
 import {MatDividerModule} from "@angular/material/divider";
@@ -49,31 +49,32 @@ import {MatTabsModule} from "@angular/material/tabs";
     TableEinsatzComponent,
     AddEinsatzComponent
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        HttpClientModule,
-        FormsModule,
-        NoopAnimationsModule,
-        MatCardModule,
-        MatButtonModule,
-        MatMenuModule,
-        MatTableModule,
-        MatFormFieldModule,
-        MatSortModule,
-        MatPaginatorModule,
-        MatInputModule,
-        ReactiveFormsModule,
-        MatOptionModule,
-        MatSelectModule,
-        MatDividerModule,
-        MatSidenavModule,
-        MatListModule,
-        MatDatepickerModule,
-        MatNativeDateModule,
-        MatTabsModule
-    ],
-  providers: [MitarbeiterService],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule,
+    NoopAnimationsModule,
+    MatCardModule,
+    MatButtonModule,
+    MatMenuModule,
+    MatTableModule,
+    MatFormFieldModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatOptionModule,
+    MatSelectModule,
+    MatDividerModule,
+    MatSidenavModule,
+    MatListModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatTabsModule
+  ],
+  providers: [MitarbeiterService,
+    {provide: MAT_DATE_LOCALE, useValue: 'de'}],
   bootstrap: [AppComponent]
 })
 export class AppModule {

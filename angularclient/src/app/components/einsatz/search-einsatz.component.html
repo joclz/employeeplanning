@@ -1,103 +1,99 @@
-<mat-tab-group>
-  <mat-tab label="Angeboten"> Angeboten </mat-tab>
-  <mat-tab label="Beauftragt"> Beauftragt </mat-tab>
-  <mat-tab label="Abgelehnt"> Abgelehnt </mat-tab>
-  <mat-tab label="Mitarbeiter / Mitarbeiter Vertrieb"> Mitarbeiter / Mitarbeiter Vertrieb </mat-tab>
-  <mat-tab label="Komplexe Suche"> Komplexe Suche </mat-tab>
+<mat-tab-group (selectedIndexChange)="selectTab($event)">
+
+  <mat-tab label="Angeboten">
+    <ng-template matTabContent >
+      <app-table-einsatz *ngIf="isEinsatzAngeboten" [einsaetze]=einsaetzeAngebotenList></app-table-einsatz>
+    </ng-template>
+  </mat-tab>
+
+  <mat-tab label="Beauftragt">
+    <ng-template matTabContent>
+      <app-table-einsatz *ngIf="isEinsatzBeauftragt" [einsaetze]=einsaetzeBeauftragtList></app-table-einsatz>
+    </ng-template>
+  </mat-tab>
+
+  <mat-tab label="Abgelehnt">
+    <ng-template matTabContent>
+      <app-table-einsatz *ngIf="isEinsatzAbgelehnt" [einsaetze]=einsaetzeAbgelehntList></app-table-einsatz>
+    </ng-template>
+  </mat-tab>
+
+  <mat-tab label="Mitarbeiter Vertrieb">
+    <form class="searchMitarbeiterVertriebForm" [formGroup]="searchMitarbeiterVertriebFormGroup"
+          (ngSubmit)="searchMitarbeiterVertrieb()">
+      <mat-form-field class="half-width">
+        <mat-label>Mitarbeiter Vertrieb</mat-label>
+        <input matInput type="number" formControlName="mitarbeiterVertriebId" placeholder="1">
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="submit" class="button"
+              [disabled]="!searchMitarbeiterVertriebFormGroup.valid">
+        Suche
+      </button>
+    </form>
+    <app-table-einsatz *ngIf="isMitarbeiterVertrieb" [einsaetze]=einsaetzeMitarbeiterVertriebList></app-table-einsatz>
+  </mat-tab>
+
+  <mat-tab label="Komplexe Suche">
+    <form class="searchFormGroup" [formGroup]="searchFormGroup" (ngSubmit)="search()">
+      <mat-form-field class="half-width">
+        <mat-label>Mitarbeiter Vertrieb</mat-label>
+        <input matInput type="number" formControlName="mitarbeiterVertrieb" placeholder="1">
+      </mat-form-field>
+
+      <mat-form-field class="half-width">
+        <mat-label>Mitarbeiter</mat-label>
+        <input matInput type="number" formControlName="mitarbeiter" placeholder="1">
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="half-width">
+        <mat-label>Status Mitarbeiter</mat-label>
+        <mat-select formControlName="mitarbeiterStatus">
+          <mat-option *ngFor="let key of mitarbeiterStatusList"
+                      [value]="key">{{mitarbeiterStatusEnum[key]}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="half-width">
+        <mat-label>Einsatz Status</mat-label>
+        <mat-select formControlName="einsatzStatus">
+          <mat-option *ngFor="let key of einsatzStatusList" [value]="key">{{einsatzStatusEnum[key]}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="half-width">
+        <mat-label>Beginn Von</mat-label>
+        <input matInput formControlName="beginnVon" [matDatepicker]="beginnVonPicker">
+        <mat-datepicker-toggle matSuffix [for]="beginnVonPicker"></mat-datepicker-toggle>
+        <mat-datepicker #beginnVonPicker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="half-width">
+        <mat-label>Beginn Bis</mat-label>
+        <input matInput formControlName="beginnBis" [matDatepicker]="beginnBisPicker">
+        <mat-datepicker-toggle matSuffix [for]="beginnBisPicker"></mat-datepicker-toggle>
+        <mat-datepicker #beginnBisPicker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="half-width">
+        <mat-label>Ende Von</mat-label>
+        <input matInput formControlName="endeVon" [matDatepicker]="endeVonPicker">
+        <mat-datepicker-toggle matSuffix [for]="endeVonPicker"></mat-datepicker-toggle>
+        <mat-datepicker #endeVonPicker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="half-width">
+        <mat-label>Ende Bis</mat-label>
+        <input matInput formControlName="endeBis" [matDatepicker]="endeBisPicker">
+        <mat-datepicker-toggle matSuffix [for]="endeBisPicker"></mat-datepicker-toggle>
+        <mat-datepicker #endeBisPicker></mat-datepicker>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="submit" class="button">
+        Suche
+      </button>
+    </form>
+    <app-table-einsatz *ngIf="isSearch" [einsaetze]="einsaetzeSearchList"></app-table-einsatz>
+  </mat-tab>
+
 </mat-tab-group>
-
-
-<form class="lengthForm" [formGroup]="lastEndDateFormGroup" (ngSubmit)="getLastEndDateOnSubmit()">
-  <mat-form-field class="half-width">
-    <mat-label>Wie lange ist Mitarbeiter (mit ID) noch im Einsatz</mat-label>
-    <input matInput type="number" formControlName="id" placeholder="1">
-    <mat-error *ngIf="lastEndDateFormGroup.get('id').hasError('pattern')">
-      Bitte geben Sie eine gültige Id ein. (Positive ganzzahlige Werte und 0)
-    </mat-error>
-  </mat-form-field>
-  <mat-form-field *ngIf="lastEndDate.value" class="qaurter-width">
-    <mat-label>Mitarbeiter ist im Einsatz bis</mat-label>
-    <input matInput type="datetime-local" formControlName="lastEndDate">
-  </mat-form-field>
-  <button mat-raised-button color="primary" type="submit" class="button" [disabled]="!lastEndDateFormGroup.valid">
-    Suche
-  </button>
-</form>
-
-<form class="chanceForm" [formGroup]="chanceFormGroup" (ngSubmit)="getChanceOnSubmit()">
-  <mat-form-field class="half-width">
-    <mat-label>Wie hoch ist die Chance auf Verlängerung (für Mitarbeiter mit ID)</mat-label>
-    <input matInput type="number" formControlName="id" placeholder="1">
-    <mat-error *ngIf="chanceFormGroup.get('id').hasError('pattern')">
-      Bitte geben Sie eine gültige Id ein. (Positive ganzzahlige Werte und 0)
-    </mat-error>
-  </mat-form-field>
-  <mat-form-field *ngIf="chance.value" class="qaurter-width">
-    <mat-label>Chance auf Verlängerung</mat-label>
-    <input matInput type="number" formControlName="chance">
-  </mat-form-field>
-  <button mat-raised-button color="primary" type="submit" class="button" [disabled]="!chanceFormGroup.valid">Suche
-  </button>
-</form>
-
-<form class="mitarbeiterEinsatzForm" [formGroup]="mitarbeiterEinsatzFormGroup"
-      (ngSubmit)="getMitarbeiterEinsatzOnSubmit()">
-  <button mat-raised-button color="primary" type="submit" class="button, half-width">Wieviele Mitarbeiter sind im
-    Einsatz
-  </button>
-  <mat-form-field *ngIf="mitarbeiterEinsatz.value" class="qaurter-width">
-    <mat-label>Menge der Mitarbeiter im Einsatz</mat-label>
-    <input matInput type="string" formControlName="mitarbeiterEinsatz">
-  </mat-form-field>
-</form>
-
-<form class="subunternehmerEinsatzForm" [formGroup]="subunternehmerEinsatzFormGroup"
-      (ngSubmit)="getSubunternehmerEinsatzOnSubmit()">
-  <button mat-raised-button color="primary" type="submit" class="button, half-width">Wieviele Subunternehmer sind im
-    Einsatz
-  </button>
-  <mat-form-field *ngIf="subunternehmerEinsatz.value" class="qaurter-width">
-    <mat-label>Menge der Subunternehmer im Einsatz</mat-label>
-    <input matInput type="string" formControlName="subunternehmerEinsatz">
-  </mat-form-field>
-</form>
-
-<form class="deckungsbeitragForm" [formGroup]="deckungsbeitragFormGroup" (ngSubmit)="getDeckungsbeitragOnSubmit()">
-  <button mat-raised-button color="primary" type="submit" class="button, half-width">Welchen Umsatz bzw Deckungsbeitrag
-    haben wir aktuell
-  </button>
-  <mat-form-field *ngIf="deckungsbeitrag.value" class="qaurter-width">
-    <mat-label>Aktueller Deckungsbeitrag</mat-label>
-    <input matInput type="string" formControlName="deckungsbeitrag">
-  </mat-form-field>
-</form>
-
-<div style="margin: 1%">
-  <mat-divider></mat-divider>
-</div>
-
-<form class="mitarbeiterBankForm" [formGroup]="mitarbeiterBankFormGroup" (ngSubmit)="getMitarbeiterBankOnSubmit()">
-  <button mat-raised-button color="primary" type="submit" class="button, half-width">Liste aller Mitarbeiter ohne
-    Einsatz
-  </button>
-  <app-table-mitarbeiter (deleteMitarbeiterEvent)="initMitarbeiterInternBank()"
-                         #tableMitarbeiterBank *ngIf="isMitarbeiterBank"
-                         [isMitarbeiterBank]="isMitarbeiterBank">
-  </app-table-mitarbeiter>
-</form>
-
-<div style="margin: 1%">
-  <mat-divider></mat-divider>
-</div>
-
-<form class="mitarbeiterInternBankForm" [formGroup]="mitarbeiterInternBankFormGroup"
-      (ngSubmit)="getMitarbeiterInternBankOnSubmit()">
-  <button mat-raised-button color="primary" type="submit" class="button, half-width">Liste interner Mitarbeiter ohne
-    Einsatz
-  </button>
-  <app-table-mitarbeiter (deleteMitarbeiterEvent)="initMitarbeiterBank()"
-                         #tableMitarbeiterInternBank *ngIf="isMitarbeiterInternBank"
-                         [isMitarbeiterInternBank]="isMitarbeiterInternBank">
-
-  </app-table-mitarbeiter>
-</form>

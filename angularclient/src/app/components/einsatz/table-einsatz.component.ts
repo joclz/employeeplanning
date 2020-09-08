@@ -30,6 +30,7 @@ export class TableEinsatzComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log('Tabelle')
     this.initDependingOnInput();
   }
 

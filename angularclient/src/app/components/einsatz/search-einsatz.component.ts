@@ -1,8 +1,10 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {TableMitarbeiterComponent} from "../mitarbeiter/table-mitarbeiter.component";
 import {ActivatedRoute, Router} from "@angular/router";
-import {MitarbeiterService} from "../../services/mitarbeiter.service";
+import {Einsatz} from "../../models/einsatz";
+import {EinsatzService} from "../../services/einsatz.service";
+import {EinsatzStatus} from "../../models/einsatz-status.enum";
+import {EinsatzSuche} from "../../models/einsatz-suche";
 import {MitarbeiterStatus} from "../../models/mitarbeiter-status.enum";
 
 const patternId = Validators.pattern('^\\d+$');
@@ -12,110 +14,123 @@ const patternId = Validators.pattern('^\\d+$');
   templateUrl: './search-einsatz.component.html',
   styleUrls: ['./search-einsatz.component.css']
 })
-export class SearchEinsatzComponent implements OnInit {
+export class SearchEinsatzComponent implements OnInit, OnDestroy {
 
-  lastEndDate = new FormControl({value: '', disabled: true});
-  lastEndDateId = new FormControl('', [Validators.required, patternId]);
-  lastEndDateFormGroup: FormGroup;
+  mitarbeiterVertrieb = new FormControl('');
+  mitarbeiter = new FormControl('');
+  mitarbeiterStatus = new FormControl('');
+  einsatzStatus = new FormControl('');
+  beginnVon = new FormControl('');
+  beginnBis = new FormControl('');
+  endeVon = new FormControl('');
+  endeBis = new FormControl('');
+  searchFormGroup: FormGroup;
 
-  chance = new FormControl({value: '', disabled: true});
-  chanceId = new FormControl('', [Validators.required, patternId]);
-  chanceFormGroup: FormGroup;
+  mitarbeiterVertriebId = new FormControl('', [Validators.required, patternId]);
+  searchMitarbeiterVertriebFormGroup: FormGroup;
 
-  mitarbeiterEinsatz = new FormControl({value: '', disabled: true});
-  mitarbeiterEinsatzFormGroup: FormGroup;
+  einsatzStatusEnum = EinsatzStatus;
+  einsatzStatusList = [];
 
-  subunternehmerEinsatz = new FormControl({value: '', disabled: true});
-  subunternehmerEinsatzFormGroup: FormGroup;
+  mitarbeiterStatusEnum = MitarbeiterStatus;
+  mitarbeiterStatusList = [];
 
-  deckungsbeitrag = new FormControl({value: '', disabled: true});
-  deckungsbeitragFormGroup: FormGroup;
+  isSearch: boolean = false;
+  isMitarbeiterVertrieb: boolean = false;
+  isEinsatzAngeboten: boolean = false;
+  isEinsatzBeauftragt: boolean = false;
+  isEinsatzAbgelehnt: boolean = false;
 
-  isMitarbeiterBank = false;
-  mitarbeiterBankFormGroup: FormGroup;
+  einsaetzeAngebotenList: Einsatz[];
+  einsaetzeBeauftragtList: Einsatz[];
+  einsaetzeAbgelehntList: Einsatz[];
+  einsaetzeMitarbeiterVertriebList: Einsatz[];
+  einsaetzeSearchList: Einsatz[];
 
-  isMitarbeiterInternBank = false;
-  mitarbeiterInternBankFormGroup: FormGroup;
-
-  @ViewChild('tableMitarbeiterBank') tableMitarbeiterBank: TableMitarbeiterComponent;
-  @ViewChild('tableMitarbeiterInternBank') tableMitarbeiterInternBank: TableMitarbeiterComponent;
-
-  constructor(private route: ActivatedRoute, private router: Router, private mitarbeiterService: MitarbeiterService) {
+  constructor(private route: ActivatedRoute, private router: Router, private einsatzService: EinsatzService) {
+    this.einsatzStatusList = Object.keys(this.einsatzStatusEnum);
+    this.mitarbeiterStatusList = Object.keys(this.mitarbeiterStatusEnum);
   }
 
   ngOnInit(): void {
-    this.lastEndDateFormGroup = new FormGroup({
-      id: this.lastEndDateId,
-      lastEndDate: this.lastEndDate
+    this.searchFormGroup = new FormGroup({
+      mitarbeiterVertrieb: this.mitarbeiterVertrieb,
+      mitarbeiter: this.mitarbeiter,
+      mitarbeiterStatus: this.mitarbeiterStatus,
+      einsatzStatus: this.einsatzStatus,
+      beginnVon: this.beginnVon,
+      beginnBis: this.beginnBis,
+      endeVon: this.endeVon,
+      endeBis: this.endeBis
     });
-    this.chanceFormGroup = new FormGroup({
-      id: this.chanceId,
-      chance: this.chance
+
+    this.searchMitarbeiterVertriebFormGroup = new FormGroup({
+      mitarbeiterVertriebId: this.mitarbeiterVertriebId,
     });
-    this.mitarbeiterEinsatzFormGroup = new FormGroup({
-      mitarbeiterEinsatz: this.mitarbeiterEinsatz
-    });
-    this.subunternehmerEinsatzFormGroup = new FormGroup({
-      subunternehmerEinsatz: this.subunternehmerEinsatz
-    });
-    this.deckungsbeitragFormGroup = new FormGroup({
-      deckungsbeitrag: this.deckungsbeitrag
-    });
-    this.mitarbeiterBankFormGroup = new FormGroup({});
-    this.mitarbeiterInternBankFormGroup = new FormGroup({});
+
+    this.initFirstTab();
   }
 
-  getLastEndDateOnSubmit() {
-    this.mitarbeiterService.getLastEndDateForMitarbeiter(this.lastEndDateId.value).subscribe(result => {
-      if (result) {
-        let endDate = new Date(result);
-        endDate.setHours(2);
-        this.lastEndDate.setValue(endDate.toISOString().slice(0, 16));
-      } else {
-        this.lastEndDate.reset();
-      }
+  search() {
+    this.isSearch = false;
+
+    let einsatzSuche = new EinsatzSuche();
+    einsatzSuche.mitarbeiterVertriebId = this.mitarbeiterVertrieb.value;
+    einsatzSuche.mitarbeiterId = this.mitarbeiter.value;
+    einsatzSuche.mitarbeiterStatus = <MitarbeiterStatus>this.mitarbeiterStatus.value;
+    einsatzSuche.einsatzStatus = <EinsatzStatus>this.einsatzStatus.value;
+    einsatzSuche.beginnVon = this.beginnVon.value;
+    einsatzSuche.beginnBis = this.beginnBis.value;
+    einsatzSuche.endeVon = this.endeVon.value;
+    einsatzSuche.endeBis = this.endeBis.value;
+    this.einsatzService.findEinsaetzeBySuchkriterien(einsatzSuche).subscribe(result => {
+      this.einsaetzeSearchList = result;
+      this.isSearch = true;
     });
   }
 
-  getChanceOnSubmit() {
-    this.mitarbeiterService.getChanceForMitarbeiter(this.chanceId.value)
-      .subscribe(result => this.chance.setValue(result.toString()));
+  searchMitarbeiterVertrieb() {
+    this.isMitarbeiterVertrieb = false;
+    this.einsatzService.findEinsaetzeByMitarbeiterVertrieb(this.mitarbeiterVertriebId.value).subscribe(result => {
+      this.einsaetzeMitarbeiterVertriebList = result;
+      this.isMitarbeiterVertrieb = true;
+    });
   }
 
-  getMitarbeiterEinsatzOnSubmit() {
-    this.mitarbeiterService.getMitarbeiterImEinsatz(MitarbeiterStatus.ANGESTELLT)
-      .subscribe(result => this.mitarbeiterEinsatz.setValue(result.toString()));
+  ngOnDestroy(): void {
+    this.isSearch = false;
+    this.isMitarbeiterVertrieb = false;
+    this.isEinsatzAngeboten = false;
+    this.isEinsatzBeauftragt = false;
+    this.isEinsatzAbgelehnt = false;
   }
 
-  getSubunternehmerEinsatzOnSubmit() {
-    this.mitarbeiterService.getMitarbeiterImEinsatz(MitarbeiterStatus.SUBUNTERNEHMER)
-      .subscribe(result => this.subunternehmerEinsatz.setValue(result.toString()));
-  }
-
-  getDeckungsbeitragOnSubmit() {
-    this.mitarbeiterService.getDeckungsbeitrag().subscribe(result => this.deckungsbeitrag.setValue(result.toString()));
-  }
-
-  getMitarbeiterBankOnSubmit() {
-    this.initMitarbeiterBank();
-    this.isMitarbeiterBank = true;
-  }
-
-  private initMitarbeiterBank() {
-    if (this.tableMitarbeiterBank) {
-      this.tableMitarbeiterBank.ngOnInit();
+  selectTab(index: number) {
+    if (index === 0) {
+      this.initFirstTab();
+    }
+    if (index === 1) {
+      this.einsatzService.findEinsaetzeByEinsatzStatus(this.getEinsatzStatus(EinsatzStatus.BEAUFTRAGT)).subscribe(result => {
+        this.einsaetzeBeauftragtList = result;
+        this.isEinsatzBeauftragt = true;
+      });
+    }
+    if (index === 2) {
+      this.einsatzService.findEinsaetzeByEinsatzStatus(this.getEinsatzStatus(EinsatzStatus.ABGELEHNT)).subscribe(result => {
+        this.einsaetzeAbgelehntList = result;
+        this.isEinsatzAbgelehnt = true;
+      });
     }
   }
 
-  getMitarbeiterInternBankOnSubmit() {
-    this.initMitarbeiterInternBank();
-    this.isMitarbeiterInternBank = true;
+  private getEinsatzStatus(einsatzStatus: EinsatzStatus): EinsatzStatus {
+    return this.einsatzStatusList.filter(x => this.einsatzStatusEnum[x] == einsatzStatus)[0];
   }
 
-  private initMitarbeiterInternBank() {
-    if (this.tableMitarbeiterInternBank) {
-      this.tableMitarbeiterInternBank.ngOnInit();
-    }
+  private initFirstTab() {
+    this.einsatzService.findEinsaetzeByEinsatzStatus(this.getEinsatzStatus(EinsatzStatus.ANGEBOTEN)).subscribe(result => {
+      this.einsaetzeAngebotenList = result;
+      this.isEinsatzAngeboten = true;
+    });
   }
-
 }

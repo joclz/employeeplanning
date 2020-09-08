@@ -1,7 +1,7 @@
-import {EinsatzSucheType} from './einsatz-suche-type';
+import {EinsatzSuche} from './einsatz-suche';
 
 describe('EinsatzSucheType', () => {
   it('should create an instance', () => {
-    expect(new EinsatzSucheType()).toBeTruthy();
+    expect(new EinsatzSuche()).toBeTruthy();
   });
 });
