@@ -1,20 +1,21 @@
 package com.cegeka.employeeplanning.service;
 
-import static com.cegeka.employeeplanning.util.EmployeeplanningUtil.TEST_IMPORT;
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-
 import com.cegeka.employeeplanning.data.Mitarbeiter;
 import com.cegeka.employeeplanning.data.enums.Enums.MitarbeiterStatus;
 import com.cegeka.employeeplanning.util.EmployeeplanningUtil;
-
+import com.cegeka.employeeplanning.data.util.MitarbeiterItem;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
+
+import static com.cegeka.employeeplanning.util.EmployeeplanningUtil.TEST_IMPORT;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @Sql(TEST_IMPORT)
@@ -100,5 +101,12 @@ public class MitarbeiterServiceTests {
     public void test_countMitarbeiterImEinsatz_given_Date2020_10_04_StatusSUBUNTERNEHMER_expected_Ma_2() {
         int countMitarbeiter = mitarbeiterService.countMitarbeiterImEinsatz(MitarbeiterStatus.SUBUNTERNEHMER, EmployeeplanningUtil.parseDate("2020-10-04"));
         assertThat(countMitarbeiter).isEqualTo(2);
+    }
+
+    @Test
+    public void test_getMitarbeiterListOrderByName() {
+        final List<MitarbeiterItem> mitarbeiterListOrderByName = mitarbeiterService.getMitarbeiterListOrderByName();
+        assertThat(mitarbeiterListOrderByName.size()).isEqualTo(7);
+        assertThat(mitarbeiterListOrderByName.get(0).getName()).isEqualTo("Lange, Yvonne");
     }
 }

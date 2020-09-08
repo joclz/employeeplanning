@@ -15,6 +15,7 @@ import com.cegeka.employeeplanning.repositories.EinsatzRepository;
 import com.cegeka.employeeplanning.repositories.MitarbeiterRepository;
 import com.cegeka.employeeplanning.util.EmployeeplanningUtil;
 
+import com.cegeka.employeeplanning.data.util.MitarbeiterItem;
 import org.assertj.core.util.VisibleForTesting;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -149,5 +150,17 @@ public class MitarbeiterService extends EmployeeplanningUtil {
         Set<Integer> mitarbeiterIdSet = new HashSet<>();
         einsaetze.forEach(id -> mitarbeiterIdSet.add(id.getId()));
         return mitarbeiterIdSet.size();
+    }
+
+    public List<MitarbeiterItem> getMitarbeiterListOrderByName() {
+        Iterable<Mitarbeiter> mitarbeiterOrderByName = mitarbeiterRepository.findMitarbeiterByOrderByName();
+        List<MitarbeiterItem> mitarbeiterItemList = new ArrayList<MitarbeiterItem>();
+
+        for (Mitarbeiter mitarbeiter : mitarbeiterOrderByName) {
+            String name = mitarbeiter.getName() + ", " + mitarbeiter.getVorname();
+            MitarbeiterItem mitarbeiterItem = new MitarbeiterItem(name, mitarbeiter.getId().toString());
+            mitarbeiterItemList.add(mitarbeiterItem);
+        }
+        return mitarbeiterItemList;
     }
 }
