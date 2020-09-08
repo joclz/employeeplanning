@@ -32,8 +32,6 @@ export class AddEinsatzComponent implements OnInit {
   stundensatzVK = new FormControl('', [Validators.required]);
   projektnummerNettime = new FormControl('', [Validators.required]);
   beauftragungsnummer = new FormControl('', [Validators.required]);
-  // deckungsbeitrag = new FormControl('', [Validators.required]);
-  // marge = new FormControl('', [Validators.required]);
 
   einsatzStatusEnum = EinsatzStatus;
   einsatzStatusList = [];
@@ -41,12 +39,10 @@ export class AddEinsatzComponent implements OnInit {
   mitarbeiterList: Array<Mitarbeiter>;
   mitarbeiterName = new Map();
   mitarbeiterIds = [];
-  // mitarbeiterMap = new Map();
 
   mitarbeiterVertriebList: Array<MitarbeiterVertrieb>;
   mitarbeiterVertriebName = new Map();
   mitarbeiterVertriebIds = [];
-  // mitarbeiterVertriebMap = new Map();
 
   constructor(private route: ActivatedRoute, private router: Router,
               private einsatzService: EinsatzService,
@@ -78,7 +74,6 @@ export class AddEinsatzComponent implements OnInit {
       this.mitarbeiterList = result;
       this.mitarbeiterList.forEach( (mitarbeiter) => {
         this.mitarbeiterName.set(mitarbeiter.id, mitarbeiter.name + ', ' + mitarbeiter.vorname);
-        // this.mitarbeiterMap.set(mitarbeiter.id, mitarbeiter);
         this.mitarbeiterIds.push(mitarbeiter.id);
       });
     });
@@ -87,7 +82,6 @@ export class AddEinsatzComponent implements OnInit {
       this.mitarbeiterVertriebList = result;
       this.mitarbeiterVertriebList.forEach( (mitarbeiterVertrieb) => {
         this.mitarbeiterVertriebName.set(mitarbeiterVertrieb.id, mitarbeiterVertrieb.name + ', ' + mitarbeiterVertrieb.vorname);
-        // this.mitarbeiterVertriebMap.set(mitarbeiterVertrieb.id, mitarbeiterVertrieb);
         this.mitarbeiterVertriebIds.push(mitarbeiterVertrieb.id);
       });
     });

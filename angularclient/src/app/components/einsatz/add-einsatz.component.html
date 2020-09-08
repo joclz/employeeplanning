@@ -1,6 +1,6 @@
 <form class="einsatzForm" [formGroup]="formGroup" (ngSubmit)="onSubmit()">
 
-  <mat-form-field class="half-width">
+  <mat-form-field appearance="fill" class="half-width">
     <mat-label>Mitarbeiter</mat-label>
     <mat-select required formControlName="mitarbeiter">
       <mat-option *ngFor="let key of mitarbeiterIds" [value]="key">{{mitarbeiterName.get(key)}}</mat-option>
@@ -10,7 +10,7 @@
     </mat-error>
   </mat-form-field>
 
-  <mat-form-field class="half-width">
+  <mat-form-field appearance="fill" class="half-width">
     <mat-label>Mitarbeiter Vertrieb</mat-label>
     <mat-select required formControlName="mitarbeiterVertrieb">
       <mat-option *ngFor="let key of mitarbeiterVertriebIds" [value]="key">{{mitarbeiterVertriebName.get(key)}}</mat-option>

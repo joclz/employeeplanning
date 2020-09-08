@@ -1,14 +1,13 @@
 <form class="lengthForm" [formGroup]="lastEndDateFormGroup" (ngSubmit)="getLastEndDateOnSubmit()">
-  <mat-form-field class="half-width">
-    <mat-label>Wie lange ist Mitarbeiter (mit ID) noch im Einsatz</mat-label>
-    <input matInput type="number" formControlName="id" placeholder="1">
-    <mat-error *ngIf="lastEndDateFormGroup.get('id').hasError('pattern')">
-      Bitte geben Sie eine gültige Id ein. (Positive ganzzahlige Werte und 0)
-    </mat-error>
+  <mat-form-field appearance="fill" class="half-width">
+    <mat-label>Wie lange ist Mitarbeiter noch im Einsatz</mat-label>
+    <mat-select required formControlName="id">
+      <mat-option *ngFor="let key of mitarbeiterIds" [value]="key">{{mitarbeiterName.get(key)}}</mat-option>
+    </mat-select>
   </mat-form-field>
   <mat-form-field *ngIf="lastEndDate.value" class="qaurter-width">
     <mat-label>Mitarbeiter ist im Einsatz bis</mat-label>
-    <input matInput type="datetime-local" formControlName="lastEndDate">
+    <input matInput type="date" formControlName="lastEndDate">
   </mat-form-field>
   <button mat-raised-button color="primary" type="submit" class="button" [disabled]="!lastEndDateFormGroup.valid">
     Suche
@@ -16,12 +15,11 @@
 </form>
 
 <form class="chanceForm" [formGroup]="chanceFormGroup" (ngSubmit)="getChanceOnSubmit()">
-  <mat-form-field class="half-width">
-    <mat-label>Wie hoch ist die Chance auf Verlängerung (für Mitarbeiter mit ID)</mat-label>
-    <input matInput type="number" formControlName="id" placeholder="1">
-    <mat-error *ngIf="chanceFormGroup.get('id').hasError('pattern')">
-      Bitte geben Sie eine gültige Id ein. (Positive ganzzahlige Werte und 0)
-    </mat-error>
+  <mat-form-field appearance="fill" class="half-width">
+    <mat-label>Wie hoch ist die Chance auf Verlängerung</mat-label>
+    <mat-select required formControlName="id">
+      <mat-option *ngFor="let key of mitarbeiterIds" [value]="key">{{mitarbeiterName.get(key)}}</mat-option>
+    </mat-select>
   </mat-form-field>
   <mat-form-field *ngIf="chance.value" class="qaurter-width">
     <mat-label>Chance auf Verlängerung</mat-label>

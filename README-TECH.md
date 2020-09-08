@@ -23,3 +23,11 @@ Password:
 
 Für die Unit-Tests wird aktuell eine Memory-DB herangezogen.
 
+
+
+**Frontend**: (Im Ordner employeeplanning\angularclient)
+
+Abhängigkeiten ziehen: npm install
+
+Client starten: ng serve
+Client starten (mit Browser): ng serve --open

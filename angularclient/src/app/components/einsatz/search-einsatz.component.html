@@ -21,7 +21,7 @@
   <mat-tab label="Mitarbeiter Vertrieb">
     <form class="searchMitarbeiterVertriebForm" [formGroup]="searchMitarbeiterVertriebFormGroup"
           (ngSubmit)="searchMitarbeiterVertrieb()">
-      <mat-form-field class="half-width">
+      <mat-form-field appearance="fill" class="half-width">
         <mat-label>Mitarbeiter Vertrieb</mat-label>
         <input matInput type="number" formControlName="mitarbeiterVertriebId" placeholder="1">
       </mat-form-field>
@@ -36,14 +36,18 @@
 
   <mat-tab label="Komplexe Suche">
     <form class="searchFormGroup" [formGroup]="searchFormGroup" (ngSubmit)="search()">
-      <mat-form-field class="half-width">
-        <mat-label>Mitarbeiter Vertrieb</mat-label>
-        <input matInput type="number" formControlName="mitarbeiterVertrieb" placeholder="1">
+      <mat-form-field appearance="fill" class="half-width">
+        <mat-label>Mitarbeiter</mat-label>
+        <mat-select formControlName="mitarbeiter">
+          <mat-option *ngFor="let key of mitarbeiterIds" [value]="key">{{mitarbeiterName.get(key)}}</mat-option>
+        </mat-select>
       </mat-form-field>
 
-      <mat-form-field class="half-width">
-        <mat-label>Mitarbeiter</mat-label>
-        <input matInput type="number" formControlName="mitarbeiter" placeholder="1">
+      <mat-form-field appearance="fill" class="half-width">
+        <mat-label>Mitarbeiter Vertrieb</mat-label>
+        <mat-select formControlName="mitarbeiterVertrieb">
+          <mat-option *ngFor="let key of mitarbeiterVertriebIds" [value]="key">{{mitarbeiterVertriebName.get(key)}}</mat-option>
+        </mat-select>
       </mat-form-field>
 
       <mat-form-field appearance="fill" class="half-width">
@@ -63,28 +67,28 @@
 
       <mat-form-field appearance="fill" class="half-width">
         <mat-label>Beginn Von</mat-label>
-        <input matInput formControlName="beginnVon" [matDatepicker]="beginnVonPicker">
+        <input matInput placeholder="1.1.2020" formControlName="beginnVon" [matDatepicker]="beginnVonPicker">
         <mat-datepicker-toggle matSuffix [for]="beginnVonPicker"></mat-datepicker-toggle>
         <mat-datepicker #beginnVonPicker></mat-datepicker>
       </mat-form-field>
 
       <mat-form-field appearance="fill" class="half-width">
         <mat-label>Beginn Bis</mat-label>
-        <input matInput formControlName="beginnBis" [matDatepicker]="beginnBisPicker">
+        <input matInput placeholder="1.1.2020" formControlName="beginnBis" [matDatepicker]="beginnBisPicker">
         <mat-datepicker-toggle matSuffix [for]="beginnBisPicker"></mat-datepicker-toggle>
         <mat-datepicker #beginnBisPicker></mat-datepicker>
       </mat-form-field>
 
       <mat-form-field appearance="fill" class="half-width">
         <mat-label>Ende Von</mat-label>
-        <input matInput formControlName="endeVon" [matDatepicker]="endeVonPicker">
+        <input matInput placeholder="1.1.2020" formControlName="endeVon" [matDatepicker]="endeVonPicker">
         <mat-datepicker-toggle matSuffix [for]="endeVonPicker"></mat-datepicker-toggle>
         <mat-datepicker #endeVonPicker></mat-datepicker>
       </mat-form-field>
 
       <mat-form-field appearance="fill" class="half-width">
         <mat-label>Ende Bis</mat-label>
-        <input matInput formControlName="endeBis" [matDatepicker]="endeBisPicker">
+        <input matInput placeholder="1.1.2020" formControlName="endeBis" [matDatepicker]="endeBisPicker">
         <mat-datepicker-toggle matSuffix [for]="endeBisPicker"></mat-datepicker-toggle>
         <mat-datepicker #endeBisPicker></mat-datepicker>
       </mat-form-field>

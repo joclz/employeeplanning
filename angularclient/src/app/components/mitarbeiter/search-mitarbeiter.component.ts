@@ -4,8 +4,7 @@ import {MitarbeiterService} from "../../services/mitarbeiter.service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {MitarbeiterStatus} from "../../models/mitarbeiter-status.enum";
 import {TableMitarbeiterComponent} from "./table-mitarbeiter.component";
-
-const patternId = Validators.pattern('^\\d+$');
+import {Mitarbeiter} from "../../models/mitarbeiter";
 
 @Component({
   selector: 'app-search-mitarbeiter',
@@ -15,11 +14,11 @@ const patternId = Validators.pattern('^\\d+$');
 export class SearchMitarbeiterComponent implements OnInit {
 
   lastEndDate = new FormControl({value: '', disabled: true});
-  lastEndDateId = new FormControl('', [Validators.required, patternId]);
+  lastEndDateId = new FormControl('', [Validators.required]);
   lastEndDateFormGroup: FormGroup;
 
   chance = new FormControl({value: '', disabled: true});
-  chanceId = new FormControl('', [Validators.required, patternId]);
+  chanceId = new FormControl('', [Validators.required]);
   chanceFormGroup: FormGroup;
 
   mitarbeiterEinsatz = new FormControl({value: '', disabled: true});
@@ -37,6 +36,10 @@ export class SearchMitarbeiterComponent implements OnInit {
   isMitarbeiterInternBank = false;
   mitarbeiterInternBankFormGroup: FormGroup;
 
+  mitarbeiterList: Array<Mitarbeiter>;
+  mitarbeiterName = new Map();
+  mitarbeiterIds = [];
+
   @ViewChild('tableMitarbeiterBank') tableMitarbeiterBank: TableMitarbeiterComponent;
   @ViewChild('tableMitarbeiterInternBank') tableMitarbeiterInternBank: TableMitarbeiterComponent;
 
@@ -44,6 +47,14 @@ export class SearchMitarbeiterComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.mitarbeiterService.findAll().subscribe(result => {
+      this.mitarbeiterList = result;
+      this.mitarbeiterList.forEach( (mitarbeiter) => {
+        this.mitarbeiterName.set(mitarbeiter.id, mitarbeiter.name + ', ' + mitarbeiter.vorname);
+        this.mitarbeiterIds.push(mitarbeiter.id);
+      });
+    });
+
     this.lastEndDateFormGroup = new FormGroup({
       id: this.lastEndDateId,
       lastEndDate: this.lastEndDate
@@ -68,9 +79,7 @@ export class SearchMitarbeiterComponent implements OnInit {
   getLastEndDateOnSubmit() {
     this.mitarbeiterService.getLastEndDateForMitarbeiter(this.lastEndDateId.value).subscribe(result => {
       if (result) {
-        let endDate = new Date(result);
-        endDate.setHours(2);
-        this.lastEndDate.setValue(endDate.toISOString().slice(0, 16));
+        this.lastEndDate.setValue(result);
       } else {
         this.lastEndDate.reset();
       }

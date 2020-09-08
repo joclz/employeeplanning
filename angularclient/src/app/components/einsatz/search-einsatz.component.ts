@@ -6,6 +6,10 @@ import {EinsatzService} from "../../services/einsatz.service";
 import {EinsatzStatus} from "../../models/einsatz-status.enum";
 import {EinsatzSuche} from "../../models/einsatz-suche";
 import {MitarbeiterStatus} from "../../models/mitarbeiter-status.enum";
+import {Mitarbeiter} from "../../models/mitarbeiter";
+import {MitarbeiterVertrieb} from "../../models/mitarbeiter-vertrieb";
+import {MitarbeiterService} from "../../services/mitarbeiter.service";
+import {MitarbeiterVertriebService} from "../../services/mitarbeiter-vertrieb.service";
 
 const patternId = Validators.pattern('^\\d+$');
 
@@ -47,12 +51,38 @@ export class SearchEinsatzComponent implements OnInit, OnDestroy {
   einsaetzeMitarbeiterVertriebList: Einsatz[];
   einsaetzeSearchList: Einsatz[];
 
-  constructor(private route: ActivatedRoute, private router: Router, private einsatzService: EinsatzService) {
+  mitarbeiterList: Array<Mitarbeiter>;
+  mitarbeiterName = new Map();
+  mitarbeiterIds = [];
+
+  mitarbeiterVertriebList: Array<MitarbeiterVertrieb>;
+  mitarbeiterVertriebName = new Map();
+  mitarbeiterVertriebIds = [];
+
+  constructor(private route: ActivatedRoute, private router: Router, private einsatzService: EinsatzService,
+              private mitarbeiterService: MitarbeiterService,
+              private mitarbeiterVertriebService: MitarbeiterVertriebService) {
     this.einsatzStatusList = Object.keys(this.einsatzStatusEnum);
     this.mitarbeiterStatusList = Object.keys(this.mitarbeiterStatusEnum);
   }
 
   ngOnInit(): void {
+    this.mitarbeiterService.findAll().subscribe(result => {
+      this.mitarbeiterList = result;
+      this.mitarbeiterList.forEach((mitarbeiter) => {
+        this.mitarbeiterName.set(mitarbeiter.id, mitarbeiter.name + ', ' + mitarbeiter.vorname);
+        this.mitarbeiterIds.push(mitarbeiter.id);
+      });
+    });
+
+    this.mitarbeiterVertriebService.findAll().subscribe(result => {
+      this.mitarbeiterVertriebList = result;
+      this.mitarbeiterVertriebList.forEach((mitarbeiterVertrieb) => {
+        this.mitarbeiterVertriebName.set(mitarbeiterVertrieb.id, mitarbeiterVertrieb.name + ', ' + mitarbeiterVertrieb.vorname);
+        this.mitarbeiterVertriebIds.push(mitarbeiterVertrieb.id);
+      });
+    });
+
     this.searchFormGroup = new FormGroup({
       mitarbeiterVertrieb: this.mitarbeiterVertrieb,
       mitarbeiter: this.mitarbeiter,
