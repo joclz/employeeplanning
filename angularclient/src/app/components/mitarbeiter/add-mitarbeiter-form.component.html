@@ -1,11 +1,3 @@
-<!--<div class="formField">-->
-<!--  <mat-form-field appearance="fill">-->
-<!--    <mat-label>Gib deinen Namen ein</mat-label>-->
-<!--    <input matInput placeholder="Mustermann" [formControl]="name" required>-->
-<!--    <mat-error *ngIf="name.invalid">{{getErrorMessage()}}</mat-error>-->
-<!--  </mat-form-field>-->
-<!--</div>-->
-
 <form class="mitarbeiterForm" [formGroup]="formGroup" (ngSubmit)="onSubmit()">
   <mat-form-field class="half-width">
     <mat-label>Name</mat-label>

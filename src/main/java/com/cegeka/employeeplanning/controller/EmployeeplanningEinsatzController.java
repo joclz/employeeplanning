@@ -1,8 +1,5 @@
 package com.cegeka.employeeplanning.controller;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import com.cegeka.employeeplanning.data.Einsatz;
 import com.cegeka.employeeplanning.data.dto.EinsatzDTO;
 import com.cegeka.employeeplanning.data.dto.EinsatzSucheDTO;
@@ -10,17 +7,13 @@ import com.cegeka.employeeplanning.data.enums.Enums;
 import com.cegeka.employeeplanning.data.util.EinsatzSuche;
 import com.cegeka.employeeplanning.repositories.EinsatzRepository;
 import com.cegeka.employeeplanning.service.EinsatzService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @CrossOrigin
 @RestController
@@ -50,7 +43,8 @@ public class EmployeeplanningEinsatzController {
     }
 
     @PostMapping(path = "/updateEinsatz")
-    public Einsatz updateEinsatz(@RequestBody Einsatz einsatz) {
+    public Einsatz updateEinsatz(@RequestBody EinsatzDTO einsatzDTO) {
+        final Einsatz einsatz = einsatzService.convertToEntity(einsatzDTO);
         einsatzService.save(einsatz);
         return einsatzService.getEinsatzById(einsatz.getId());
     }

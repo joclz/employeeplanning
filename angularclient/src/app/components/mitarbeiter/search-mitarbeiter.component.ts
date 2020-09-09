@@ -1,10 +1,10 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {MitarbeiterService} from "../../services/mitarbeiter.service";
+import {MitarbeiterService} from "../../services/mitarbeiter/mitarbeiter.service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {MitarbeiterStatus} from "../../models/mitarbeiter-status.enum";
+import {MitarbeiterStatus} from "../../models/mitarbeiter/mitarbeiter-status.enum";
 import {TableMitarbeiterComponent} from "./table-mitarbeiter.component";
-import {Mitarbeiter} from "../../models/mitarbeiter";
+import {MitarbeiterDTO} from "../../models/mitarbeiter/mitarbeiter-dto";
 
 @Component({
   selector: 'app-search-mitarbeiter',
@@ -36,9 +36,7 @@ export class SearchMitarbeiterComponent implements OnInit {
   isMitarbeiterInternBank = false;
   mitarbeiterInternBankFormGroup: FormGroup;
 
-  mitarbeiterList: Array<Mitarbeiter>;
-  mitarbeiterName = new Map();
-  mitarbeiterIds = [];
+  mitarbeiterList: Array<MitarbeiterDTO>;
 
   @ViewChild('tableMitarbeiterBank') tableMitarbeiterBank: TableMitarbeiterComponent;
   @ViewChild('tableMitarbeiterInternBank') tableMitarbeiterInternBank: TableMitarbeiterComponent;
@@ -47,12 +45,8 @@ export class SearchMitarbeiterComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.mitarbeiterService.findAll().subscribe(result => {
+    this.mitarbeiterService.getMitarbeiterListOrderByName().subscribe(result => {
       this.mitarbeiterList = result;
-      this.mitarbeiterList.forEach( (mitarbeiter) => {
-        this.mitarbeiterName.set(mitarbeiter.id, mitarbeiter.name + ', ' + mitarbeiter.vorname);
-        this.mitarbeiterIds.push(mitarbeiter.id);
-      });
     });
 
     this.lastEndDateFormGroup = new FormGroup({

@@ -1,9 +1,9 @@
 import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {Mitarbeiter} from "../../models/mitarbeiter";
+import {Mitarbeiter} from "../../models/mitarbeiter/mitarbeiter";
 import {ActivatedRoute, Router} from "@angular/router";
-import {MitarbeiterService} from "../../services/mitarbeiter.service";
-import {MitarbeiterUnit} from "../../models/mitarbeiter-unit.enum";
-import {MitarbeiterStatus} from "../../models/mitarbeiter-status.enum";
+import {MitarbeiterService} from "../../services/mitarbeiter/mitarbeiter.service";
+import {MitarbeiterUnit} from "../../models/mitarbeiter/mitarbeiter-unit.enum";
+import {MitarbeiterStatus} from "../../models/mitarbeiter/mitarbeiter-status.enum";
 import {FormControl, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
 
 const patternNames = Validators.pattern('[a-zA-Z_äÄöÖüÜß\-]*');

@@ -3,7 +3,7 @@
   <mat-form-field appearance="fill" class="half-width">
     <mat-label>Mitarbeiter</mat-label>
     <mat-select required formControlName="mitarbeiter">
-      <mat-option *ngFor="let key of mitarbeiterIds" [value]="key">{{mitarbeiterName.get(key)}}</mat-option>
+      <mat-option *ngFor="let mitarbeiter of mitarbeiterList" [value]="mitarbeiter.id">{{mitarbeiter.name}}</mat-option>
     </mat-select>
     <mat-error *ngIf="formGroup.get('mitarbeiter').hasError('required')">
       Mitarbeiter ist ein <strong>Pflichtfeld</strong>
@@ -13,7 +13,7 @@
   <mat-form-field appearance="fill" class="half-width">
     <mat-label>Mitarbeiter Vertrieb</mat-label>
     <mat-select required formControlName="mitarbeiterVertrieb">
-      <mat-option *ngFor="let key of mitarbeiterVertriebIds" [value]="key">{{mitarbeiterVertriebName.get(key)}}</mat-option>
+      <mat-option *ngFor="let mitarbeiterVertrieb of mitarbeiterVertriebList" [value]="mitarbeiterVertrieb.id">{{mitarbeiterVertrieb.name}}</mat-option>
     </mat-select>
     <mat-error *ngIf="formGroup.get('mitarbeiterVertrieb').hasError('required')">
       Mitarbeiter Vertrieb ist ein <strong>Pflichtfeld</strong>
@@ -89,22 +89,6 @@
       Beauftragungsnummer ist ein <strong>Pflichtfeld</strong>
     </mat-error>
   </mat-form-field>
-
-<!--  <mat-form-field class="half-width">-->
-<!--    <mat-label>Deckungsbeitrag</mat-label>-->
-<!--    <input required matInput formControlName="deckungsbeitrag" placeholder="50">-->
-<!--    <mat-error *ngIf="formGroup.get('deckungsbeitrag').hasError('required')">-->
-<!--      Deckungsbeitrag ist ein <strong>Pflichtfeld</strong>-->
-<!--    </mat-error>-->
-<!--  </mat-form-field>-->
-
-<!--  <mat-form-field class="half-width">-->
-<!--    <mat-label>Marge</mat-label>-->
-<!--    <input required matInput formControlName="marge" placeholder="20">-->
-<!--    <mat-error *ngIf="formGroup.get('marge').hasError('required')">-->
-<!--      Marge ist ein <strong>Pflichtfeld</strong>-->
-<!--    </mat-error>-->
-<!--  </mat-form-field>-->
 
   <button mat-raised-button color="primary" type="submit" class="button" [disabled]="!formGroup.valid">Hinzufügen</button>
 

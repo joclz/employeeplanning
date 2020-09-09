@@ -1,6 +1,7 @@
 import {EinsatzStatus} from "./einsatz-status.enum";
 
 export class EinsatzDTO {
+  id: string;
   mitarbeiterId: bigint;
   mitarbeiterVertriebId: bigint;
   einsatzStatus: EinsatzStatus;

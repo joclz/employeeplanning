@@ -1,17 +1,17 @@
 import {Injectable} from '@angular/core';
 import {Subject} from "rxjs";
-import {Einsatz} from "../models/einsatz";
+import {EinsatzDTO} from "../../models/einsatz/einsatz";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UpdateEinsatzService {
 
-  private updateEinsatzSource = new Subject<Einsatz>();
+  private updateEinsatzSource = new Subject<EinsatzDTO>();
 
   updateEinsatz$ = this.updateEinsatzSource.asObservable();
 
-  updateEinsatz(Einsatz: Einsatz) {
+  updateEinsatz(Einsatz: EinsatzDTO) {
     this.updateEinsatzSource.next(Einsatz);
   }
 }

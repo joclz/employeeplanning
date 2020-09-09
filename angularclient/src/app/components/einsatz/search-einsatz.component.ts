@@ -1,17 +1,14 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
-import {Einsatz} from "../../models/einsatz";
-import {EinsatzService} from "../../services/einsatz.service";
-import {EinsatzStatus} from "../../models/einsatz-status.enum";
-import {EinsatzSuche} from "../../models/einsatz-suche";
-import {MitarbeiterStatus} from "../../models/mitarbeiter-status.enum";
-import {Mitarbeiter} from "../../models/mitarbeiter";
-import {MitarbeiterVertrieb} from "../../models/mitarbeiter-vertrieb";
-import {MitarbeiterService} from "../../services/mitarbeiter.service";
-import {MitarbeiterVertriebService} from "../../services/mitarbeiter-vertrieb.service";
-
-const patternId = Validators.pattern('^\\d+$');
+import {Einsatz} from "../../models/einsatz/einsatz";
+import {EinsatzService} from "../../services/einsatz/einsatz.service";
+import {EinsatzStatus} from "../../models/einsatz/einsatz-status.enum";
+import {EinsatzSucheDto} from "../../models/einsatz/einsatz-suche-dto";
+import {MitarbeiterStatus} from "../../models/mitarbeiter/mitarbeiter-status.enum";
+import {MitarbeiterService} from "../../services/mitarbeiter/mitarbeiter.service";
+import {MitarbeiterVertriebService} from "../../services/vertrieb/mitarbeiter-vertrieb.service";
+import {MitarbeiterDTO} from "../../models/mitarbeiter/mitarbeiter-dto";
 
 @Component({
   selector: 'app-search-einsatz',
@@ -30,7 +27,7 @@ export class SearchEinsatzComponent implements OnInit, OnDestroy {
   endeBis = new FormControl('');
   searchFormGroup: FormGroup;
 
-  mitarbeiterVertriebId = new FormControl('', [Validators.required, patternId]);
+  mitarbeiterVertriebId = new FormControl('', [Validators.required]);
   searchMitarbeiterVertriebFormGroup: FormGroup;
 
   einsatzStatusEnum = EinsatzStatus;
@@ -51,13 +48,9 @@ export class SearchEinsatzComponent implements OnInit, OnDestroy {
   einsaetzeMitarbeiterVertriebList: Einsatz[];
   einsaetzeSearchList: Einsatz[];
 
-  mitarbeiterList: Array<Mitarbeiter>;
-  mitarbeiterName = new Map();
-  mitarbeiterIds = [];
+  mitarbeiterList: Array<MitarbeiterDTO>;
 
-  mitarbeiterVertriebList: Array<MitarbeiterVertrieb>;
-  mitarbeiterVertriebName = new Map();
-  mitarbeiterVertriebIds = [];
+  mitarbeiterVertriebList: Array<MitarbeiterDTO>;
 
   constructor(private route: ActivatedRoute, private router: Router, private einsatzService: EinsatzService,
               private mitarbeiterService: MitarbeiterService,
@@ -67,20 +60,12 @@ export class SearchEinsatzComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.mitarbeiterService.findAll().subscribe(result => {
+    this.mitarbeiterService.getMitarbeiterListOrderByName().subscribe(result => {
       this.mitarbeiterList = result;
-      this.mitarbeiterList.forEach((mitarbeiter) => {
-        this.mitarbeiterName.set(mitarbeiter.id, mitarbeiter.name + ', ' + mitarbeiter.vorname);
-        this.mitarbeiterIds.push(mitarbeiter.id);
-      });
     });
 
-    this.mitarbeiterVertriebService.findAll().subscribe(result => {
+    this.mitarbeiterVertriebService.getMitarbeiterVertriebListOrderByName().subscribe(result => {
       this.mitarbeiterVertriebList = result;
-      this.mitarbeiterVertriebList.forEach((mitarbeiterVertrieb) => {
-        this.mitarbeiterVertriebName.set(mitarbeiterVertrieb.id, mitarbeiterVertrieb.name + ', ' + mitarbeiterVertrieb.vorname);
-        this.mitarbeiterVertriebIds.push(mitarbeiterVertrieb.id);
-      });
     });
 
     this.searchFormGroup = new FormGroup({
@@ -104,16 +89,16 @@ export class SearchEinsatzComponent implements OnInit, OnDestroy {
   search() {
     this.isSearch = false;
 
-    let einsatzSuche = new EinsatzSuche();
-    einsatzSuche.mitarbeiterVertriebId = this.mitarbeiterVertrieb.value;
-    einsatzSuche.mitarbeiterId = this.mitarbeiter.value;
-    einsatzSuche.mitarbeiterStatus = <MitarbeiterStatus>this.mitarbeiterStatus.value;
-    einsatzSuche.einsatzStatus = <EinsatzStatus>this.einsatzStatus.value;
-    einsatzSuche.beginnVon = this.beginnVon.value;
-    einsatzSuche.beginnBis = this.beginnBis.value;
-    einsatzSuche.endeVon = this.endeVon.value;
-    einsatzSuche.endeBis = this.endeBis.value;
-    this.einsatzService.findEinsaetzeBySuchkriterien(einsatzSuche).subscribe(result => {
+    let einsatzSucheDTO = new EinsatzSucheDto();
+    einsatzSucheDTO.mitarbeiterVertriebId = this.mitarbeiterVertrieb.value;
+    einsatzSucheDTO.mitarbeiterId = this.mitarbeiter.value;
+    einsatzSucheDTO.mitarbeiterStatus = <MitarbeiterStatus>this.mitarbeiterStatus.value;
+    einsatzSucheDTO.einsatzStatus = <EinsatzStatus>this.einsatzStatus.value;
+    einsatzSucheDTO.beginnVon = this.beginnVon.value;
+    einsatzSucheDTO.beginnBis = this.beginnBis.value;
+    einsatzSucheDTO.endeVon = this.endeVon.value;
+    einsatzSucheDTO.endeBis = this.endeBis.value;
+    this.einsatzService.findEinsaetzeBySuchkriterien(einsatzSucheDTO).subscribe(result => {
       this.einsaetzeSearchList = result;
       this.isSearch = true;
     });

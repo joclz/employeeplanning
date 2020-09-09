@@ -1,10 +1,10 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {Mitarbeiter} from "../../models/mitarbeiter";
-import {MitarbeiterService} from "../../services/mitarbeiter.service";
+import {Mitarbeiter} from "../../models/mitarbeiter/mitarbeiter";
+import {MitarbeiterService} from "../../services/mitarbeiter/mitarbeiter.service";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
-import {UpdateMitarbeiterService} from "../../services/update-mitarbeiter.service";
+import {UpdateMitarbeiterService} from "../../services/mitarbeiter/update-mitarbeiter.service";
 
 @Component({
   selector: 'app-table-mitarbeiter',
