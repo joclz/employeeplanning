@@ -1,10 +1,10 @@
 import {Component} from '@angular/core';
-import {Mitarbeiter} from "./models/mitarbeiter";
-import {UpdateMitarbeiterService} from "./services/update-mitarbeiter.service";
-import {Einsatz} from "./models/einsatz";
-import {MitarbeiterVertrieb} from "./models/mitarbeiter-vertrieb";
-import {UpdateMitarbeiterVertriebService} from "./services/update-mitarbeiter-vertrieb.service";
-import {UpdateEinsatzService} from "./services/update-einsatz.service";
+import {Mitarbeiter} from "./models/mitarbeiter/mitarbeiter";
+import {UpdateMitarbeiterService} from "./services/mitarbeiter/update-mitarbeiter.service";
+import {Einsatz} from "./models/einsatz/einsatz";
+import {MitarbeiterVertrieb} from "./models/vertrieb/mitarbeiter-vertrieb";
+import {UpdateMitarbeiterVertriebService} from "./services/vertrieb/update-mitarbeiter-vertrieb.service";
+import {UpdateEinsatzService} from "./services/einsatz/update-einsatz.service";
 
 @Component({
   selector: 'app-root',

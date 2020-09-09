@@ -1,10 +1,10 @@
 import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
-import {MitarbeiterVertrieb} from "../../models/mitarbeiter-vertrieb";
+import {MitarbeiterVertrieb} from "../../models/vertrieb/mitarbeiter-vertrieb";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
-import {MitarbeiterVertriebService} from "../../services/mitarbeiter-vertrieb.service";
-import {UpdateMitarbeiterVertriebService} from "../../services/update-mitarbeiter-vertrieb.service";
+import {MitarbeiterVertriebService} from "../../services/vertrieb/mitarbeiter-vertrieb.service";
+import {UpdateMitarbeiterVertriebService} from "../../services/vertrieb/update-mitarbeiter-vertrieb.service";
 
 @Component({
   selector: 'app-table-vertrieb',

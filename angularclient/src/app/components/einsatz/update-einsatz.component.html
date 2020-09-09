@@ -2,12 +2,13 @@
   <mat-form-field class="half-width">
     <mat-label>ID</mat-label>
     <input matInput formControlName="id">
-  </mat-form-field> <br>
+  </mat-form-field>
+  <br>
 
   <mat-form-field appearance="fill" class="half-width">
     <mat-label>Mitarbeiter</mat-label>
     <mat-select required formControlName="mitarbeiter">
-      <mat-option *ngFor="let key of mitarbeiterIds" [value]="key">{{mitarbeiterName.get(key)}}</mat-option>
+      <mat-option *ngFor="let mitarbeiter of mitarbeiterList" [value]="mitarbeiter.id">{{mitarbeiter.name}}</mat-option>
     </mat-select>
     <mat-error *ngIf="formGroup.get('mitarbeiter').hasError('required')">
       Mitarbeiter ist ein <strong>Pflichtfeld</strong>
@@ -17,7 +18,8 @@
   <mat-form-field appearance="fill" class="half-width">
     <mat-label>Mitarbeiter Vertrieb</mat-label>
     <mat-select required formControlName="mitarbeiterVertrieb">
-      <mat-option *ngFor="let key of mitarbeiterVertriebIds" [value]="key">{{mitarbeiterVertriebName.get(key)}}</mat-option>
+      <mat-option *ngFor="let mitarbeiterVertrieb of mitarbeiterVertriebList"
+                  [value]="mitarbeiterVertrieb.id">{{mitarbeiterVertrieb.name}}</mat-option>
     </mat-select>
     <mat-error *ngIf="formGroup.get('mitarbeiterVertrieb').hasError('required')">
       Mitarbeiter Vertrieb ist ein <strong>Pflichtfeld</strong>
@@ -94,6 +96,7 @@
     </mat-error>
   </mat-form-field>
 
-  <button mat-raised-button color="primary" type="submit" class="button" [disabled]="!formGroup.valid">Bestätigen</button>
+  <button mat-raised-button color="primary" type="submit" class="button" [disabled]="!formGroup.valid">Bestätigen
+  </button>
 
 </form>

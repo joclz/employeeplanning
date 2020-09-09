@@ -8,9 +8,9 @@ describe('TableEinsatzComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TableEinsatzComponent ]
+      declarations: [TableEinsatzComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

@@ -1,15 +1,13 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
-import {Einsatz} from "../../models/einsatz";
+import {Einsatz} from "../../models/einsatz/einsatz";
 import {FormControl, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
-import {Mitarbeiter} from "../../models/mitarbeiter";
 import {ActivatedRoute, Router} from "@angular/router";
-import {MitarbeiterService} from "../../services/mitarbeiter.service";
-import {EinsatzStatus} from "../../models/einsatz-status.enum";
-import {MitarbeiterVertrieb} from "../../models/mitarbeiter-vertrieb";
-import {EinsatzService} from "../../services/einsatz.service";
-import {MitarbeiterVertriebService} from "../../services/mitarbeiter-vertrieb.service";
-
-const patternNames = Validators.pattern('[a-zA-Z_äÄöÖüÜß\-]*');
+import {MitarbeiterService} from "../../services/mitarbeiter/mitarbeiter.service";
+import {EinsatzStatus} from "../../models/einsatz/einsatz-status.enum";
+import {EinsatzService} from "../../services/einsatz/einsatz.service";
+import {MitarbeiterVertriebService} from "../../services/vertrieb/mitarbeiter-vertrieb.service";
+import {MitarbeiterDTO} from "../../models/mitarbeiter/mitarbeiter-dto";
+import {EinsatzDTO} from "../../models/einsatz/einsatz-dto";
 
 @Component({
   selector: 'app-update-einsatz',
@@ -40,15 +38,9 @@ export class UpdateEinsatzComponent implements OnInit {
   einsatzStatusEnum = EinsatzStatus;
   einsatzStatusList = [];
 
-  mitarbeiterList: Array<Mitarbeiter>;
-  mitarbeiterName = new Map();
-  mitarbeiterIds = [];
-  mitarbeiterMap = new Map();
+  mitarbeiterList: Array<MitarbeiterDTO>;
 
-  mitarbeiterVertriebList: Array<MitarbeiterVertrieb>;
-  mitarbeiterVertriebName = new Map();
-  mitarbeiterVertriebIds = [];
-  mitarbeiterVertriebMap = new Map();
+  mitarbeiterVertriebList: Array<MitarbeiterDTO>;
 
   constructor(private route: ActivatedRoute, private router: Router,
               private einsatzService: EinsatzService,
@@ -60,44 +52,33 @@ export class UpdateEinsatzComponent implements OnInit {
   onSubmit() {
     //TODO Weiterleitung nach Update? Oder nur Meldung ausgeben?
 
-    let einsatz = new Einsatz();
-    einsatz.id = this.id.value;
-    einsatz.mitarbeiter = this.mitarbeiterMap.get(this.mitarbeiter.value);
-    einsatz.mitarbeiterVertrieb = this.mitarbeiterVertriebMap.get(this.mitarbeiterVertrieb.value);
-    einsatz.einsatzStatus = <EinsatzStatus>this.einsatzStatus.value;
-    einsatz.beginn = this.beginn.value;
-    einsatz.ende = this.ende.value;
-    einsatz.wahrscheinlichkeit = this.wahrscheinlichkeit.value;
-    einsatz.zusatzkostenReise = this.zusatzkostenReise.value;
-    einsatz.stundensatzVK = this.stundensatzVK.value;
-    einsatz.projektnummerNettime = this.projektnummerNettime.value;
-    einsatz.beauftragungsnummer = this.beauftragungsnummer.value;
+    let einsatzDTO = new EinsatzDTO();
+    einsatzDTO.id = this.id.value;
+    einsatzDTO.mitarbeiterId = this.mitarbeiter.value;
+    einsatzDTO.mitarbeiterVertriebId = this.mitarbeiterVertrieb.value;
+    einsatzDTO.einsatzStatus = <EinsatzStatus>this.einsatzStatus.value;
+    einsatzDTO.beginn = this.beginn.value;
+    einsatzDTO.ende = this.ende.value;
+    einsatzDTO.wahrscheinlichkeit = this.wahrscheinlichkeit.value;
+    einsatzDTO.zusatzkostenReise = this.zusatzkostenReise.value;
+    einsatzDTO.stundensatzVK = this.stundensatzVK.value;
+    einsatzDTO.projektnummerNettime = this.projektnummerNettime.value;
+    einsatzDTO.beauftragungsnummer = this.beauftragungsnummer.value;
 
-    this.einsatzService.update(einsatz).subscribe();
+    this.einsatzService.update(einsatzDTO).subscribe();
   }
 
   ngOnInit(): void {
-    this.mitarbeiterService.findAll().subscribe(result => {
+    this.mitarbeiterService.getMitarbeiterListOrderByName().subscribe(result => {
       this.mitarbeiterList = result;
-      this.mitarbeiterList.forEach((mitarbeiter) => {
-        this.mitarbeiterName.set(mitarbeiter.id, mitarbeiter.name + ', ' + mitarbeiter.vorname);
-        this.mitarbeiterMap.set(mitarbeiter.id, mitarbeiter);
-        this.mitarbeiterIds.push(mitarbeiter.id);
-      });
+      this.mitarbeiter.setValue(this.mitarbeiterList.find(x => x.id == this.einsatzInput.mitarbeiter.id).id);
     });
-
-    this.mitarbeiterVertriebService.findAll().subscribe(result => {
+    this.mitarbeiterVertriebService.getMitarbeiterVertriebListOrderByName().subscribe(result => {
       this.mitarbeiterVertriebList = result;
-      this.mitarbeiterVertriebList.forEach((mitarbeiterVertrieb) => {
-        this.mitarbeiterVertriebName.set(mitarbeiterVertrieb.id, mitarbeiterVertrieb.name + ', ' + mitarbeiterVertrieb.vorname);
-        this.mitarbeiterVertriebMap.set(mitarbeiterVertrieb.id, mitarbeiterVertrieb);
-        this.mitarbeiterVertriebIds.push(mitarbeiterVertrieb.id);
-      });
+      this.mitarbeiterVertrieb.setValue(this.mitarbeiterVertriebList.find(x => x.id == this.einsatzInput.mitarbeiterVertrieb.id).id);
     });
 
     this.id.setValue(this.einsatzInput.id);
-    this.mitarbeiter.setValue(this.einsatzInput.mitarbeiter.id);
-    this.mitarbeiterVertrieb.setValue(this.einsatzInput.mitarbeiterVertrieb.id);
     this.einsatzStatus.setValue(this.einsatzInput.einsatzStatus);
     this.beginn.setValue(this.einsatzInput.beginn);
     this.ende.setValue(this.einsatzInput.ende);

@@ -8,9 +8,9 @@ describe('MitarbeiterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TableMitarbeiterComponent ]
+      declarations: [TableMitarbeiterComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

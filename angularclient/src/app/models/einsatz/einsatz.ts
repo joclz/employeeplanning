@@ -1,5 +1,5 @@
-import {Mitarbeiter} from "./mitarbeiter";
-import {MitarbeiterVertrieb} from "./mitarbeiter-vertrieb";
+import {Mitarbeiter} from "../mitarbeiter/mitarbeiter";
+import {MitarbeiterVertrieb} from "../vertrieb/mitarbeiter-vertrieb";
 import {EinsatzStatus} from "./einsatz-status.enum";
 
 export class Einsatz {

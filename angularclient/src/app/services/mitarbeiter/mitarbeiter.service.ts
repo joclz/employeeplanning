@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {Mitarbeiter} from "../models/mitarbeiter";
-import {MitarbeiterStatus} from "../models/mitarbeiter-status.enum";
+import {Mitarbeiter} from "../../models/mitarbeiter/mitarbeiter";
+import {MitarbeiterStatus} from "../../models/mitarbeiter/mitarbeiter-status.enum";
+import {MitarbeiterDTO} from "../../models/mitarbeiter/mitarbeiter-dto";
 
 @Injectable({
   providedIn: 'root'
@@ -30,16 +31,16 @@ export class MitarbeiterService {
     return this.http.get<string>('http://localhost:8080/getChanceForMitarbeiter', {params: params});
   }
 
-  public delete(id: string): Observable<string> {
+  public delete(id: string): Observable<Mitarbeiter> {
     let params = new HttpParams().set("mitarbeiterId", id);
-    return this.http.post<string>('http://localhost:8080/deleteMitarbeiter', '', {params: params});
+    return this.http.post<Mitarbeiter>('http://localhost:8080/deleteMitarbeiter', '', {params: params});
   }
 
   public update(mitarbeiter: Mitarbeiter): Observable<Mitarbeiter> {
     return this.http.post<Mitarbeiter>('http://localhost:8080/updateMitarbeiter', mitarbeiter);
   }
 
-  public getMitarbeiterImEinsatz(mitarbeiterStatus: MitarbeiterStatus): Observable<MitarbeiterStatus>{
+  public getMitarbeiterImEinsatz(mitarbeiterStatus: MitarbeiterStatus): Observable<MitarbeiterStatus> {
     let params = new HttpParams().set("mitarbeiterStatus", mitarbeiterStatus);
     return this.http.get<MitarbeiterStatus>('http://localhost:8080/countMitarbeiterImEinsatz', {params: params});
   }
@@ -54,6 +55,10 @@ export class MitarbeiterService {
 
   public getMitarbeiterInternBank(): Observable<Mitarbeiter[]> {
     return this.http.get<Mitarbeiter[]>('http://localhost:8080/listMitarbeiterInternBank');
+  }
+
+  public getMitarbeiterListOrderByName(): Observable<MitarbeiterDTO[]> {
+    return this.http.get<MitarbeiterDTO[]>('http://localhost:8080/getMitarbeiterListOrderByName');
   }
 
 }

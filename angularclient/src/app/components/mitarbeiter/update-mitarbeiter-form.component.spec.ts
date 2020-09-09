@@ -8,9 +8,9 @@ describe('UpdateMitarbeiterFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UpdateMitarbeiterFormComponent ]
+      declarations: [UpdateMitarbeiterFormComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

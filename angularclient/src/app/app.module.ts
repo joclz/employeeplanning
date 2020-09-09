@@ -4,7 +4,7 @@ import {NgModule} from '@angular/core';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {AddMitarbeiterFormComponent} from './components/mitarbeiter/add-mitarbeiter-form.component';
-import {MitarbeiterService} from "./services/mitarbeiter.service";
+import {MitarbeiterService} from "./services/mitarbeiter/mitarbeiter.service";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import {TableMitarbeiterComponent} from './components/mitarbeiter/table-mitarbeiter.component';

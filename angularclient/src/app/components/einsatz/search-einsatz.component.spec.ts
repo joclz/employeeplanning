@@ -8,9 +8,9 @@ describe('SearchEinsatzComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SearchEinsatzComponent ]
+      declarations: [SearchEinsatzComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

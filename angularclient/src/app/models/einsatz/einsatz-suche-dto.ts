@@ -1,7 +1,7 @@
-import {MitarbeiterStatus} from "./mitarbeiter-status.enum";
+import {MitarbeiterStatus} from "../mitarbeiter/mitarbeiter-status.enum";
 import {EinsatzStatus} from "./einsatz-status.enum";
 
-export class EinsatzSuche {
+export class EinsatzSucheDto {
 
   mitarbeiterVertriebId: string;
   mitarbeiterId: string;

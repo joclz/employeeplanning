@@ -8,25 +8,25 @@
 
     <!-- ID Column -->
     <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> ID</th>
       <td mat-cell *matCellDef="let row"> {{row.id}} </td>
     </ng-container>
 
     <!-- Name Column -->
     <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Name</th>
       <td mat-cell *matCellDef="let row"> {{row.name}} </td>
     </ng-container>
 
     <!-- Vorname Column -->
     <ng-container matColumnDef="vorname">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Vorname </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Vorname</th>
       <td mat-cell *matCellDef="let row"> {{row.vorname}} </td>
     </ng-container>
 
     <!-- Delete/Edit MitarbeiterVertrieb -->
     <ng-container matColumnDef="actions">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
       <td mat-cell *matCellDef="let row">
         <button (click)="deleteMitarbeiterVertrieb(row.id)" mat-stroked-button color="warn">Löschen</button>
         <button (click)="updateMitarbeiterVertrieb(row)" mat-stroked-button color="warn">Editieren</button>

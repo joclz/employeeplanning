@@ -1,15 +1,12 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
-import {EinsatzStatus} from "../../models/einsatz-status.enum";
-import {EinsatzService} from "../../services/einsatz.service";
-import {Mitarbeiter} from "../../models/mitarbeiter";
-import {MitarbeiterService} from "../../services/mitarbeiter.service";
-import {MitarbeiterVertriebService} from "../../services/mitarbeiter-vertrieb.service";
-import {MitarbeiterVertrieb} from "../../models/mitarbeiter-vertrieb";
-import {EinsatzDTO} from "../../models/einsatz-dto";
-
-const patternNames = Validators.pattern('[a-zA-Z_äÄöÖüÜß\-]*');
+import {EinsatzStatus} from "../../models/einsatz/einsatz-status.enum";
+import {EinsatzService} from "../../services/einsatz/einsatz.service";
+import {MitarbeiterService} from "../../services/mitarbeiter/mitarbeiter.service";
+import {MitarbeiterVertriebService} from "../../services/vertrieb/mitarbeiter-vertrieb.service";
+import {EinsatzDTO} from "../../models/einsatz/einsatz-dto";
+import {MitarbeiterDTO} from "../../models/mitarbeiter/mitarbeiter-dto";
 
 @Component({
   selector: 'app-add-einsatz',
@@ -36,13 +33,9 @@ export class AddEinsatzComponent implements OnInit {
   einsatzStatusEnum = EinsatzStatus;
   einsatzStatusList = [];
 
-  mitarbeiterList: Array<Mitarbeiter>;
-  mitarbeiterName = new Map();
-  mitarbeiterIds = [];
+  mitarbeiterList: Array<MitarbeiterDTO>;
 
-  mitarbeiterVertriebList: Array<MitarbeiterVertrieb>;
-  mitarbeiterVertriebName = new Map();
-  mitarbeiterVertriebIds = [];
+  mitarbeiterVertriebList: Array<MitarbeiterDTO>;
 
   constructor(private route: ActivatedRoute, private router: Router,
               private einsatzService: EinsatzService,
@@ -70,20 +63,12 @@ export class AddEinsatzComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.mitarbeiterService.findAll().subscribe(result => {
+    this.mitarbeiterService.getMitarbeiterListOrderByName().subscribe(result => {
       this.mitarbeiterList = result;
-      this.mitarbeiterList.forEach( (mitarbeiter) => {
-        this.mitarbeiterName.set(mitarbeiter.id, mitarbeiter.name + ', ' + mitarbeiter.vorname);
-        this.mitarbeiterIds.push(mitarbeiter.id);
-      });
     });
 
-    this.mitarbeiterVertriebService.findAll().subscribe(result => {
+    this.mitarbeiterVertriebService.getMitarbeiterVertriebListOrderByName().subscribe(result => {
       this.mitarbeiterVertriebList = result;
-      this.mitarbeiterVertriebList.forEach( (mitarbeiterVertrieb) => {
-        this.mitarbeiterVertriebName.set(mitarbeiterVertrieb.id, mitarbeiterVertrieb.name + ', ' + mitarbeiterVertrieb.vorname);
-        this.mitarbeiterVertriebIds.push(mitarbeiterVertrieb.id);
-      });
     });
 
     this.formGroup = new FormGroup({

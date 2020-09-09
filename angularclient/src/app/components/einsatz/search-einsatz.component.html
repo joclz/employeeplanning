@@ -1,7 +1,7 @@
 <mat-tab-group (selectedIndexChange)="selectTab($event)">
 
   <mat-tab label="Angeboten">
-    <ng-template matTabContent >
+    <ng-template matTabContent>
       <app-table-einsatz *ngIf="isEinsatzAngeboten" [einsaetze]=einsaetzeAngebotenList></app-table-einsatz>
     </ng-template>
   </mat-tab>
@@ -23,8 +23,9 @@
           (ngSubmit)="searchMitarbeiterVertrieb()">
       <mat-form-field appearance="fill" class="half-width">
         <mat-label>Mitarbeiter Vertrieb</mat-label>
-        <mat-select formControlName="mitarbeiterVertriebId">
-          <mat-option *ngFor="let key of mitarbeiterVertriebIds" [value]="key">{{mitarbeiterVertriebName.get(key)}}</mat-option>
+        <mat-select required formControlName="mitarbeiterVertriebId">
+          <mat-option *ngFor="let mitarbeiterVertrieb of mitarbeiterVertriebList"
+                      [value]="mitarbeiterVertrieb.id">{{mitarbeiterVertrieb.name}}</mat-option>
         </mat-select>
       </mat-form-field>
 
@@ -41,14 +42,16 @@
       <mat-form-field appearance="fill" class="half-width">
         <mat-label>Mitarbeiter</mat-label>
         <mat-select formControlName="mitarbeiter">
-          <mat-option *ngFor="let key of mitarbeiterIds" [value]="key">{{mitarbeiterName.get(key)}}</mat-option>
+          <mat-option *ngFor="let mitarbeiter of mitarbeiterList"
+                      [value]="mitarbeiter.id">{{mitarbeiter.name}}</mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field appearance="fill" class="half-width">
         <mat-label>Mitarbeiter Vertrieb</mat-label>
         <mat-select formControlName="mitarbeiterVertrieb">
-          <mat-option *ngFor="let key of mitarbeiterVertriebIds" [value]="key">{{mitarbeiterVertriebName.get(key)}}</mat-option>
+          <mat-option *ngFor="let mitarbeiterVertrieb of mitarbeiterVertriebList"
+                      [value]="mitarbeiterVertrieb.id">{{mitarbeiterVertrieb.name}}</mat-option>
         </mat-select>
       </mat-form-field>
 

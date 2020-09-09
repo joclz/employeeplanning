@@ -1,8 +1,8 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
-import {MitarbeiterVertrieb} from "../../models/mitarbeiter-vertrieb";
+import {MitarbeiterVertrieb} from "../../models/vertrieb/mitarbeiter-vertrieb";
 import {FormControl, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
-import {MitarbeiterVertriebService} from "../../services/mitarbeiter-vertrieb.service";
+import {MitarbeiterVertriebService} from "../../services/vertrieb/mitarbeiter-vertrieb.service";
 
 const patternNames = Validators.pattern('[a-zA-Z_äÄöÖüÜß\-]*');
 
