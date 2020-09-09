@@ -23,7 +23,9 @@
           (ngSubmit)="searchMitarbeiterVertrieb()">
       <mat-form-field appearance="fill" class="half-width">
         <mat-label>Mitarbeiter Vertrieb</mat-label>
-        <input matInput type="number" formControlName="mitarbeiterVertriebId" placeholder="1">
+        <mat-select formControlName="mitarbeiterVertriebId">
+          <mat-option *ngFor="let key of mitarbeiterVertriebIds" [value]="key">{{mitarbeiterVertriebName.get(key)}}</mat-option>
+        </mat-select>
       </mat-form-field>
 
       <button mat-raised-button color="primary" type="submit" class="button"

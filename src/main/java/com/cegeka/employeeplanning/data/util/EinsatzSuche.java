@@ -5,9 +5,10 @@ import java.util.Date;
 import com.cegeka.employeeplanning.data.enums.Enums;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
+@NoArgsConstructor
 @Getter
 @Setter
 public class EinsatzSuche {
@@ -19,10 +20,6 @@ public class EinsatzSuche {
     Date beginnBis;
     Date endeVon;
     Date endeBis;
-
-    public EinsatzSuche()
-    {
-    }
 
     public EinsatzSuche(Integer mitarbeiterVertriebId,
                         Integer mitarbeiterId,
