@@ -1,5 +1,10 @@
 package com.cegeka.employeeplanning;
 
+import static com.cegeka.employeeplanning.util.EmployeeplanningUtil.TEST_IMPORT;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.cegeka.employeeplanning.repositories.EinsatzRepository;
 import com.cegeka.employeeplanning.repositories.MitarbeiterRepository;
 import com.cegeka.employeeplanning.repositories.MitarbeiterVertriebRepository;
@@ -14,11 +19,6 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-
-import static com.cegeka.employeeplanning.util.EmployeeplanningUtil.TEST_IMPORT;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -45,6 +45,15 @@ public class EmployeeplanningControllerDeleteTests {
     }
 
     @Test
+    public void test_deleteMitarbeiter99_Expected_Status404() throws Exception {
+        MultiValueMap multiValueMap = new LinkedMultiValueMap<>();
+        multiValueMap.add("mitarbeiterId", "99");
+        MockHttpServletRequestBuilder requestBuilder = post("/deleteMitarbeiter").params(multiValueMap);
+        ResultActions perform = this.mockMvc.perform(requestBuilder);
+        perform.andExpect(status().isNotFound());
+    }
+
+    @Test
     public void test_deleteMitarbeiterVertrieb1_Expected_MitarbeiterVertriebCount2_EinsatzCount4() throws Exception {
         MultiValueMap multiValueMap = new LinkedMultiValueMap<>();
         multiValueMap.add("mitarbeiterVertriebId", "1");
@@ -56,6 +65,15 @@ public class EmployeeplanningControllerDeleteTests {
     }
 
     @Test
+    public void test_deleteMitarbeiterVertrieb99_Expected_Status404() throws Exception {
+        MultiValueMap multiValueMap = new LinkedMultiValueMap<>();
+        multiValueMap.add("mitarbeiterVertriebId", "99");
+        MockHttpServletRequestBuilder requestBuilder = post("/deleteMitarbeiterVertrieb").params(multiValueMap);
+        ResultActions perform = this.mockMvc.perform(requestBuilder);
+        perform.andExpect(status().isNotFound());
+    }
+
+    @Test
     public void test_deleteEinsatz2_Expected_EinsatzCount8() throws Exception {
         MultiValueMap multiValueMap = new LinkedMultiValueMap<>();
         multiValueMap.add("einsatzId", "2");
@@ -63,5 +81,14 @@ public class EmployeeplanningControllerDeleteTests {
         ResultActions perform = this.mockMvc.perform(requestBuilder);
         perform.andExpect(status().isOk());
         assertThat(einsatzRepository.count()).isEqualTo(8);
+    }
+
+    @Test
+    public void test_deleteEinsatz99_Expected_Status404() throws Exception {
+        MultiValueMap multiValueMap = new LinkedMultiValueMap<>();
+        multiValueMap.add("einsatzId", "99");
+        MockHttpServletRequestBuilder requestBuilder = post("/deleteEinsatz").params(multiValueMap);
+        ResultActions perform = this.mockMvc.perform(requestBuilder);
+        perform.andExpect(status().isNotFound());
     }
 }

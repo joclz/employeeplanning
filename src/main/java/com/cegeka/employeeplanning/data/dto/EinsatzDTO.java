@@ -1,13 +1,16 @@
 package com.cegeka.employeeplanning.data.dto;
 
-import com.cegeka.employeeplanning.data.enums.Enums;
-import lombok.Getter;
-import lombok.Setter;
-
 import java.util.Date;
+
+import com.cegeka.employeeplanning.data.enums.Enums;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class EinsatzDTO {
     private Integer id;
     private Integer mitarbeiterId;

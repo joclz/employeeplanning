@@ -52,8 +52,8 @@ public class EinsatzService {
     public Einsatz convertToEntity(EinsatzDTO einsatzDTO) {
         ModelMapper modelMapper = new ModelMapper();
         Einsatz einsatz = modelMapper.map(einsatzDTO, Einsatz.class);
-        Integer vertriebMitarbeiterId = einsatz.getMitarbeiterVertrieb().getId();
-        Integer mitarbeiterId = einsatz.getMitarbeiter().getId();
+        Integer vertriebMitarbeiterId = einsatzDTO.getMitarbeiterVertriebId();
+        Integer mitarbeiterId = einsatzDTO.getMitarbeiterId();
         if (vertriebMitarbeiterId != null) {
             Optional<MitarbeiterVertrieb> maVertriebId = mitarbeiterVertriebRepository.findById(vertriebMitarbeiterId);
             einsatz.setMitarbeiterVertrieb(maVertriebId.orElse(null));
