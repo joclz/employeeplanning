@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angula
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
-import {EinsatzDTO} from "../../models/einsatz/einsatz";
+import {Einsatz} from "../../models/einsatz/einsatz";
 import {EinsatzService} from "../../services/einsatz/einsatz.service";
 import {UpdateEinsatzService} from "../../services/einsatz/update-einsatz.service";
 import {EinsatzStatus} from "../../models/einsatz/einsatz-status.enum";
@@ -17,14 +17,14 @@ export class TableEinsatzComponent implements OnInit {
   displayedColumns: string[] = ['id', 'mitarbeiter', 'mitarbeiterVertrieb', 'einsatzStatus', 'beginn', 'ende',
     'wahrscheinlichkeit', 'zusatzkostenReise', 'stundensatzVK', 'projektnummerNettime', 'beauftragungsnummer',
     'deckungsbeitrag', 'marge', 'actions'];
-  dataSource: MatTableDataSource<EinsatzDTO>;
+  dataSource: MatTableDataSource<Einsatz>;
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   @Output() deleteEinsatzEvent = new EventEmitter();
 
-  @Input() einsaetze: EinsatzDTO[];
+  @Input() einsaetze: Einsatz[];
 
   constructor(private einsatzService: EinsatzService, private updateEinsatzService: UpdateEinsatzService) {
   }
@@ -42,7 +42,7 @@ export class TableEinsatzComponent implements OnInit {
     }
   }
 
-  init(einsatz: EinsatzDTO[]): void {
+  init(einsatz: Einsatz[]): void {
     this.dataSource = new MatTableDataSource(einsatz);
 
     this.dataSource.paginator = this.paginator;
@@ -65,7 +65,7 @@ export class TableEinsatzComponent implements OnInit {
     });
   }
 
-  updateEinsatz(row: EinsatzDTO) {
+  updateEinsatz(row: Einsatz) {
     this.updateEinsatzService.updateEinsatz(row);
   }
 
