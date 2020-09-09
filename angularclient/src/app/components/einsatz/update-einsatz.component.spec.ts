@@ -8,9 +8,9 @@ describe('UpdateEinsatzComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UpdateEinsatzComponent ]
+      declarations: [UpdateEinsatzComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

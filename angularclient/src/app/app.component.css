@@ -1,6 +1,6 @@
 .mainCard {
   width: 75%;
-  text-align:center;
+  text-align: center;
 }
 
 .listMitarbeiter {
@@ -47,7 +47,7 @@
   width: 75%;
 }
 
-.center{
+.center {
   display: flex;
   justify-content: center;
 }

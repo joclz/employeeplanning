@@ -8,9 +8,9 @@ describe('UpdateVertriebComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UpdateVertriebComponent ]
+      declarations: [UpdateVertriebComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

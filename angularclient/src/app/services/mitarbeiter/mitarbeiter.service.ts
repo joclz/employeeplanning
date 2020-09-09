@@ -40,7 +40,7 @@ export class MitarbeiterService {
     return this.http.post<Mitarbeiter>('http://localhost:8080/updateMitarbeiter', mitarbeiter);
   }
 
-  public getMitarbeiterImEinsatz(mitarbeiterStatus: MitarbeiterStatus): Observable<MitarbeiterStatus>{
+  public getMitarbeiterImEinsatz(mitarbeiterStatus: MitarbeiterStatus): Observable<MitarbeiterStatus> {
     let params = new HttpParams().set("mitarbeiterStatus", mitarbeiterStatus);
     return this.http.get<MitarbeiterStatus>('http://localhost:8080/countMitarbeiterImEinsatz', {params: params});
   }

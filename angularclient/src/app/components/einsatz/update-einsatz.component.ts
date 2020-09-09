@@ -71,14 +71,14 @@ export class UpdateEinsatzComponent implements OnInit {
   ngOnInit(): void {
     this.mitarbeiterService.getMitarbeiterListOrderByName().subscribe(result => {
       this.mitarbeiterList = result;
+      this.mitarbeiter.setValue(this.mitarbeiterList.find(x => x.id == this.einsatzInput.mitarbeiter.id).id);
     });
     this.mitarbeiterVertriebService.getMitarbeiterVertriebListOrderByName().subscribe(result => {
       this.mitarbeiterVertriebList = result;
+      this.mitarbeiterVertrieb.setValue(this.mitarbeiterVertriebList.find(x => x.id == this.einsatzInput.mitarbeiterVertrieb.id).id);
     });
 
     this.id.setValue(this.einsatzInput.id);
-    this.mitarbeiter.setValue(this.einsatzInput.mitarbeiter.id);
-    this.mitarbeiterVertrieb.setValue(this.einsatzInput.mitarbeiterVertrieb.id);
     this.einsatzStatus.setValue(this.einsatzInput.einsatzStatus);
     this.beginn.setValue(this.einsatzInput.beginn);
     this.ende.setValue(this.einsatzInput.ende);
@@ -101,10 +101,6 @@ export class UpdateEinsatzComponent implements OnInit {
       projektnummerNettime: this.projektnummerNettime,
       beauftragungsnummer: this.beauftragungsnummer
     });
-
-    console.log(this.mitarbeiterList);
-
-
   }
 
   ngOnDestroy(): void {
