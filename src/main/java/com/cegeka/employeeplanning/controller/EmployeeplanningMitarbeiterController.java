@@ -1,16 +1,22 @@
 package com.cegeka.employeeplanning.controller;
 
+import java.util.Date;
+import java.util.List;
+
 import com.cegeka.employeeplanning.data.Mitarbeiter;
+import com.cegeka.employeeplanning.data.dto.MitarbeiterDTO;
 import com.cegeka.employeeplanning.data.enums.Enums;
 import com.cegeka.employeeplanning.data.enums.Enums.MitarbeiterStatus;
 import com.cegeka.employeeplanning.repositories.MitarbeiterRepository;
 import com.cegeka.employeeplanning.service.MitarbeiterService;
-import com.cegeka.employeeplanning.data.dto.MitarbeiterDTO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
-import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin
 @RestController
@@ -23,24 +29,24 @@ public class EmployeeplanningMitarbeiterController {
     @PostMapping(path = "/addMitarbeiter", consumes = "application/json")
     public Mitarbeiter addMitarbeiter(@RequestBody Mitarbeiter mitarbeiter) {
         mitarbeiterRepository.save(mitarbeiter);
-        return mitarbeiter;
+        return mitarbeiterService.getMitarbeiterById(mitarbeiter.getId());
     }
 
     @PostMapping(path = "/addMitarbeiter", consumes = "application/x-www-form-urlencoded")
     public Mitarbeiter addMitarbeiterUrlencoded(Mitarbeiter mitarbeiter) {
         mitarbeiterRepository.save(mitarbeiter);
-        return mitarbeiter;
+        return mitarbeiterService.getMitarbeiterById(mitarbeiter.getId());
     }
 
     @PostMapping(path = "/deleteMitarbeiter")
     public void deleteMitarbeiter(@RequestParam("mitarbeiterId") Integer id) {
-        mitarbeiterRepository.deleteById(id);
+        mitarbeiterService.deleteById(id);
     }
 
     @PostMapping(path = "/updateMitarbeiter")
     public Mitarbeiter updateMitarbeiter(@RequestBody Mitarbeiter mitarbeiter) {
-        mitarbeiterRepository.save(mitarbeiter);
-        return mitarbeiter;
+        mitarbeiterService.update(mitarbeiter);
+        return mitarbeiterService.getMitarbeiterById(mitarbeiter.getId());
     }
 
     @PostMapping("/addMitarbeiterMitEinzelnenWerten")
@@ -54,7 +60,7 @@ public class EmployeeplanningMitarbeiterController {
         mitarbeiter.setMitarbeiterUnit(Enums.MitarbeiterUnit.valueOf(unit));
         mitarbeiter.setStundensatzEK(Double.parseDouble(stundensatzEK));
         mitarbeiterRepository.save(mitarbeiter);
-        return mitarbeiter;
+        return mitarbeiterService.getMitarbeiterById(mitarbeiter.getId());
     }
 
     @GetMapping("/countMitarbeiterImEinsatz")
