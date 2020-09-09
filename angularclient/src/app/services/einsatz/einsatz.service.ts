@@ -28,7 +28,6 @@ export class EinsatzService {
   }
 
   public update(einsatzDTO: EinsatzDTO): Observable<EinsatzDTO> {
-    console.log(einsatzDTO);
     return this.http.post<EinsatzDTO>('http://localhost:8080/updateEinsatz', einsatzDTO);
   }
 
