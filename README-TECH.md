@@ -12,15 +12,21 @@ mvn spring-boot:run
 - Ausführen aller Unit Tests:
 mvn test
 
-- Erzeugen eines JAR-Files:
+- Erzeugen eines WAR-Files:
 mvn clean package
   
-  Hierbei wird ein jar-File erzeugt, welches wie folgt gestartet werden kann:
-  java -jar target/employeeplanning-0.0.1-SNAPSHOT.jar
+  Hierbei wird ein war-File erzeugt, welches wie folgt gestartet werden kann:
+  java -jar target/employeeplanning-0.0.1-SNAPSHOT.war
   
   Mit http://localhost:8080 ist die Angularoberfläche aufrufbar.
   Mit http://localhost:8080/start.html kann man noch die alte HTML-GUI aufrufen.
-  
+
+- Erzeugen eines produktiven WAR-Files:  
+mvn clean package -Dexec.executable="ng" -Dexec.args="build --prod"
+
+Aktuell wird für den produktiven Stand ein anderer Port konfiguriert. Dies kann wie folgt getestet werden:
+java -Dserver.port=9080 -jar target/employeeplanning-0.0.1-SNAPSHOT.war
+###############################################  
 
 **Frontend:** (Im Ordner employeeplanning\angularclient)
 
@@ -28,6 +34,7 @@ Abhängigkeiten ziehen: npm install
 
 Client starten: ng serve
 Client starten (mit Browser): ng serve --open
+###############################################
 
 **Datenbank:**
 
