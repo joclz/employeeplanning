@@ -10,7 +10,7 @@ public class EmployeeplanningController {
     @GetMapping("/goToIndex")
     public ModelAndView goToIndex() {
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("index.html");
+        mav.setViewName("start.html");
         return mav;
     }
 
@@ -24,7 +24,7 @@ public class EmployeeplanningController {
     @GetMapping("/goToMitarbeiterVertrieb")
     public ModelAndView goToMitarbeiterVertrieb() {
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("mitarbeiterVertrieb.html");
+        mav.setViewName("mitarbeitervertrieb.html");
         return mav;
     }
 

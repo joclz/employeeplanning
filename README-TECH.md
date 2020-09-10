@@ -1,16 +1,26 @@
 **Backend:**
 
-- Löschen des gebauten Backends 
+- Löschen des gebauten Backends:
 mvn clean
 
-- Compilieren der Backend-Sourcen
+- Compilieren der Backend-Sourcen:
 mvn compile
 
-- Starten des Backends. Der Service ist über http://localhost:8080 erreichbar
+- Starten des Backends. Der Service ist über http://localhost:8080 erreichbar:
 mvn spring-boot:run
 
-- Ausführen aller Unit Tests
+- Ausführen aller Unit Tests:
 mvn test
+
+- Erzeugen eines JAR-Files:
+mvn clean package
+  
+  Hierbei wird ein jar-File erzeugt, welches wie folgt gestartet werden kann:
+  java -jar target/employeeplanning-0.0.1-SNAPSHOT.jar
+  
+  Mit http://localhost:8080 ist die Angularoberfläche aufrufbar.
+  Mit http://localhost:8080/start.html kann man noch die alte HTML-GUI aufrufen.
+  
 
 **Frontend:** (Im Ordner employeeplanning\angularclient)
 
