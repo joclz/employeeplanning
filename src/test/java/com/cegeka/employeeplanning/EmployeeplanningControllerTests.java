@@ -9,13 +9,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.cegeka.employeeplanning.data.Einsatz;
 import com.cegeka.employeeplanning.data.Mitarbeiter;
+import com.cegeka.employeeplanning.data.MitarbeiterVertrieb;
+import com.cegeka.employeeplanning.data.dto.EinsatzDTO;
 import com.cegeka.employeeplanning.data.enums.Enums;
 import com.cegeka.employeeplanning.repositories.EinsatzRepository;
 import com.cegeka.employeeplanning.repositories.MitarbeiterRepository;
+import com.cegeka.employeeplanning.repositories.MitarbeiterVertriebRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.junit.jupiter.api.Test;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -37,6 +42,8 @@ public class EmployeeplanningControllerTests {
     private MitarbeiterRepository mitarbeiterRepository;
     @Autowired
     private EinsatzRepository einsatzRepository;
+    @Autowired
+    private MitarbeiterVertriebRepository mitarbeiterVertriebRepository;
 
     public static String asJsonString(final Object obj) {
         try {
@@ -119,5 +126,105 @@ public class EmployeeplanningControllerTests {
         ResultActions perform = this.mockMvc.perform(requestBuilder);
         perform.andExpect(status().isOk());
         perform.andExpect(jsonPath("$", hasSize(3)));
+    }
+
+    @Test
+    public void test_updateMitarbeiter_Expected_newValue() throws Exception {
+        Mitarbeiter mitarbeiter = mitarbeiterRepository.findById(Integer.valueOf(1)).get();
+        double neuerStundensatz = mitarbeiter.getStundensatzEK()*2;
+        mitarbeiter.setStundensatzEK(neuerStundensatz);
+
+        MockHttpServletRequestBuilder requestBuilder = post("/updateMitarbeiter")
+                .content(asJsonString(mitarbeiter)).contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON);
+        ResultActions perform = this.mockMvc.perform(requestBuilder);
+        perform.andExpect(status().isOk());
+
+        Mitarbeiter mitarbeiterNeu = mitarbeiterRepository.findById(Integer.valueOf(1)).get();
+        assertThat(mitarbeiterNeu.getStundensatzEK()).isEqualTo(neuerStundensatz);
+    }
+
+    @Test
+    public void test_updateMitarbeiterId_Expected_Status404() throws Exception {
+        Mitarbeiter mitarbeiter = mitarbeiterRepository.findById(Integer.valueOf(1)).get();
+        mitarbeiter.setId(Integer.valueOf(99));
+
+        MockHttpServletRequestBuilder requestBuilder = post("/updateMitarbeiter")
+                .content(asJsonString(mitarbeiter)).contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON);
+        ResultActions perform = this.mockMvc.perform(requestBuilder);
+        perform.andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void test_updateMitarbeiterVertrieb_Expected_newValue() throws Exception {
+        MitarbeiterVertrieb mitarbeiterVertrieb = mitarbeiterVertriebRepository.findById(Integer.valueOf(1)).get();
+        String doppelname = mitarbeiterVertrieb.getVorname() + " Hans";
+        mitarbeiterVertrieb.setVorname(doppelname);
+
+        MockHttpServletRequestBuilder requestBuilder = post("/updateMitarbeiterVertrieb")
+                .content(asJsonString(mitarbeiterVertrieb)).contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON);
+        ResultActions perform = this.mockMvc.perform(requestBuilder);
+        perform.andExpect(status().isOk());
+
+        MitarbeiterVertrieb mitarbeiterVertriebNeu = mitarbeiterVertriebRepository.findById(Integer.valueOf(1)).get();
+        assertThat(mitarbeiterVertriebNeu.getVorname()).isEqualTo(doppelname);
+    }
+
+    @Test
+    public void test_updateMitarbeiterVertriebId_Expected_Status404() throws Exception {
+        MitarbeiterVertrieb mitarbeiterVertrieb = mitarbeiterVertriebRepository.findById(Integer.valueOf(1)).get();
+        mitarbeiterVertrieb.setId(Integer.valueOf(99));
+
+        MockHttpServletRequestBuilder requestBuilder = post("/updateMitarbeiterVertrieb")
+                .content(asJsonString(mitarbeiterVertrieb)).contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON);
+        ResultActions perform = this.mockMvc.perform(requestBuilder);
+        perform.andExpect(status().isNotFound());
+    }
+
+    public EinsatzDTO convertFromEntity(Einsatz einsatz) {
+        ModelMapper modelMapper = new ModelMapper();
+        EinsatzDTO einsatzDTO = modelMapper.map(einsatz, EinsatzDTO.class);
+        if (einsatz.getMitarbeiter() != null)
+        {
+            einsatzDTO.setMitarbeiterId(einsatz.getMitarbeiter().getId());
+        }
+        if (einsatz.getMitarbeiterVertrieb() != null)
+        {
+            einsatzDTO.setMitarbeiterVertriebId(einsatz.getMitarbeiterVertrieb().getId());
+        }
+        return einsatzDTO;
+    }
+
+    @Test
+    public void test_updateEinsatz_Expected_newValue() throws Exception {
+        Einsatz einsatz = einsatzRepository.findById(Integer.valueOf(1)).get();
+        double neuerStundensatzVK = einsatz.getStundensatzVK()*2;
+        EinsatzDTO neuerEinsatz = convertFromEntity(einsatz);
+        neuerEinsatz.setStundensatzVK(neuerStundensatzVK);
+
+        MockHttpServletRequestBuilder requestBuilder = post("/updateEinsatz")
+                .content(asJsonString(neuerEinsatz)).contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON);
+        ResultActions perform = this.mockMvc.perform(requestBuilder);
+        perform.andExpect(status().isOk());
+
+        Einsatz einsatzNeu = einsatzRepository.findById(Integer.valueOf(1)).get();
+        assertThat(einsatzNeu.getStundensatzVK()).isEqualTo(neuerStundensatzVK);
+    }
+
+    @Test
+    public void test_updateEinsatzId_Expected_Status404() throws Exception {
+        Einsatz einsatz = einsatzRepository.findById(Integer.valueOf(1)).get();
+        EinsatzDTO neuerEinsatz = convertFromEntity(einsatz);
+        neuerEinsatz.setId(Integer.valueOf(99));
+
+        MockHttpServletRequestBuilder requestBuilder = post("/updateEinsatz")
+                .content(asJsonString(neuerEinsatz)).contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON);
+        ResultActions perform = this.mockMvc.perform(requestBuilder);
+        perform.andExpect(status().isNotFound());
     }
 }

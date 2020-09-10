@@ -5,18 +5,20 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import com.cegeka.employeeplanning.data.Einsatz;
 import com.cegeka.employeeplanning.data.Mitarbeiter;
+import com.cegeka.employeeplanning.data.dto.MitarbeiterDTO;
 import com.cegeka.employeeplanning.data.enums.Enums.EinsatzStatus;
 import com.cegeka.employeeplanning.data.enums.Enums.MitarbeiterStatus;
 import com.cegeka.employeeplanning.data.util.EinsatzSuche;
+import com.cegeka.employeeplanning.exceptions.NoSuchMitarbeiterException;
 import com.cegeka.employeeplanning.repositories.EinsatzRepository;
 import com.cegeka.employeeplanning.repositories.MitarbeiterRepository;
 import com.cegeka.employeeplanning.util.EmployeeplanningUtil;
 
-import com.cegeka.employeeplanning.data.dto.MitarbeiterDTO;
 import org.assertj.core.util.VisibleForTesting;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,12 +32,31 @@ public class MitarbeiterService extends EmployeeplanningUtil {
     @Autowired
     private MitarbeiterRepository mitarbeiterRepository;
 
+    public Mitarbeiter getMitarbeiterById(Integer id)
+    {
+        return checkEntityExist(id);
+    }
+
+    public void deleteById(Integer id)
+    {
+        Mitarbeiter mitarbeiter = checkEntityExist(id);
+        mitarbeiterRepository.delete(mitarbeiter);
+    }
+
+    public void update(Mitarbeiter mitarbeiter)
+    {
+        checkEntityExist(mitarbeiter.getId());
+        mitarbeiterRepository.save(mitarbeiter);
+    }
+
     /**
      * Frage: Wie lange ist Mitarbeiter noch im Einsatz?
      * Gibt das letzte Ende Datum aller Einsätze für einen bestimmten Mitarbeiter zurück.
      * Hierbei werden nur Einsätze mit dem Status = BEAUFTRAGT berücksichtigt.
      */
     public Date getLastEndDateForMitarbeiter(Integer mitarbeiterId) {
+        checkEntityExist(mitarbeiterId);
+
         Set<Integer> einsatzIds = new HashSet<>();
         einsatzService.findEinsaetzeByMitarbeiterId(mitarbeiterId).forEach(id -> einsatzIds.add(id.getId()));
 
@@ -46,8 +67,7 @@ public class MitarbeiterService extends EmployeeplanningUtil {
         Iterable<Einsatz> einsaetzeByMitarbeiterId = einsatzRepository.findAllById(einsatzIds);
 
         Date lastEndDate = null;
-        List<Date> listEndDate = new ArrayList<Date>() {
-        };
+        List<Date> listEndDate = new ArrayList<Date>();
         einsaetzeByMitarbeiterId.forEach(it -> listEndDate.add(it.getEnde()));
         listEndDate.sort(Collections.reverseOrder());
         if (!listEndDate.isEmpty()) {
@@ -62,6 +82,8 @@ public class MitarbeiterService extends EmployeeplanningUtil {
      * Hierbei werden nur Einsätze mit dem Status = ANGEBOTEN berücksichtigt.
      */
     public Integer getChanceForMitarbeiter(Integer mitarbeiterId) {
+        checkEntityExist(mitarbeiterId);
+
         Set<Integer> einsatzIds = new HashSet<>();
         einsatzService.findEinsaetzeByMitarbeiterId(mitarbeiterId).forEach(id -> einsatzIds.add(id.getId()));
 
@@ -72,8 +94,7 @@ public class MitarbeiterService extends EmployeeplanningUtil {
         Iterable<Einsatz> einsaetzeByMitarbeiterId = einsatzRepository.findAllById(einsatzIds);
 
         int biggestChance = 0;
-        List<Integer> listChance = new ArrayList<Integer>() {
-        };
+        List<Integer> listChance = new ArrayList<Integer>();
         einsaetzeByMitarbeiterId.forEach(it -> listChance.add(it.getWahrscheinlichkeit()));
         listChance.sort(Collections.reverseOrder());
         if (!listChance.isEmpty()) {
@@ -164,4 +185,15 @@ public class MitarbeiterService extends EmployeeplanningUtil {
         }
         return mitarbeiterDTOList;
     }
+
+    private Mitarbeiter checkEntityExist(Integer id)
+    {
+        Optional<Mitarbeiter> mitarbeiter = mitarbeiterRepository.findById(id);
+        if (!mitarbeiter.isPresent())
+        {
+            throw new NoSuchMitarbeiterException();
+        }
+        return mitarbeiter.get();
+    }
+
 }

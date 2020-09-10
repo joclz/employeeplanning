@@ -35,24 +35,13 @@ public class EinsatzService {
 
     public Einsatz getEinsatzById(Integer id)
     {
-        Optional<Einsatz> einsatz = einsatzRepository.findById(id);
-        if (!einsatz.isPresent())
-        {
-            throw new NoSuchEinsatzException();
-        }
-
-        return einsatz.get();
+        return checkEntityExist(id);
     }
 
     public void deleteById(Integer id)
     {
-        Optional<Einsatz> einsatz = einsatzRepository.findById(id);
-        if (!einsatz.isPresent())
-        {
-            throw new NoSuchEinsatzException();
-        }
-
-        einsatzRepository.delete(einsatz.get());
+        Einsatz einsatz = checkEntityExist(id);
+        einsatzRepository.delete(einsatz);
     }
 
     /**
@@ -63,8 +52,8 @@ public class EinsatzService {
     public Einsatz convertToEntity(EinsatzDTO einsatzDTO) {
         ModelMapper modelMapper = new ModelMapper();
         Einsatz einsatz = modelMapper.map(einsatzDTO, Einsatz.class);
-        Integer vertriebMitarbeiterId = einsatz.getMitarbeiterVertrieb().getId();
-        Integer mitarbeiterId = einsatz.getMitarbeiter().getId();
+        Integer vertriebMitarbeiterId = einsatzDTO.getMitarbeiterVertriebId();
+        Integer mitarbeiterId = einsatzDTO.getMitarbeiterId();
         if (vertriebMitarbeiterId != null) {
             Optional<MitarbeiterVertrieb> maVertriebId = mitarbeiterVertriebRepository.findById(vertriebMitarbeiterId);
             einsatz.setMitarbeiterVertrieb(maVertriebId.orElse(null));
@@ -89,6 +78,12 @@ public class EinsatzService {
     public <S extends Einsatz> void save(S einsatz) {
         einsatz = calcEinsatzWerte(einsatz);
         einsatzRepository.save(einsatz);
+    }
+
+    public <S extends Einsatz> void update(S einsatz)
+    {
+        checkEntityExist(einsatz.getId());
+        save(einsatz);
     }
 
     @VisibleForTesting
@@ -171,4 +166,15 @@ public class EinsatzService {
         }
         return summeDeckungsbeitrag;
     }
+
+    private Einsatz checkEntityExist(Integer id)
+    {
+        Optional<Einsatz> einsatz = einsatzRepository.findById(id);
+        if (!einsatz.isPresent())
+        {
+            throw new NoSuchEinsatzException();
+        }
+        return einsatz.get();
+    }
+
 }

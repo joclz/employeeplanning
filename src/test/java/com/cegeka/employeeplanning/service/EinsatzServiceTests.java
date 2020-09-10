@@ -10,6 +10,7 @@ import java.util.Set;
 
 import com.cegeka.employeeplanning.data.Einsatz;
 import com.cegeka.employeeplanning.data.dto.EinsatzDTO;
+import com.cegeka.employeeplanning.data.dto.EinsatzSucheDTO;
 import com.cegeka.employeeplanning.data.enums.Enums;
 import com.cegeka.employeeplanning.data.enums.Enums.EinsatzStatus;
 import com.cegeka.employeeplanning.data.enums.Enums.MitarbeiterStatus;
@@ -222,15 +223,15 @@ public class EinsatzServiceTests {
     }
 
     @Test
-    public void test_convertToEntity_givenMA1_MAV1_expected_correctValues() {
-        EinsatzDTO einsatzDTO = new EinsatzDTO(1,1, EinsatzStatus.ANGEBOTEN,
+    public void test_convertToEntity_givenMA2_MAV1_expected_correctValues() {
+        EinsatzDTO einsatzDTO = new EinsatzDTO(2,1, EinsatzStatus.ANGEBOTEN,
                 EmployeeplanningUtil.parseDate("2020-09-01"), EmployeeplanningUtil.parseDate("2021-08-31"),
                 50, 20, 100,
                 "projektnummerNettime", "beauftragungsnummer");
         Einsatz einsatz = einsatzService.convertToEntity(einsatzDTO);
-        assertThat(einsatz.getMitarbeiter().getName()).isEqualTo("Mustermann");
-        assertThat(einsatz.getMitarbeiter().getVorname()).isEqualTo("Max");
-        assertThat(einsatz.getMitarbeiter().getId()).isEqualTo(1);
+        assertThat(einsatz.getMitarbeiter().getName()).isEqualTo("Stoteles");
+        assertThat(einsatz.getMitarbeiter().getVorname()).isEqualTo("Ari");
+        assertThat(einsatz.getMitarbeiter().getId()).isEqualTo(2);
         assertThat(einsatz.getMitarbeiterVertrieb().getVorname()).isEqualTo("Werner");
         assertThat(einsatz.getMitarbeiterVertrieb().getId()).isEqualTo(1);
         assertThat(einsatz.getBeginn()).isEqualTo("2020-09-01");
@@ -261,4 +262,27 @@ public class EinsatzServiceTests {
         assertThat(einsatz.getProjektnummerNettime()).isEqualTo("projektnummerNettime");
         assertThat(einsatz.getBeauftragungsnummer()).isEqualTo("beauftragungsnummer");
     }
+
+    @Test
+    public void test_convertToEntity_givenEinsatzSucheMitEnums_expected_correctValues() {
+        EinsatzSucheDTO einsatzSucheDTO = new EinsatzSucheDTO(1,1, "ANGESTELLT",
+                "ANGEBOTEN", EmployeeplanningUtil.parseDate("2020-09-01"), EmployeeplanningUtil.parseDate("2021-08-31"),
+                EmployeeplanningUtil.parseDate("2020-09-01"), EmployeeplanningUtil.parseDate("2021-08-31"));
+        EinsatzSuche einsatzSuche = einsatzService.convertToEntity(einsatzSucheDTO);
+        assertThat(einsatzSuche.getBeginnVon()).isEqualTo("2020-09-01");
+        assertThat(einsatzSuche.getMitarbeiterStatus()).isEqualTo(MitarbeiterStatus.ANGESTELLT);
+        assertThat(einsatzSuche.getEinsatzStatus()).isEqualTo(EinsatzStatus.ANGEBOTEN);
+    }
+
+    @Test
+    public void test_convertToEntity_givenEinsatzSucheOhneEnums_expected_NullValues() {
+        EinsatzSucheDTO einsatzSucheDTO = new EinsatzSucheDTO(1,1, "",
+                "", EmployeeplanningUtil.parseDate("2020-09-01"), EmployeeplanningUtil.parseDate("2021-08-31"),
+                EmployeeplanningUtil.parseDate("2020-09-01"), EmployeeplanningUtil.parseDate("2021-08-31"));
+        EinsatzSuche einsatzSuche = einsatzService.convertToEntity(einsatzSucheDTO);
+        assertThat(einsatzSuche.getBeginnVon()).isEqualTo("2020-09-01");
+        assertThat(einsatzSuche.getMitarbeiterStatus()).isNull();
+        assertThat(einsatzSuche.getEinsatzStatus()).isNull();
+    }
+
 }
