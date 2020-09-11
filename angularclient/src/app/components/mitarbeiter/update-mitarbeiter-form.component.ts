@@ -34,6 +34,9 @@ export class UpdateMitarbeiterFormComponent implements OnInit, OnDestroy {
 
   mitarbeiterStatus = MitarbeiterStatus;
   mitarbeiterStatusList = [];
+  
+  showSuccessMsg: boolean = false;
+  showErrorMsg: boolean = false;
 
   constructor(private route: ActivatedRoute, private router: Router, private mitarbeiterService: MitarbeiterService) {
     this.mitarbeiterUnits = Object.keys(this.mitarbeiterUnit);
@@ -51,7 +54,13 @@ export class UpdateMitarbeiterFormComponent implements OnInit, OnDestroy {
     mitarbeiter.mitarbeiterStatus = <MitarbeiterStatus>this.status.value;
     mitarbeiter.mitarbeiterUnit = <MitarbeiterUnit>this.unit.value;
 
-    this.mitarbeiterService.update(mitarbeiter).subscribe();
+    this.mitarbeiterService.update(mitarbeiter).subscribe(data => { 
+       this.showSuccessMsg = true;
+       this.showErrorMsg = false; 
+    }, (err) => {
+       this.showSuccessMsg = false;
+       this.showErrorMsg = true; 
+    });
   }
 
   ngOnInit(): void {

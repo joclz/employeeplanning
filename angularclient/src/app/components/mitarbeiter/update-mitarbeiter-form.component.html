@@ -1,4 +1,5 @@
 <form class="mitarbeiterForm" [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+
   <mat-form-field class="half-width">
     <mat-label>ID</mat-label>
     <input matInput formControlName="id">
@@ -56,5 +57,13 @@
 
   <button mat-raised-button color="primary" type="submit" class="button" [disabled]="!formGroup.valid">Bestätigen
   </button>
+  
+  <mat-success *ngIf="showSuccessMsg">
+    Datensatz erfolgtreich gespeichert.
+  </mat-success>
+
+  <mat-error *ngIf="showErrorMsg">
+    Datensatz konnte nicht gespeichert werden.
+  </mat-error>
 
 </form>
