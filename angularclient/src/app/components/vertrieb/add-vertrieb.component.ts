@@ -21,6 +21,9 @@ export class AddVertriebComponent implements OnInit {
   name = new FormControl('', [Validators.required, patternNames]);
   vorname = new FormControl('', [Validators.required, patternNames]);
 
+  showSuccessMsg: boolean = false;
+  showErrorMsg: boolean = false;
+
   constructor(private route: ActivatedRoute, private router: Router, private mitarbeiterVertriebService: MitarbeiterVertriebService) {
   }
 
@@ -29,8 +32,14 @@ export class AddVertriebComponent implements OnInit {
     mitarbeiterVertrieb.name = this.name.value;
     mitarbeiterVertrieb.vorname = this.vorname.value;
 
-    this.mitarbeiterVertriebService.save(mitarbeiterVertrieb).subscribe(() =>
-      this.formRef.resetForm()
+    this.mitarbeiterVertriebService.save(mitarbeiterVertrieb).subscribe(() => {
+        this.formRef.resetForm()
+        this.showSuccessMsg = true;
+        this.showErrorMsg = false; 
+      }, (err) => {
+        this.showSuccessMsg = false;
+        this.showErrorMsg = true;
+      } 
     );
   }
 

@@ -23,6 +23,8 @@ export class UpdateVertriebComponent implements OnInit {
   name = new FormControl('', [Validators.required, patternNames]);
   vorname = new FormControl('', [Validators.required, patternNames]);
 
+  showSuccessMsg: boolean = false;
+  showErrorMsg: boolean = false;
 
   constructor(private route: ActivatedRoute, private router: Router, private mitarbeiterVertriebService: MitarbeiterVertriebService) {
   }
@@ -35,9 +37,15 @@ export class UpdateVertriebComponent implements OnInit {
     mitarbeiterVertrieb.name = this.name.value;
     mitarbeiterVertrieb.vorname = this.vorname.value;
 
-    this.mitarbeiterVertriebService.update(mitarbeiterVertrieb).subscribe();
+    this.mitarbeiterVertriebService.update(mitarbeiterVertrieb).subscribe(data => { 
+       this.showSuccessMsg = true;
+       this.showErrorMsg = false; 
+    }, (err) => {
+       this.showSuccessMsg = false;
+       this.showErrorMsg = true; 
+    });
   }
-
+  
   ngOnInit(): void {
     this.id.setValue(this.mitarbeiterVertriebInput.id);
     this.name.setValue(this.mitarbeiterVertriebInput.name);

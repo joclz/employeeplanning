@@ -42,6 +42,9 @@ export class UpdateEinsatzComponent implements OnInit {
 
   mitarbeiterVertriebList: Array<MitarbeiterDTO>;
 
+  showSuccessMsg: boolean = false;
+  showErrorMsg: boolean = false;
+
   constructor(private route: ActivatedRoute, private router: Router,
               private einsatzService: EinsatzService,
               private mitarbeiterService: MitarbeiterService,
@@ -65,7 +68,13 @@ export class UpdateEinsatzComponent implements OnInit {
     einsatzDTO.projektnummerNettime = this.projektnummerNettime.value;
     einsatzDTO.beauftragungsnummer = this.beauftragungsnummer.value;
 
-    this.einsatzService.update(einsatzDTO).subscribe();
+    this.einsatzService.update(einsatzDTO).subscribe(data => { 
+       this.showSuccessMsg = true;
+       this.showErrorMsg = false; 
+    }, (err) => {
+       this.showSuccessMsg = false;
+       this.showErrorMsg = true; 
+    });
   }
 
   ngOnInit(): void {
