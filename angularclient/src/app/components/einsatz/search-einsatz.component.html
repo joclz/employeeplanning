@@ -72,28 +72,28 @@
 
       <mat-form-field appearance="fill" class="half-width">
         <mat-label>Beginn Von</mat-label>
-        <input matInput placeholder="1.1.2020" formControlName="beginnVon" [matDatepicker]="beginnVonPicker">
+        <input matInput placeholder="1.1.2020" formControlName="beginnVon" [matDatepicker]="beginnVonPicker" readonly="readonly">
         <mat-datepicker-toggle matSuffix [for]="beginnVonPicker"></mat-datepicker-toggle>
         <mat-datepicker #beginnVonPicker></mat-datepicker>
       </mat-form-field>
 
       <mat-form-field appearance="fill" class="half-width">
         <mat-label>Beginn Bis</mat-label>
-        <input matInput placeholder="1.1.2020" formControlName="beginnBis" [matDatepicker]="beginnBisPicker">
+        <input matInput placeholder="1.1.2020" formControlName="beginnBis" [matDatepicker]="beginnBisPicker" readonly="readonly">
         <mat-datepicker-toggle matSuffix [for]="beginnBisPicker"></mat-datepicker-toggle>
         <mat-datepicker #beginnBisPicker></mat-datepicker>
       </mat-form-field>
 
       <mat-form-field appearance="fill" class="half-width">
         <mat-label>Ende Von</mat-label>
-        <input matInput placeholder="1.1.2020" formControlName="endeVon" [matDatepicker]="endeVonPicker">
+        <input matInput placeholder="1.1.2020" formControlName="endeVon" [matDatepicker]="endeVonPicker" readonly="readonly">
         <mat-datepicker-toggle matSuffix [for]="endeVonPicker"></mat-datepicker-toggle>
         <mat-datepicker #endeVonPicker></mat-datepicker>
       </mat-form-field>
 
       <mat-form-field appearance="fill" class="half-width">
         <mat-label>Ende Bis</mat-label>
-        <input matInput placeholder="1.1.2020" formControlName="endeBis" [matDatepicker]="endeBisPicker">
+        <input matInput placeholder="1.1.2020" formControlName="endeBis" [matDatepicker]="endeBisPicker" readonly="readonly">
         <mat-datepicker-toggle matSuffix [for]="endeBisPicker"></mat-datepicker-toggle>
         <mat-datepicker #endeBisPicker></mat-datepicker>
       </mat-form-field>
