@@ -21,8 +21,8 @@ mvn clean package
   Mit http://localhost:8080 ist die Angularoberfläche aufrufbar.
   Mit http://localhost:8080/start.html kann man noch die alte HTML-GUI aufrufen.
 
-- Erzeugen eines produktiven WAR-Files:  
-mvn clean package -Pprod -Dexec.executable="ng" -Dexec.args="build --prod"
+- Erzeugen eines produktiven WAR-Files:
+mvn clean package -Pprod -Dngprofile=--prod  
 
 Aktuell wird für den produktiven Stand ein anderer Port konfiguriert. Dies kann wie folgt getestet werden:
 java -Dserver.port=9080 -jar target/employeeplanning-0.0.1-SNAPSHOT.war

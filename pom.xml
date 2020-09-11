@@ -119,6 +119,7 @@
                     <workingDirectory>angularclient</workingDirectory>
                     <arguments>
                         <argument>build</argument>
+                        <argument>${ngprofile}</argument>
                     </arguments>
                 </configuration>
             </plugin>
