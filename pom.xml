@@ -108,18 +108,22 @@
                 <version>1.6.0</version>
                 <executions>
                     <execution>
-                        <phase>validate</phase>
+                        <phase>prepare-package</phase>
                         <goals>
                             <goal>exec</goal>
                         </goals>
                     </execution>
                 </executions>
                 <configuration>
+                    <properties>
+                        <ngprofile>--configuration=dev</ngprofile>
+                    </properties>
                     <executable>ng</executable>
                     <workingDirectory>angularclient</workingDirectory>
                     <arguments>
                         <argument>build</argument>
                         <argument>${ngprofile}</argument>
+                        <argument>--deleteOutputPath=false</argument>
                     </arguments>
                 </configuration>
             </plugin>
