@@ -93,9 +93,20 @@
 
     <profiles>
         <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <spring.profiles.active>dev</spring.profiles.active>
+                <ngprofile>--configuration=dev</ngprofile>
+            </properties>
+        </profile>
+        <profile>
             <id>prod</id>
             <properties>
                 <spring.profiles.active>prod</spring.profiles.active>
+                <ngprofile>--configuration=production</ngprofile>
             </properties>
         </profile>
     </profiles>
@@ -115,9 +126,6 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <properties>
-                        <ngprofile>--configuration=dev</ngprofile>
-                    </properties>
                     <executable>ng</executable>
                     <workingDirectory>angularclient</workingDirectory>
                     <arguments>
