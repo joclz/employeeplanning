@@ -100,6 +100,7 @@
             <properties>
                 <spring.profiles.active>dev</spring.profiles.active>
                 <ngprofile>--configuration=dev</ngprofile>
+                <isProd></isProd>
             </properties>
         </profile>
         <profile>
@@ -107,6 +108,7 @@
             <properties>
                 <spring.profiles.active>prod</spring.profiles.active>
                 <ngprofile>--configuration=production</ngprofile>
+                <isProd>--prod</isProd>
             </properties>
         </profile>
     </profiles>
@@ -131,6 +133,9 @@
                     <arguments>
                         <argument>build</argument>
                         <argument>${ngprofile}</argument>
+                        <argument>${isProd}</argument>
+                        <argument>--base-href</argument>
+                        <argument>/employeeplanning</argument>
                         <argument>--deleteOutputPath=false</argument>
                     </arguments>
                 </configuration>
