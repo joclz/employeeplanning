@@ -7,8 +7,19 @@ import org.springframework.web.servlet.ModelAndView;
 @RestController
 public class EmployeeplanningController {
 
-    @GetMapping("/goToIndex")
-    public ModelAndView goToIndex() {
+    //Todo
+    // Diese ist nicht hübsch, aber der --base-href alleine, führte beim Refresh immer zu einem 404 Fehler.
+    // Nur mit diesem zusätzlichen Konstrukt konnte dies verhindert werden.
+    // Das geht aber eventuell auch eleganter???
+    @GetMapping("/employeeplanning")
+    public ModelAndView goToRoot() {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("index.html");
+        return mav;
+    }
+
+    @GetMapping("/goToStart")
+    public ModelAndView goToStart() {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("start.html");
         return mav;

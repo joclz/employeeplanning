@@ -33,6 +33,7 @@ import {TableEinsatzComponent} from './components/einsatz/table-einsatz.componen
 import {AddEinsatzComponent} from './components/einsatz/add-einsatz.component';
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatTabsModule} from "@angular/material/tabs";
+import {HashLocationStrategy, LocationStrategy} from "@angular/common";
 
 @NgModule({
   declarations: [
@@ -73,8 +74,10 @@ import {MatTabsModule} from "@angular/material/tabs";
     MatNativeDateModule,
     MatTabsModule
   ],
+
   providers: [MitarbeiterService,
-    {provide: MAT_DATE_LOCALE, useValue: 'de'}],
+    {provide: MAT_DATE_LOCALE, useValue: 'de'},
+    {provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent]
 })
 export class AppModule {
