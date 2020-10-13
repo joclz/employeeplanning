@@ -5,6 +5,8 @@ import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {MitarbeiterVertriebService} from "../../services/vertrieb/mitarbeiter-vertrieb.service";
 import {UpdateMitarbeiterVertriebService} from "../../services/vertrieb/update-mitarbeiter-vertrieb.service";
+import {MatDialog} from "@angular/material/dialog";
+import {DeleteVertriebDialogComponent} from "./delete-vertrieb-dialog.component";
 
 @Component({
   selector: 'app-table-vertrieb',
@@ -21,7 +23,9 @@ export class TableVertriebComponent implements OnInit {
 
   @Output() deleteMitarbeiterVertriebEvent = new EventEmitter();
 
-  constructor(private mitarbeiterVertriebService: MitarbeiterVertriebService, private updateMitarbeiterVertriebService: UpdateMitarbeiterVertriebService) {
+  constructor(private mitarbeiterVertriebService: MitarbeiterVertriebService,
+              private updateMitarbeiterVertriebService: UpdateMitarbeiterVertriebService,
+              private dialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -54,6 +58,22 @@ export class TableVertriebComponent implements OnInit {
 
   updateMitarbeiterVertrieb(row: MitarbeiterVertrieb) {
     this.updateMitarbeiterVertriebService.updateMitarbeiterVertrieb(row);
+  }
+
+  openDeleteEinsatzDialog(id: string, name: string, vorname: string) {
+    const dialogRef = this.dialog.open(DeleteVertriebDialogComponent, {
+      data: {
+        id: id,
+        name: name,
+        vorname: vorname
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.deleteMitarbeiterVertrieb(result)
+      }
+    });
   }
 
 }

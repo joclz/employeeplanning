@@ -46,7 +46,9 @@
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
       <td mat-cell *matCellDef="let row">
-        <button (click)="deleteMitarbeiter(row.id)" mat-stroked-button color="warn">Löschen</button>
+        <button (click)="openDeleteEinsatzDialog(row.id, row.name, row.vorname)"
+                mat-stroked-button color="warn">Löschen
+        </button>
         <button (click)="updateMitarbeiter(row)" mat-stroked-button color="warn">Editieren</button>
       </td>
     </ng-container>

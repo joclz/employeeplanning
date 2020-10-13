@@ -5,6 +5,8 @@ import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {UpdateMitarbeiterService} from "../../services/mitarbeiter/update-mitarbeiter.service";
+import {MatDialog} from "@angular/material/dialog";
+import {DeleteMitarbeiterDialogComponent} from "./delete-mitarbeiter-dialog.component";
 
 @Component({
   selector: 'app-table-mitarbeiter',
@@ -24,7 +26,9 @@ export class TableMitarbeiterComponent implements OnInit {
 
   @Output() deleteMitarbeiterEvent = new EventEmitter();
 
-  constructor(private mitarbeiterService: MitarbeiterService, private updateMitarbeiterService: UpdateMitarbeiterService) {
+  constructor(private mitarbeiterService: MitarbeiterService,
+              private updateMitarbeiterService: UpdateMitarbeiterService,
+              private dialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -71,6 +75,22 @@ export class TableMitarbeiterComponent implements OnInit {
 
   updateMitarbeiter(row: Mitarbeiter) {
     this.updateMitarbeiterService.updateMitarbeiter(row);
+  }
+
+  openDeleteEinsatzDialog(id: string, name: string, vorname: string) {
+    const dialogRef = this.dialog.open(DeleteMitarbeiterDialogComponent, {
+      data: {
+        id: id,
+        name: name,
+        vorname: vorname
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.deleteMitarbeiter(result)
+      }
+    });
   }
 
   //TODO Enums übersetzen

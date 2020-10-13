@@ -36,6 +36,8 @@ import {MatTabsModule} from "@angular/material/tabs";
 import {HashLocationStrategy, LocationStrategy} from "@angular/common";
 import {DeleteEinsatzDialogComponent} from './components/einsatz/delete-einsatz-dialog.component';
 import {MatDialogModule} from "@angular/material/dialog";
+import {DeleteMitarbeiterDialogComponent} from './components/mitarbeiter/delete-mitarbeiter-dialog.component';
+import {DeleteVertriebDialogComponent} from './components/vertrieb/delete-vertrieb-dialog.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +53,9 @@ import {MatDialogModule} from "@angular/material/dialog";
     SearchEinsatzComponent,
     TableEinsatzComponent,
     AddEinsatzComponent,
-    DeleteEinsatzDialogComponent
+    DeleteEinsatzDialogComponent,
+    DeleteMitarbeiterDialogComponent,
+    DeleteVertriebDialogComponent
   ],
   imports: [
     BrowserModule,
