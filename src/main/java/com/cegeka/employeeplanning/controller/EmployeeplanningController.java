@@ -18,6 +18,13 @@ public class EmployeeplanningController {
         return mav;
     }
 
+    @GetMapping("/empty")
+    public ModelAndView goToEmptyPage() {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("empty.html");
+        return mav;
+    }
+
     @GetMapping("/goToStart")
     public ModelAndView goToStart() {
         ModelAndView mav = new ModelAndView();
