@@ -6,6 +6,8 @@ import {Einsatz} from "../../models/einsatz/einsatz";
 import {EinsatzService} from "../../services/einsatz/einsatz.service";
 import {UpdateEinsatzService} from "../../services/einsatz/update-einsatz.service";
 import {EinsatzStatus} from "../../models/einsatz/einsatz-status.enum";
+import {MatDialog} from "@angular/material/dialog";
+import {DeleteEinsatzDialogComponent} from "./delete-einsatz-dialog.component";
 
 @Component({
   selector: 'app-table-einsatz',
@@ -26,7 +28,9 @@ export class TableEinsatzComponent implements OnInit {
 
   @Input() einsaetze: Einsatz[];
 
-  constructor(private einsatzService: EinsatzService, private updateEinsatzService: UpdateEinsatzService) {
+  constructor(private einsatzService: EinsatzService,
+              private updateEinsatzService: UpdateEinsatzService,
+              private dialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -73,4 +77,20 @@ export class TableEinsatzComponent implements OnInit {
     return EinsatzStatus[status];
   }
 
+  openDeleteEinsatzDialog(id: string, name: string, vorname: string, einsatzStatus: string) {
+    const dialogRef = this.dialog.open(DeleteEinsatzDialogComponent, {
+      data: {
+        id: id,
+        name: name,
+        vorname: vorname,
+        einsatzStatus: einsatzStatus
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result) {
+        this.deleteEinsatz(result)
+      }
+    });
+  }
 }

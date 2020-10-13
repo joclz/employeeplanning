@@ -34,6 +34,8 @@ import {AddEinsatzComponent} from './components/einsatz/add-einsatz.component';
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatTabsModule} from "@angular/material/tabs";
 import {HashLocationStrategy, LocationStrategy} from "@angular/common";
+import {DeleteEinsatzDialogComponent} from './components/einsatz/delete-einsatz-dialog.component';
+import {MatDialogModule} from "@angular/material/dialog";
 
 @NgModule({
   declarations: [
@@ -48,7 +50,8 @@ import {HashLocationStrategy, LocationStrategy} from "@angular/common";
     UpdateEinsatzComponent,
     SearchEinsatzComponent,
     TableEinsatzComponent,
-    AddEinsatzComponent
+    AddEinsatzComponent,
+    DeleteEinsatzDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -72,7 +75,8 @@ import {HashLocationStrategy, LocationStrategy} from "@angular/common";
     MatListModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatTabsModule
+    MatTabsModule,
+    MatDialogModule
   ],
 
   providers: [MitarbeiterService,
