@@ -34,7 +34,7 @@ export class UpdateMitarbeiterFormComponent implements OnInit, OnDestroy {
 
   mitarbeiterStatus = MitarbeiterStatus;
   mitarbeiterStatusList = [];
-  
+
   showSuccessMsg: boolean = false;
   showErrorMsg: boolean = false;
 
@@ -44,8 +44,6 @@ export class UpdateMitarbeiterFormComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    //TODO Weiterleitung nach Update? Oder nur Meldung ausgeben?
-
     let mitarbeiter = new Mitarbeiter();
     mitarbeiter.id = this.id.value;
     mitarbeiter.name = this.name.value;
@@ -54,12 +52,12 @@ export class UpdateMitarbeiterFormComponent implements OnInit, OnDestroy {
     mitarbeiter.mitarbeiterStatus = <MitarbeiterStatus>this.status.value;
     mitarbeiter.mitarbeiterUnit = <MitarbeiterUnit>this.unit.value;
 
-    this.mitarbeiterService.update(mitarbeiter).subscribe(data => { 
+    this.mitarbeiterService.update(mitarbeiter).subscribe(() => {
        this.showSuccessMsg = true;
-       this.showErrorMsg = false; 
-    }, (err) => {
+       this.showErrorMsg = false;
+    }, () => {
        this.showSuccessMsg = false;
-       this.showErrorMsg = true; 
+       this.showErrorMsg = true;
     });
   }
 

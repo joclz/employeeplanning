@@ -30,22 +30,20 @@ export class UpdateVertriebComponent implements OnInit {
   }
 
   onSubmit() {
-    //TODO Weiterleitung nach Update? Oder nur Meldung ausgeben?
-
     let mitarbeiterVertrieb = new MitarbeiterVertrieb;
     mitarbeiterVertrieb.id = this.id.value;
     mitarbeiterVertrieb.name = this.name.value;
     mitarbeiterVertrieb.vorname = this.vorname.value;
 
-    this.mitarbeiterVertriebService.update(mitarbeiterVertrieb).subscribe(data => { 
+    this.mitarbeiterVertriebService.update(mitarbeiterVertrieb).subscribe(() => {
        this.showSuccessMsg = true;
-       this.showErrorMsg = false; 
-    }, (err) => {
+       this.showErrorMsg = false;
+    }, () => {
        this.showSuccessMsg = false;
-       this.showErrorMsg = true; 
+       this.showErrorMsg = true;
     });
   }
-  
+
   ngOnInit(): void {
     this.id.setValue(this.mitarbeiterVertriebInput.id);
     this.name.setValue(this.mitarbeiterVertriebInput.name);

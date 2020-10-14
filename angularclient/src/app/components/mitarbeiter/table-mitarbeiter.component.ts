@@ -7,6 +7,8 @@ import {MatSort} from "@angular/material/sort";
 import {UpdateMitarbeiterService} from "../../services/mitarbeiter/update-mitarbeiter.service";
 import {MatDialog} from "@angular/material/dialog";
 import {DeleteMitarbeiterDialogComponent} from "./delete-mitarbeiter-dialog.component";
+import {MitarbeiterStatus} from "../../models/mitarbeiter/mitarbeiter-status.enum";
+import {MitarbeiterUnit} from "../../models/mitarbeiter/mitarbeiter-unit.enum";
 
 @Component({
   selector: 'app-table-mitarbeiter',
@@ -93,5 +95,11 @@ export class TableMitarbeiterComponent implements OnInit {
     });
   }
 
-  //TODO Enums übersetzen
+  getMitarbeiterStatus(status: MitarbeiterStatus): string {
+    return MitarbeiterStatus[status];
+  }
+
+  getMitarbeiterUnit(unit: MitarbeiterUnit) {
+    return MitarbeiterUnit[unit];
+  }
 }

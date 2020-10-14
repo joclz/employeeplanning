@@ -27,7 +27,7 @@
     <!-- Mitarbeiter Status Column -->
     <ng-container matColumnDef="mitarbeiterStatus">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Mitarbeiter Status</th>
-      <td mat-cell *matCellDef="let row"> {{row.mitarbeiterStatus}} </td>
+      <td mat-cell *matCellDef="let row"> {{getMitarbeiterStatus(row.mitarbeiterStatus)}} </td>
     </ng-container>
 
     <!-- Stundensatz EK Column -->
@@ -39,7 +39,7 @@
     <!-- Mitarbeiter Unit Status Column -->
     <ng-container matColumnDef="mitarbeiterUnit">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Mitarbeiter Unit</th>
-      <td mat-cell *matCellDef="let row"> {{row.mitarbeiterUnit}} </td>
+      <td mat-cell *matCellDef="let row"> {{getMitarbeiterUnit(row.mitarbeiterUnit)}} </td>
     </ng-container>
 
     <!-- Delete/Edit Mitarbeiter -->

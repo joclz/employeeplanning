@@ -53,8 +53,6 @@ export class UpdateEinsatzComponent implements OnInit {
   }
 
   onSubmit() {
-    //TODO Weiterleitung nach Update? Oder nur Meldung ausgeben?
-
     let einsatzDTO = new EinsatzDTO();
     einsatzDTO.id = this.id.value;
     einsatzDTO.mitarbeiterId = this.mitarbeiter.value;
@@ -68,10 +66,10 @@ export class UpdateEinsatzComponent implements OnInit {
     einsatzDTO.projektnummerNettime = this.projektnummerNettime.value;
     einsatzDTO.beauftragungsnummer = this.beauftragungsnummer.value;
 
-    this.einsatzService.update(einsatzDTO).subscribe(data => {
+    this.einsatzService.update(einsatzDTO).subscribe(() => {
        this.showSuccessMsg = true;
        this.showErrorMsg = false;
-    }, (err) => {
+    }, () => {
        this.showSuccessMsg = false;
        this.showErrorMsg = true;
     });
