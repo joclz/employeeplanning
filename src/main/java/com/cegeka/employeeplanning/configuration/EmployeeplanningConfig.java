@@ -1,6 +1,5 @@
 package com.cegeka.employeeplanning.configuration;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -14,8 +13,11 @@ import java.util.List;
 
 @Configuration
 public class EmployeeplanningConfig implements WebMvcConfigurer {
-    @Autowired
-    private Environment env;
+    private final Environment env;
+
+    public EmployeeplanningConfig(Environment env) {
+        this.env = env;
+    }
 
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
@@ -36,6 +38,13 @@ public class EmployeeplanningConfig implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addRedirectViewController("/", "/empty");
+        registry.addViewController("/employeeplanning").setViewName("forward:/index.html");
+
+        registry.addViewController("/goToStart").setViewName("start.html");
+        registry.addViewController("/goToMitarbeiter").setViewName("mitarbeiter.html");
+        registry.addViewController("/goToMitarbeiterVertrieb").setViewName("mitarbeitervertrieb.html");
+        registry.addViewController("/goToEinsatz").setViewName("einsatz.html");
+
+        registry.addViewController("/").setViewName("forward:/empty.html");
     }
 }
