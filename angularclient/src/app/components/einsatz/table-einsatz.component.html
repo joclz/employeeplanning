@@ -105,5 +105,17 @@
     </tr>
   </table>
 
+  <div *ngIf="showSuccessMsg" class="deleteMessage">
+    <mat-success>
+      Datensatz erfolgreich gelöscht.
+    </mat-success>
+  </div>
+
+  <div *ngIf="showErrorMsg" class="deleteMessage">
+    <mat-error>
+      Datensatz konnte nicht gelöscht werden.
+    </mat-error>
+  </div>
+
   <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
 </div>

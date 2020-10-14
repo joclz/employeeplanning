@@ -28,6 +28,9 @@ export class TableMitarbeiterComponent implements OnInit {
 
   @Output() deleteMitarbeiterEvent = new EventEmitter();
 
+  showSuccessMsg: boolean = false;
+  showErrorMsg: boolean = false;
+
   constructor(private mitarbeiterService: MitarbeiterService,
               private updateMitarbeiterService: UpdateMitarbeiterService,
               private dialog: MatDialog) {
@@ -72,6 +75,11 @@ export class TableMitarbeiterComponent implements OnInit {
     this.mitarbeiterService.delete(id).subscribe(() => {
       this.initDependingOnInput();
       this.deleteMitarbeiterEvent.emit();
+      this.showSuccessMsg = true;
+      this.showErrorMsg = false;
+    }, () => {
+      this.showSuccessMsg = false;
+      this.showErrorMsg = true;
     });
   }
 

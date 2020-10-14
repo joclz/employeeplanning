@@ -23,6 +23,9 @@ export class TableVertriebComponent implements OnInit {
 
   @Output() deleteMitarbeiterVertriebEvent = new EventEmitter();
 
+  showSuccessMsg: boolean = false;
+  showErrorMsg: boolean = false;
+
   constructor(private mitarbeiterVertriebService: MitarbeiterVertriebService,
               private updateMitarbeiterVertriebService: UpdateMitarbeiterVertriebService,
               private dialog: MatDialog) {
@@ -53,6 +56,11 @@ export class TableVertriebComponent implements OnInit {
     this.mitarbeiterVertriebService.delete(id).subscribe(() => {
       this.ngOnInit();
       this.deleteMitarbeiterVertriebEvent.emit();
+      this.showSuccessMsg = true;
+      this.showErrorMsg = false;
+    }, () => {
+      this.showSuccessMsg = false;
+      this.showErrorMsg = true;
     });
   }
 

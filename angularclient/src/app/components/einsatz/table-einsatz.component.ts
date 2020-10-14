@@ -28,6 +28,9 @@ export class TableEinsatzComponent implements OnInit {
 
   @Input() einsaetze: Einsatz[];
 
+  showSuccessMsg: boolean = false;
+  showErrorMsg: boolean = false;
+
   constructor(private einsatzService: EinsatzService,
               private updateEinsatzService: UpdateEinsatzService,
               private dialog: MatDialog) {
@@ -66,6 +69,11 @@ export class TableEinsatzComponent implements OnInit {
     this.einsatzService.delete(id).subscribe(() => {
       this.initDependingOnInput();
       this.deleteEinsatzEvent.emit();
+      this.showSuccessMsg = true;
+      this.showErrorMsg = false;
+    }, () => {
+      this.showSuccessMsg = false;
+      this.showErrorMsg = true;
     });
   }
 

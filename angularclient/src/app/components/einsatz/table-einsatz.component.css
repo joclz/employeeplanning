@@ -19,3 +19,8 @@ table {
 .einsatz-container {
   overflow: auto;
 }
+
+.deleteMessage{
+  margin-left: 2%;
+  margin-top: 1%;
+}
