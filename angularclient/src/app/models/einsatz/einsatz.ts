@@ -2,7 +2,7 @@ import {Mitarbeiter} from "../mitarbeiter/mitarbeiter";
 import {MitarbeiterVertrieb} from "../vertrieb/mitarbeiter-vertrieb";
 import {EinsatzStatus} from "./einsatz-status.enum";
 
-export class Einsatz {
+export interface Einsatz {
   id: string;
   mitarbeiter: Mitarbeiter;
   mitarbeiterVertrieb: MitarbeiterVertrieb;

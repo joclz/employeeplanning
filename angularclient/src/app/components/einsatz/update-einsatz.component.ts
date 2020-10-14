@@ -68,12 +68,12 @@ export class UpdateEinsatzComponent implements OnInit {
     einsatzDTO.projektnummerNettime = this.projektnummerNettime.value;
     einsatzDTO.beauftragungsnummer = this.beauftragungsnummer.value;
 
-    this.einsatzService.update(einsatzDTO).subscribe(data => { 
+    this.einsatzService.update(einsatzDTO).subscribe(data => {
        this.showSuccessMsg = true;
-       this.showErrorMsg = false; 
+       this.showErrorMsg = false;
     }, (err) => {
        this.showSuccessMsg = false;
-       this.showErrorMsg = true; 
+       this.showErrorMsg = true;
     });
   }
 

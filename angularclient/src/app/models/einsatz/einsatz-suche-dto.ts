@@ -2,7 +2,6 @@ import {MitarbeiterStatus} from "../mitarbeiter/mitarbeiter-status.enum";
 import {EinsatzStatus} from "./einsatz-status.enum";
 
 export class EinsatzSucheDto {
-
   mitarbeiterVertriebId: string;
   mitarbeiterId: string;
   mitarbeiterStatus: MitarbeiterStatus;
@@ -11,5 +10,4 @@ export class EinsatzSucheDto {
   beginnBis: Date;
   endeVon: Date;
   endeBis: Date;
-
 }
