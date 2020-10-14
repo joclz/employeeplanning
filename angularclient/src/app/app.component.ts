@@ -14,8 +14,6 @@ import {UpdateEinsatzService} from "./services/einsatz/update-einsatz.service";
 })
 export class AppComponent {
 
-  //TODO allgemein: Fehler- und Bestätigungsmeldungen ausgeben
-
   title: string = 'Mitarbeiter-Planung';
 
   listMitarbeiter: boolean = false;

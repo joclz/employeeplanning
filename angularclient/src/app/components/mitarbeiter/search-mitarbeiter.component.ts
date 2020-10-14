@@ -73,16 +73,18 @@ export class SearchMitarbeiterComponent implements OnInit {
   getLastEndDateOnSubmit() {
     this.mitarbeiterService.getLastEndDateForMitarbeiter(this.lastEndDateId.value).subscribe(result => {
       if (result) {
-        this.lastEndDate.setValue(result);
+        this.lastEndDate.setValue(new Date(result).toLocaleDateString());
       } else {
-        this.lastEndDate.reset();
+        this.lastEndDate.setValue("Mitarbeiter ist nicht im Einsatz");
       }
     });
   }
 
   getChanceOnSubmit() {
     this.mitarbeiterService.getChanceForMitarbeiter(this.chanceId.value)
-      .subscribe(result => this.chance.setValue(result.toString()));
+      .subscribe(result => {
+        this.chance.setValue(result.toString())
+      });
   }
 
   getMitarbeiterEinsatzOnSubmit() {
