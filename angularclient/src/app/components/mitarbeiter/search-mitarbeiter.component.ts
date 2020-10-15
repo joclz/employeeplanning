@@ -5,6 +5,8 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {MitarbeiterStatus} from "../../models/mitarbeiter/mitarbeiter-status.enum";
 import {TableMitarbeiterComponent} from "./table-mitarbeiter.component";
 import {MitarbeiterDTO} from "../../models/mitarbeiter/mitarbeiter-dto";
+import {Observable} from "rxjs";
+import {map, startWith} from "rxjs/operators";
 
 @Component({
   selector: 'app-search-mitarbeiter',
@@ -13,8 +15,10 @@ import {MitarbeiterDTO} from "../../models/mitarbeiter/mitarbeiter-dto";
 })
 export class SearchMitarbeiterComponent implements OnInit {
 
+  filteredOptions: Observable<MitarbeiterDTO[]>;
+
   lastEndDate = new FormControl({value: '', disabled: true});
-  lastEndDateId = new FormControl('', [Validators.required]);
+  lastEndDateMitarbeiter = new FormControl('', [Validators.required]);
   lastEndDateFormGroup: FormGroup;
 
   chance = new FormControl({value: '', disabled: true});
@@ -38,6 +42,8 @@ export class SearchMitarbeiterComponent implements OnInit {
 
   mitarbeiterList: Array<MitarbeiterDTO>;
 
+  labelMitarbeiterEinsatz: string;
+
   @ViewChild('tableMitarbeiterBank') tableMitarbeiterBank: TableMitarbeiterComponent;
   @ViewChild('tableMitarbeiterInternBank') tableMitarbeiterInternBank: TableMitarbeiterComponent;
 
@@ -47,11 +53,18 @@ export class SearchMitarbeiterComponent implements OnInit {
   ngOnInit(): void {
     this.mitarbeiterService.getMitarbeiterListOrderByName().subscribe(result => {
       this.mitarbeiterList = result;
+
+      this.filteredOptions = this.lastEndDateMitarbeiter.valueChanges.pipe(
+        startWith(''),
+        map(value => typeof value === "string" ? value : value? value.name : ''),
+        map(name => name ? this._filter(name) : this.mitarbeiterList.slice())
+      );
     });
 
+
     this.lastEndDateFormGroup = new FormGroup({
-      id: this.lastEndDateId,
-      lastEndDate: this.lastEndDate
+      lastEndDate: this.lastEndDate,
+      lastEndDateMitarbeiter: this.lastEndDateMitarbeiter
     });
     this.chanceFormGroup = new FormGroup({
       id: this.chanceId,
@@ -70,13 +83,25 @@ export class SearchMitarbeiterComponent implements OnInit {
     this.mitarbeiterInternBankFormGroup = new FormGroup({});
   }
 
+  private _filter(value: any): MitarbeiterDTO[] {
+    const filterValue = value.toLowerCase();
+    return this.mitarbeiterList.filter(mitarbeiter => mitarbeiter.name.toLowerCase().indexOf(filterValue) === 0);
+  }
+
+  displayFn(mitarbeiter: MitarbeiterDTO): string {
+    return mitarbeiter && mitarbeiter.name ? mitarbeiter.name : '';
+  }
+
   getLastEndDateOnSubmit() {
-    this.mitarbeiterService.getLastEndDateForMitarbeiter(this.lastEndDateId.value).subscribe(result => {
+    this.mitarbeiterService.getLastEndDateForMitarbeiter(this.lastEndDateMitarbeiter.value.id).subscribe(result => {
       if (result) {
+        this.labelMitarbeiterEinsatz = this.lastEndDateMitarbeiter.value.name + " ist im Einsatz bis"
         this.lastEndDate.setValue(new Date(result).toLocaleDateString());
       } else {
-        this.lastEndDate.setValue("Mitarbeiter ist nicht im Einsatz");
+        this.labelMitarbeiterEinsatz = "";
+        this.lastEndDate.setValue(this.lastEndDateMitarbeiter.value.name + " ist nicht im Einsatz");
       }
+      this.lastEndDateMitarbeiter.reset();
     });
   }
 
@@ -106,7 +131,7 @@ export class SearchMitarbeiterComponent implements OnInit {
     this.isMitarbeiterBank = true;
   }
 
-  private initMitarbeiterBank() {
+  initMitarbeiterBank() {
     if (this.tableMitarbeiterBank) {
       this.tableMitarbeiterBank.ngOnInit();
     }
@@ -117,7 +142,7 @@ export class SearchMitarbeiterComponent implements OnInit {
     this.isMitarbeiterInternBank = true;
   }
 
-  private initMitarbeiterInternBank() {
+  initMitarbeiterInternBank() {
     if (this.tableMitarbeiterInternBank) {
       this.tableMitarbeiterInternBank.ngOnInit();
     }

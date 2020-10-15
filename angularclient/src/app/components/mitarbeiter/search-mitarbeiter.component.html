@@ -1,12 +1,18 @@
 <form class="lengthForm" [formGroup]="lastEndDateFormGroup" (ngSubmit)="getLastEndDateOnSubmit()">
   <mat-form-field appearance="fill" class="half-width">
-    <mat-label>Wie lange ist Mitarbeiter noch im Einsatz</mat-label>
-    <mat-select required formControlName="id">
-      <mat-option *ngFor="let mitarbeiter of mitarbeiterList" [value]="mitarbeiter.id">{{mitarbeiter.name}}</mat-option>
-    </mat-select>
+    <input type="text"
+           placeholder="Wie lange ist Mitarbeiter noch im Einsatz"
+           aria-label="Number"
+           matInput
+           [formControl]="lastEndDateMitarbeiter"
+           [matAutocomplete]="auto">
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+      <mat-option *ngFor="let mitarbeiter of filteredOptions | async"
+                  [value]="mitarbeiter">{{mitarbeiter.name}}</mat-option>
+    </mat-autocomplete>
   </mat-form-field>
   <mat-form-field *ngIf="lastEndDate.value" class="qaurter-width">
-    <mat-label>Mitarbeiter ist im Einsatz bis</mat-label>
+    <mat-label>{{labelMitarbeiterEinsatz}}</mat-label>
     <input matInput type="text" formControlName="lastEndDate">
   </mat-form-field>
   <button mat-raised-button color="primary" type="submit" class="button" [disabled]="!lastEndDateFormGroup.valid">
@@ -36,7 +42,7 @@
   </button>
   <mat-form-field *ngIf="mitarbeiterEinsatz.value" class="qaurter-width">
     <mat-label>Menge der Mitarbeiter die aktuell im Einsatz sind</mat-label>
-    <input matInput type="string" formControlName="mitarbeiterEinsatz">
+    <input matInput formControlName="mitarbeiterEinsatz">
   </mat-form-field>
 </form>
 
@@ -47,7 +53,7 @@
   </button>
   <mat-form-field *ngIf="subunternehmerEinsatz.value" class="qaurter-width">
     <mat-label>Menge der Subunternehmer im Einsatz</mat-label>
-    <input matInput type="string" formControlName="subunternehmerEinsatz">
+    <input matInput formControlName="subunternehmerEinsatz">
   </mat-form-field>
 </form>
 
@@ -57,7 +63,7 @@
   </button>
   <mat-form-field *ngIf="deckungsbeitrag.value" class="qaurter-width">
     <mat-label>Aktueller Deckungsbeitrag</mat-label>
-    <input matInput type="string" formControlName="deckungsbeitrag">
+    <input matInput formControlName="deckungsbeitrag">
   </mat-form-field>
 </form>
 

@@ -38,6 +38,7 @@ import {DeleteEinsatzDialogComponent} from './components/einsatz/delete-einsatz-
 import {MatDialogModule} from "@angular/material/dialog";
 import {DeleteMitarbeiterDialogComponent} from './components/mitarbeiter/delete-mitarbeiter-dialog.component';
 import {DeleteVertriebDialogComponent} from './components/vertrieb/delete-vertrieb-dialog.component';
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
 
 @NgModule({
   declarations: [
@@ -57,31 +58,32 @@ import {DeleteVertriebDialogComponent} from './components/vertrieb/delete-vertri
     DeleteMitarbeiterDialogComponent,
     DeleteVertriebDialogComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    FormsModule,
-    NoopAnimationsModule,
-    MatCardModule,
-    MatButtonModule,
-    MatMenuModule,
-    MatTableModule,
-    MatFormFieldModule,
-    MatSortModule,
-    MatPaginatorModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    MatOptionModule,
-    MatSelectModule,
-    MatDividerModule,
-    MatSidenavModule,
-    MatListModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatTabsModule,
-    MatDialogModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        FormsModule,
+        NoopAnimationsModule,
+        MatCardModule,
+        MatButtonModule,
+        MatMenuModule,
+        MatTableModule,
+        MatFormFieldModule,
+        MatSortModule,
+        MatPaginatorModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        MatOptionModule,
+        MatSelectModule,
+        MatDividerModule,
+        MatSidenavModule,
+        MatListModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatTabsModule,
+        MatDialogModule,
+        MatAutocompleteModule
+    ],
 
   providers: [MitarbeiterService,
     {provide: MAT_DATE_LOCALE, useValue: 'de'},
