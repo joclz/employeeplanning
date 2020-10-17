@@ -9,6 +9,8 @@ import {MitarbeiterStatus} from "../../models/mitarbeiter/mitarbeiter-status.enu
 import {MitarbeiterService} from "../../services/mitarbeiter/mitarbeiter.service";
 import {MitarbeiterVertriebService} from "../../services/vertrieb/mitarbeiter-vertrieb.service";
 import {MitarbeiterDTO} from "../../models/mitarbeiter/mitarbeiter-dto";
+import {Observable} from "rxjs";
+import {map, startWith} from "rxjs/operators";
 
 @Component({
   selector: 'app-search-einsatz',
@@ -17,6 +19,8 @@ import {MitarbeiterDTO} from "../../models/mitarbeiter/mitarbeiter-dto";
 })
 export class SearchEinsatzComponent implements OnInit, OnDestroy {
 
+  filteredMitarbeiter: Observable<MitarbeiterDTO[]>;
+  filteredMitarbeiterVertriebSearch: Observable<MitarbeiterDTO[]>;
   mitarbeiterVertrieb = new FormControl('');
   mitarbeiter = new FormControl('');
   mitarbeiterStatus = new FormControl('');
@@ -27,7 +31,8 @@ export class SearchEinsatzComponent implements OnInit, OnDestroy {
   endeBis = new FormControl('');
   searchFormGroup: FormGroup;
 
-  mitarbeiterVertriebId = new FormControl('', [Validators.required]);
+  filteredMitarbeiterVertrieb: Observable<MitarbeiterDTO[]>;
+  einsatzMitarbeiterVertrieb = new FormControl('', [Validators.required]);
   searchMitarbeiterVertriebFormGroup: FormGroup;
 
   einsatzStatusEnum = EinsatzStatus;
@@ -62,10 +67,15 @@ export class SearchEinsatzComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.mitarbeiterService.getMitarbeiterListOrderByName().subscribe(result => {
       this.mitarbeiterList = result;
+
+      this.filteredMitarbeiter = this.getMitarbeiterFilteredOptions(this.mitarbeiter, this.mitarbeiterList);
     });
 
     this.mitarbeiterVertriebService.getMitarbeiterVertriebListOrderByName().subscribe(result => {
       this.mitarbeiterVertriebList = result;
+
+      this.filteredMitarbeiterVertrieb = this.getMitarbeiterFilteredOptions(this.einsatzMitarbeiterVertrieb, this.mitarbeiterVertriebList);
+      this.filteredMitarbeiterVertriebSearch = this.getMitarbeiterFilteredOptions(this.mitarbeiterVertrieb, this.mitarbeiterVertriebList);
     });
 
     this.searchFormGroup = new FormGroup({
@@ -80,24 +90,42 @@ export class SearchEinsatzComponent implements OnInit, OnDestroy {
     });
 
     this.searchMitarbeiterVertriebFormGroup = new FormGroup({
-      mitarbeiterVertriebId: this.mitarbeiterVertriebId,
+      einsatzMitarbeiterVertrieb: this.einsatzMitarbeiterVertrieb,
     });
 
     this.initFirstTab();
+  }
+
+  private getMitarbeiterFilteredOptions(formControl: FormControl, mitarbeiterList: Array<MitarbeiterDTO>): Observable<MitarbeiterDTO[]> {
+    return formControl.valueChanges.pipe(
+      startWith(''),
+      map(value => typeof value === "string" ? value : value ? value.name : ''),
+      map(name => name ? this._filterMitarbeiter(name, mitarbeiterList) : mitarbeiterList.slice())
+    );
+  }
+
+  private _filterMitarbeiter(value: string, mitarbeiterList: Array<MitarbeiterDTO>): MitarbeiterDTO[] {
+    const filterValue = value.toLowerCase();
+    return mitarbeiterList.filter(mitarbeiter => mitarbeiter.name.toLowerCase().indexOf(filterValue) === 0);
+  }
+
+  displayFn(mitarbeiter: MitarbeiterDTO): string {
+    return mitarbeiter && mitarbeiter.name ? mitarbeiter.name : '';
   }
 
   search() {
     this.isSearch = false;
 
     let einsatzSucheDTO = new EinsatzSucheDto();
-    einsatzSucheDTO.mitarbeiterVertriebId = this.mitarbeiterVertrieb.value;
-    einsatzSucheDTO.mitarbeiterId = this.mitarbeiter.value;
+    einsatzSucheDTO.mitarbeiterVertriebId = this.mitarbeiterVertrieb.value ? this.mitarbeiterVertrieb.value.id : '';
+    einsatzSucheDTO.mitarbeiterId = this.mitarbeiter.value ? this.mitarbeiter.value.id : '';
     einsatzSucheDTO.mitarbeiterStatus = <MitarbeiterStatus>this.mitarbeiterStatus.value;
     einsatzSucheDTO.einsatzStatus = <EinsatzStatus>this.einsatzStatus.value;
     einsatzSucheDTO.beginnVon = this.beginnVon.value;
     einsatzSucheDTO.beginnBis = this.beginnBis.value;
     einsatzSucheDTO.endeVon = this.endeVon.value;
     einsatzSucheDTO.endeBis = this.endeBis.value;
+
     this.einsatzService.findEinsaetzeBySuchkriterien(einsatzSucheDTO).subscribe(result => {
       this.einsaetzeSearchList = result;
       this.isSearch = true;
@@ -106,9 +134,11 @@ export class SearchEinsatzComponent implements OnInit, OnDestroy {
 
   searchMitarbeiterVertrieb() {
     this.isMitarbeiterVertrieb = false;
-    this.einsatzService.findEinsaetzeByMitarbeiterVertrieb(this.mitarbeiterVertriebId.value).subscribe(result => {
+    this.einsatzService.findEinsaetzeByMitarbeiterVertrieb(this.einsatzMitarbeiterVertrieb.value.id).subscribe(result => {
       this.einsaetzeMitarbeiterVertriebList = result;
       this.isMitarbeiterVertrieb = true;
+
+      this.einsatzMitarbeiterVertrieb.reset();
     });
   }
 

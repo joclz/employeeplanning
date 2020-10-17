@@ -15,14 +15,14 @@ import {map, startWith} from "rxjs/operators";
 })
 export class SearchMitarbeiterComponent implements OnInit {
 
-  filteredOptions: Observable<MitarbeiterDTO[]>;
-
+  filteredLastEndDateMitarbeiter: Observable<MitarbeiterDTO[]>;
   lastEndDate = new FormControl({value: '', disabled: true});
   lastEndDateMitarbeiter = new FormControl('', [Validators.required]);
   lastEndDateFormGroup: FormGroup;
 
+  filteredChanceMitarbeiter: Observable<MitarbeiterDTO[]>;
   chance = new FormControl({value: '', disabled: true});
-  chanceId = new FormControl('', [Validators.required]);
+  chanceMitarbeiter = new FormControl('', [Validators.required]);
   chanceFormGroup: FormGroup;
 
   mitarbeiterEinsatz = new FormControl({value: '', disabled: true});
@@ -43,6 +43,7 @@ export class SearchMitarbeiterComponent implements OnInit {
   mitarbeiterList: Array<MitarbeiterDTO>;
 
   labelMitarbeiterEinsatz: string;
+  labelChanceMitarbeiter: string;
 
   @ViewChild('tableMitarbeiterBank') tableMitarbeiterBank: TableMitarbeiterComponent;
   @ViewChild('tableMitarbeiterInternBank') tableMitarbeiterInternBank: TableMitarbeiterComponent;
@@ -54,20 +55,16 @@ export class SearchMitarbeiterComponent implements OnInit {
     this.mitarbeiterService.getMitarbeiterListOrderByName().subscribe(result => {
       this.mitarbeiterList = result;
 
-      this.filteredOptions = this.lastEndDateMitarbeiter.valueChanges.pipe(
-        startWith(''),
-        map(value => typeof value === "string" ? value : value? value.name : ''),
-        map(name => name ? this._filter(name) : this.mitarbeiterList.slice())
-      );
+      this.filteredLastEndDateMitarbeiter = this.getFilteredOptions(this.lastEndDateMitarbeiter);
+      this.filteredChanceMitarbeiter = this.getFilteredOptions(this.chanceMitarbeiter);
     });
-
 
     this.lastEndDateFormGroup = new FormGroup({
       lastEndDate: this.lastEndDate,
       lastEndDateMitarbeiter: this.lastEndDateMitarbeiter
     });
     this.chanceFormGroup = new FormGroup({
-      id: this.chanceId,
+      chanceMitarbeiter: this.chanceMitarbeiter,
       chance: this.chance
     });
     this.mitarbeiterEinsatzFormGroup = new FormGroup({
@@ -83,7 +80,15 @@ export class SearchMitarbeiterComponent implements OnInit {
     this.mitarbeiterInternBankFormGroup = new FormGroup({});
   }
 
-  private _filter(value: any): MitarbeiterDTO[] {
+  private getFilteredOptions(formControl: FormControl): Observable<MitarbeiterDTO[]> {
+    return formControl.valueChanges.pipe(
+      startWith(''),
+      map(value => typeof value === "string" ? value : value ? value.name : ''),
+      map(name => name ? this._filter(name) : this.mitarbeiterList.slice())
+    );
+  }
+
+  private _filter(value: string): MitarbeiterDTO[] {
     const filterValue = value.toLowerCase();
     return this.mitarbeiterList.filter(mitarbeiter => mitarbeiter.name.toLowerCase().indexOf(filterValue) === 0);
   }
@@ -106,9 +111,11 @@ export class SearchMitarbeiterComponent implements OnInit {
   }
 
   getChanceOnSubmit() {
-    this.mitarbeiterService.getChanceForMitarbeiter(this.chanceId.value)
+    this.mitarbeiterService.getChanceForMitarbeiter(this.chanceMitarbeiter.value.id)
       .subscribe(result => {
-        this.chance.setValue(result.toString())
+        this.chance.setValue(result.toString());
+        this.labelChanceMitarbeiter = "Chance auf Verlängerung für " + this.chanceMitarbeiter.value.name;
+        this.chanceMitarbeiter.reset();
       });
   }
 

@@ -1,8 +1,5 @@
 package com.cegeka.employeeplanning.controller;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import com.cegeka.employeeplanning.data.Einsatz;
 import com.cegeka.employeeplanning.data.dto.EinsatzDTO;
 import com.cegeka.employeeplanning.data.dto.EinsatzSucheDTO;
@@ -10,17 +7,13 @@ import com.cegeka.employeeplanning.data.enums.Enums;
 import com.cegeka.employeeplanning.data.util.EinsatzSuche;
 import com.cegeka.employeeplanning.repositories.EinsatzRepository;
 import com.cegeka.employeeplanning.service.EinsatzService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @CrossOrigin
 @RestController
@@ -75,6 +68,10 @@ public class EmployeeplanningEinsatzController {
     @PostMapping(path = "/findEinsaetzeBySuchkriterien", consumes = "application/json")
     public Iterable<Einsatz> findEinsaetzeBySuchkriterien(@RequestBody EinsatzSucheDTO einsatzSucheDTO) {
         final EinsatzSuche einsatzSuche = einsatzService.convertToEntity(einsatzSucheDTO);
+        // TODO hier kommt komischerweiße ein Einsatz zurück obwohl alle Werte null sind,
+        //  nur nachdem ich zB alle Einsätze von einem Mitarbeiter in der komplexen Suche suche und danach das Feld vom Mitarbeiter lösche und erneut Suche
+        //  Die EinsatzSucheDTO kommt dann nur mit null Werten, aber es wird trotzdem ein Einsatz zurück gegeben
+
         return einsatzService.findEinsaetzeBySuchkriterien(einsatzSuche);
     }
 

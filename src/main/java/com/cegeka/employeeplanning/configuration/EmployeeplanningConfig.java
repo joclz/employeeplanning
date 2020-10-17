@@ -45,6 +45,6 @@ public class EmployeeplanningConfig implements WebMvcConfigurer {
         registry.addViewController("/goToMitarbeiterVertrieb").setViewName("mitarbeitervertrieb.html");
         registry.addViewController("/goToEinsatz").setViewName("einsatz.html");
 
-        registry.addViewController("/").setViewName("forward:/empty.html");
+//        registry.addViewController("/").setViewName("forward:/empty.html");
     }
 }

@@ -22,13 +22,17 @@
     <form class="searchMitarbeiterVertriebForm" [formGroup]="searchMitarbeiterVertriebFormGroup"
           (ngSubmit)="searchMitarbeiterVertrieb()">
       <mat-form-field appearance="fill" class="half-width">
-        <mat-label>Mitarbeiter Vertrieb</mat-label>
-        <mat-select required formControlName="mitarbeiterVertriebId">
-          <mat-option *ngFor="let mitarbeiterVertrieb of mitarbeiterVertriebList"
-                      [value]="mitarbeiterVertrieb.id">{{mitarbeiterVertrieb.name}}</mat-option>
-        </mat-select>
+        <input type="text"
+               placeholder="Mitarbeiter Vertrieb"
+               aria-label="Number"
+               matInput
+               [formControl]="einsatzMitarbeiterVertrieb"
+               [matAutocomplete]="autoCompleteSearchMitarbeiterVertrieb">
+        <mat-autocomplete #autoCompleteSearchMitarbeiterVertrieb="matAutocomplete" [displayWith]="displayFn">
+          <mat-option *ngFor="let mitarbeiter of filteredMitarbeiterVertrieb | async"
+                      [value]="mitarbeiter">{{mitarbeiter.name}}</mat-option>
+        </mat-autocomplete>
       </mat-form-field>
-
       <button mat-raised-button color="primary" type="submit" class="button"
               [disabled]="!searchMitarbeiterVertriebFormGroup.valid">
         Suche
@@ -39,20 +43,31 @@
 
   <mat-tab label="Komplexe Suche">
     <form class="searchFormGroup" [formGroup]="searchFormGroup" (ngSubmit)="search()">
+
       <mat-form-field appearance="fill" class="half-width">
-        <mat-label>Mitarbeiter</mat-label>
-        <mat-select formControlName="mitarbeiter">
-          <mat-option *ngFor="let mitarbeiter of mitarbeiterList"
-                      [value]="mitarbeiter.id">{{mitarbeiter.name}}</mat-option>
-        </mat-select>
+        <input type="text"
+               placeholder="Mitarbeiter"
+               aria-label="Number"
+               matInput
+               [formControl]="mitarbeiter"
+               [matAutocomplete]="autoMitarbeiter">
+        <mat-autocomplete #autoMitarbeiter="matAutocomplete" [displayWith]="displayFn">
+          <mat-option *ngFor="let mitarbeiter of filteredMitarbeiter | async"
+                      [value]="mitarbeiter">{{mitarbeiter.name}}</mat-option>
+        </mat-autocomplete>
       </mat-form-field>
 
       <mat-form-field appearance="fill" class="half-width">
-        <mat-label>Mitarbeiter Vertrieb</mat-label>
-        <mat-select formControlName="mitarbeiterVertrieb">
-          <mat-option *ngFor="let mitarbeiterVertrieb of mitarbeiterVertriebList"
-                      [value]="mitarbeiterVertrieb.id">{{mitarbeiterVertrieb.name}}</mat-option>
-        </mat-select>
+        <input type="text"
+               placeholder="Mitarbeiter Vertrieb"
+               aria-label="Number"
+               matInput
+               [formControl]="mitarbeiterVertrieb"
+               [matAutocomplete]="autoMitarbeiterVertrieb">
+        <mat-autocomplete #autoMitarbeiterVertrieb="matAutocomplete" [displayWith]="displayFn">
+          <mat-option *ngFor="let mitarbeiter of filteredMitarbeiterVertriebSearch | async"
+                      [value]="mitarbeiter">{{mitarbeiter.name}}</mat-option>
+        </mat-autocomplete>
       </mat-form-field>
 
       <mat-form-field appearance="fill" class="half-width">
@@ -72,28 +87,32 @@
 
       <mat-form-field appearance="fill" class="half-width">
         <mat-label>Beginn Von</mat-label>
-        <input matInput placeholder="1.1.2020" formControlName="beginnVon" [matDatepicker]="beginnVonPicker" readonly="readonly">
+        <input matInput placeholder="1.1.2020" formControlName="beginnVon" [matDatepicker]="beginnVonPicker"
+               readonly="readonly">
         <mat-datepicker-toggle matSuffix [for]="beginnVonPicker"></mat-datepicker-toggle>
         <mat-datepicker #beginnVonPicker></mat-datepicker>
       </mat-form-field>
 
       <mat-form-field appearance="fill" class="half-width">
         <mat-label>Beginn Bis</mat-label>
-        <input matInput placeholder="1.1.2020" formControlName="beginnBis" [matDatepicker]="beginnBisPicker" readonly="readonly">
+        <input matInput placeholder="1.1.2020" formControlName="beginnBis" [matDatepicker]="beginnBisPicker"
+               readonly="readonly">
         <mat-datepicker-toggle matSuffix [for]="beginnBisPicker"></mat-datepicker-toggle>
         <mat-datepicker #beginnBisPicker></mat-datepicker>
       </mat-form-field>
 
       <mat-form-field appearance="fill" class="half-width">
         <mat-label>Ende Von</mat-label>
-        <input matInput placeholder="1.1.2020" formControlName="endeVon" [matDatepicker]="endeVonPicker" readonly="readonly">
+        <input matInput placeholder="1.1.2020" formControlName="endeVon" [matDatepicker]="endeVonPicker"
+               readonly="readonly">
         <mat-datepicker-toggle matSuffix [for]="endeVonPicker"></mat-datepicker-toggle>
         <mat-datepicker #endeVonPicker></mat-datepicker>
       </mat-form-field>
 
       <mat-form-field appearance="fill" class="half-width">
         <mat-label>Ende Bis</mat-label>
-        <input matInput placeholder="1.1.2020" formControlName="endeBis" [matDatepicker]="endeBisPicker" readonly="readonly">
+        <input matInput placeholder="1.1.2020" formControlName="endeBis" [matDatepicker]="endeBisPicker"
+               readonly="readonly">
         <mat-datepicker-toggle matSuffix [for]="endeBisPicker"></mat-datepicker-toggle>
         <mat-datepicker #endeBisPicker></mat-datepicker>
       </mat-form-field>
