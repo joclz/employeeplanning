@@ -8,7 +8,10 @@ zum Hochkopieren eines Docker-Tar-Files auf cp-server-30:
 pscp employeeplanning.tar matff@cp-server-30:/home/matff/employeeplanning.tar
 
 Einspielen des Tar.Files in Docker:
-docker load < employeeplanning.tar
+Alten Container stoppen: 
+- docker ps
+- docker stop <NAME>
+- docker load < employeeplanning.tar
 
 Docker-Image sollte verf�gbar sein:
 docker images

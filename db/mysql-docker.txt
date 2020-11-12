@@ -1,0 +1,22 @@
+Zum Starten eines neuen mysql-Images:
+docker run --name my-mysql -p 3306 -e MYSQL_ROOT_PASSWORD=my_secret_pw -d mysql:latest
+
+Zum Starten eines zweiten Images als CLient:
+docker run -it --link my-mysql:mysql --rm mysql sh
+anschließend Starten des CLients:
+exec mysql -h"$MYSQL_PORT_3306_TCP_ADDR" -P"$MYSQL_PORT_3306_TCP_PORT" -uroot -p"$MYSQL_ENV_MYSQL_ROOT_PASSWORD"
+oder Starten des CLients über die Docker-Images hinweg:
+exec mysql -hcp-server-30 -P32769 -uroot -pmy_secret_pw
+
+Anlegen einer neues Datenbank mit User
+create database employeeplanning character set utf8 collate utf8_general_ci;
+create user 'epmaster'@'%' IDENTIFIED BY 'epmasterpw';
+grant all privileges on * . * to 'epmaster'@'%';
+show databases;
+USE employeeplanning
+
+Einspielen der initialen Daten mit dem Script mysql_init_script.sql
+
+
+
+
