@@ -16,6 +16,8 @@ show databases;
 USE employeeplanning
 
 Einspielen der initialen Daten mit dem Script mysql_init_script.sql
+Achtung!!!! Das Einsöielen der Daten funktioniert nicht korrekt über die Bash, da hier aus noch nicht bekannten Gründen
+keine Umlaute eingegeben werden können. Ich habe daher die initialen Daten über einen Client von einem anderen Rechner aus eingespielt.
 
 
 

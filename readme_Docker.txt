@@ -19,7 +19,7 @@ docker images
 Docker Image starten:
 docker run -p 8080:8080 employeeplanning
 oder
-docker run -p 80:8080 employeeplanning (um auf Default Port zu mappen)
+docker run -p 80:8080 -d employeeplanning (um auf Default Port zu mappen)
 
 Mit dem Parameter -d läuft das Image im Detached-Mode, d.h. das Image wird gestartet, die Console steht wieder zur Verfügung und kann geschlossen werden (sonst wird das Image gestoppt, wenn die Konsole geschlossen wird)
 
