@@ -9,8 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import com.cegeka.employeeplanning.data.enums.Enums;
 
@@ -37,9 +35,9 @@ public class Einsatz {
 
     @Enumerated(EnumType.STRING)
     private Enums.EinsatzStatus einsatzStatus;
-    @Temporal(TemporalType.DATE)
+//    @Temporal(TemporalType.DATE)
     private Date beginn;
-    @Temporal(TemporalType.DATE)
+//    @Temporal(TemporalType.DATE)
     private Date ende;
     private int wahrscheinlichkeit;
     private double zusatzkostenReise;
