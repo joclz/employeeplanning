@@ -81,7 +81,7 @@
     <!-- Marge Column -->
     <ng-container matColumnDef="marge">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Marge</th>
-      <td mat-cell *matCellDef="let row"> {{row.marge}} </td>
+      <td mat-cell *matCellDef="let row"> {{row.marge | number:'1.2-2'}} </td>
     </ng-container>
 
     <!-- Delete/Edit Einsatz -->
