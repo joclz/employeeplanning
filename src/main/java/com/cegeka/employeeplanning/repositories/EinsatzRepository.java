@@ -8,11 +8,12 @@ import com.cegeka.employeeplanning.data.Mitarbeiter;
 import com.cegeka.employeeplanning.data.MitarbeiterVertrieb;
 import com.cegeka.employeeplanning.data.enums.Enums;
 
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
-public interface EinsatzRepository extends CrudRepository<Einsatz, Integer> {
+public interface EinsatzRepository extends PagingAndSortingRepository<Einsatz, Integer>, JpaSpecificationExecutor<Einsatz> {
 
     Iterable<Einsatz> findEinsaetzeByEinsatzStatus(Enums.EinsatzStatus status);
 

@@ -2,6 +2,7 @@ package com.cegeka.employeeplanning.service;
 
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import com.cegeka.employeeplanning.data.Einsatz;
@@ -11,6 +12,8 @@ import com.cegeka.employeeplanning.data.dto.EinsatzDTO;
 import com.cegeka.employeeplanning.data.dto.EinsatzSucheDTO;
 import com.cegeka.employeeplanning.data.enums.Enums.EinsatzStatus;
 import com.cegeka.employeeplanning.data.util.EinsatzSuche;
+import com.cegeka.employeeplanning.data.util.FindAllBuilder;
+import com.cegeka.employeeplanning.data.util.ItemCriteria;
 import com.cegeka.employeeplanning.exceptions.NoSuchEinsatzException;
 import com.cegeka.employeeplanning.repositories.EinsatzRepository;
 import com.cegeka.employeeplanning.repositories.MitarbeiterRepository;
@@ -21,8 +24,10 @@ import org.assertj.core.util.VisibleForTesting;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class EinsatzService {
     @Autowired
     private EinsatzRepository einsatzRepository;
@@ -145,6 +150,11 @@ public class EinsatzService {
                 einsatzSuche.getBeginnBis(),
                 einsatzSuche.getEndeVon(),
                 einsatzSuche.getEndeBis());
+    }
+
+    public List<Einsatz> getPartialEinsaetze(ItemCriteria itemCriteria)
+    {
+        return (FindAllBuilder.usingRepository(einsatzRepository).filterBy(itemCriteria.getFilter()).findAll(itemCriteria.getPage(),  itemCriteria.getSize()));
     }
 
     /**

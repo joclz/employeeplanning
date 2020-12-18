@@ -1,19 +1,28 @@
 package com.cegeka.employeeplanning.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
 import com.cegeka.employeeplanning.data.Einsatz;
 import com.cegeka.employeeplanning.data.dto.EinsatzDTO;
 import com.cegeka.employeeplanning.data.dto.EinsatzSucheDTO;
 import com.cegeka.employeeplanning.data.enums.Enums;
 import com.cegeka.employeeplanning.data.util.EinsatzSuche;
+import com.cegeka.employeeplanning.data.util.ItemCriteria;
 import com.cegeka.employeeplanning.repositories.EinsatzRepository;
 import com.cegeka.employeeplanning.service.EinsatzService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin
 @RestController
@@ -93,6 +102,23 @@ public class EmployeeplanningEinsatzController {
     @GetMapping("/listEinsaetze")
     public Iterable<Einsatz> getEinsaetze() {
         return einsatzRepository.findAll();
+    }
+
+    // Weiterer Endpunkt für Liste aller Einsätze
+    // mit Paging und Filterung, z.B. liefert folgender Aufruf die ersten zwei Einsätze mit einer Wahrscheinlichkeit zwischen 25 und 50
+    // http://localhost:8080/partialEinsaetze?page=0&size=2&filter=wahrscheinlichkeit>=25&filter=wahrscheinlichkeit<=50
+    // Die Query-Paramameter werden in einem ItemCriteria abgelegt
+    // die PAging-Attribute werden direkt an ein PagingAndSortingRepository weitergegebene (selbsterklärend)
+    // Die Filter-Parameter werden auf sogenannte Specifications gemappt und an das JpaSpecification-Repository weitergegeben
+    // (daher muss das Einsatz-Repository beide Interfaces implementieren)
+    // Derzeit werden die Specifications voll generisch aus den Filtern erzeugt (mögliche Operationen siehe Klasse FilterOperations)
+    // dies funktioniert derzeit aber nicht für Enums oder Datums-Klassen, da diese Specifications in einem etwas anderen Format erfolgen müssen.
+    // TODO: Hier müsste über den Spaltennamen ermittelt werden, um welchen Datentyp es sich handelt und dann das Erzeugen der Specifications entsprechend angepasst werden.
+    @GetMapping("/partialEinsaetze")
+    public List<Einsatz> getPartialEinsaetze(
+            ItemCriteria criteria)
+    {
+        return einsatzService.getPartialEinsaetze(criteria);
     }
 
     // Beim POST-Request addEinsatz gab es ein Problem, dass das Datumsformat nicht korrekt durchgereicht werden konnte.
