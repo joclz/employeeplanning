@@ -17,8 +17,15 @@ USE employeeplanning
 
 Einspielen der initialen Daten mit dem Script mysql_init_script.sql
 Achtung!!!! Das Einsöielen der Daten funktioniert nicht korrekt über die Bash, da hier aus noch nicht bekannten Gründen
-keine Umlaute eingegeben werden können. Ich habe daher die initialen Daten über einen Client von einem anderen Rechner aus eingespielt.
+keine Umlaute eingegeben werden können. Ich habe daher die initialen Daten über einen Client (SQuirrel) von einem anderen Rechner aus eingespielt.
 
+Für den Restart des MYSQL-Docker Images:
+Mit docker container ls -a erhält man alle auf dem Server erzeugten Container
+Dort sucht man den Container mit dem Namen "my-mysql"
+und ruft ein
+docker restart <CONTAINER-ID> auf
+Problem: Ggf. wird nach dem Restart ein anderer Port nach aussen freigegeben (also nicht 32769 sondern 32768)
+Entweder die Anwendung umkonfigurieren oder den Container stoppen und restarten
 
 
 
