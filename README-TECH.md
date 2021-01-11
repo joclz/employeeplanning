@@ -46,4 +46,6 @@ JDBC-URL: jdbc:h2:c:/temp/h2-db-employeeplanning
 Username: sa
 Password: 
 
+Die Datenbank kann mit http://localhost:8080/h2-console betrachtet werden.
+
 Für die Unit-Tests wird aktuell eine Memory-DB herangezogen.

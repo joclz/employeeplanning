@@ -3,9 +3,9 @@ docker run --name my-mysql -p 3306 -e MYSQL_ROOT_PASSWORD=my_secret_pw -d mysql:
 
 Zum Starten eines zweiten Images als CLient:
 docker run -it --link my-mysql:mysql --rm mysql sh
-anschließend Starten des CLients:
+anschlieÃŸend Starten des CLients:
 exec mysql -h"$MYSQL_PORT_3306_TCP_ADDR" -P"$MYSQL_PORT_3306_TCP_PORT" -uroot -p"$MYSQL_ENV_MYSQL_ROOT_PASSWORD"
-oder Starten des CLients über die Docker-Images hinweg:
+oder Starten des CLients Ã¼ber die Docker-Images hinweg:
 exec mysql -hcp-server-30 -P32769 -uroot -pmy_secret_pw
 
 Anlegen einer neues Datenbank mit User
@@ -16,11 +16,11 @@ show databases;
 USE employeeplanning
 
 Einspielen der initialen Daten mit dem Script mysql_init_script.sql
-Achtung!!!! Das Einsöielen der Daten funktioniert nicht korrekt über die Bash, da hier aus noch nicht bekannten Gründen
-keine Umlaute eingegeben werden können. Ich habe daher die initialen Daten über einen Client (SQuirrel) von einem anderen Rechner aus eingespielt.
+Achtung!!!! Das Einspielen der Daten funktioniert nicht korrekt Ã¼ber die Bash, da hier aus noch nicht bekannten GrÃ¼nden
+keine Umlaute eingegeben werden kÃ¶nnen. Ich habe daher die initialen Daten Ã¼ber einen Client (SQuirrel) von einem anderen Rechner aus eingespielt.
 
-Für den Restart des MYSQL-Docker Images:
-Mit docker container ls -a erhält man alle auf dem Server erzeugten Container
+FÃ¼r den Restart des MYSQL-Docker Images:
+Mit docker container ls -a erhÃ¤lt man alle auf dem Server erzeugten Container
 Dort sucht man den Container mit dem Namen "my-mysql"
 und ruft ein
 docker restart <CONTAINER-ID> auf
