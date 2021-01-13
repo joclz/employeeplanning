@@ -1,9 +1,6 @@
 package com.cegeka.employeeplanning.service;
 
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import com.cegeka.employeeplanning.data.Einsatz;
 import com.cegeka.employeeplanning.data.Mitarbeiter;
@@ -164,6 +161,23 @@ public class EinsatzService {
     public double getDeckungsbeitrag() {
         Date today = EmployeeplanningUtil.today();
         return getDeckungsbeitrag(today);
+    }
+
+    /**
+     * Frage: Welchen Umsatz bzw. Deckungsbeiträge haben wir über das komplette Jahr
+     * Es werden die Deckungsbeiträge aller Beauftragten Einsätze addiert und für die 12 Monate zurückgegeben.
+     */
+    public List<Double> getDeckungsbeitragJahr() {
+        List<Double> deckungsbeitragJahr = new ArrayList<>();
+        Date dateActual = EmployeeplanningUtil.today();
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(dateActual);
+        for (int monat = 0; monat < 12; monat ++) {
+            calendar.set(Calendar.MONTH, monat);
+            dateActual = calendar.getTime();
+            deckungsbeitragJahr.add(getDeckungsbeitrag(dateActual));
+        }
+        return deckungsbeitragJahr;
     }
 
     @VisibleForTesting

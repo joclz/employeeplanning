@@ -34,6 +34,9 @@ export class SearchMitarbeiterComponent implements OnInit {
   deckungsbeitrag = new FormControl({value: '', disabled: true});
   deckungsbeitragFormGroup: FormGroup;
 
+  deckungsbeitragJahr: String[];
+  deckungsbeitragJahrFormGroup: FormGroup;
+
   isMitarbeiterBank = false;
   mitarbeiterBankFormGroup: FormGroup;
 
@@ -76,6 +79,7 @@ export class SearchMitarbeiterComponent implements OnInit {
     this.deckungsbeitragFormGroup = new FormGroup({
       deckungsbeitrag: this.deckungsbeitrag
     });
+    this.deckungsbeitragJahrFormGroup = new FormGroup({});
     this.mitarbeiterBankFormGroup = new FormGroup({});
     this.mitarbeiterInternBankFormGroup = new FormGroup({});
   }
@@ -132,6 +136,10 @@ export class SearchMitarbeiterComponent implements OnInit {
   getDeckungsbeitragOnSubmit() {
     this.mitarbeiterService.getDeckungsbeitrag().subscribe(result => this.deckungsbeitrag.setValue(result.toString()));
   }
+
+  getDeckungsbeitragJahrOnSubmit() {
+      this.mitarbeiterService.getDeckungsbeitragJahr().subscribe(result => this.deckungsbeitragJahr = result);
+    }
 
   getMitarbeiterBankOnSubmit() {
     this.initMitarbeiterBank();
