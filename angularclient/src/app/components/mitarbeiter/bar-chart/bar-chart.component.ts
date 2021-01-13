@@ -13,7 +13,25 @@ export class BarChartComponent implements OnInit {
 
   public barChartOptions = {
     scaleShowVerticalLines: false,
-    responsive: true
+    responsive: true,
+    legend: {
+      labels: {
+        fontColor: 'black'
+      }
+    },
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero:true,
+          fontColor: 'black'
+        },
+      }],
+      xAxes: [{
+        ticks: {
+          fontColor: 'black'
+        },
+      }]
+    }
   };
 
   public barChartLabels = ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'];
