@@ -1,11 +1,11 @@
 Zum Starten eines neuen mysql-Images:
-docker run --name my-mysql -p 32769:3306 -e MYSQL_ROOT_PASSWORD=my_secret_pw -d -v /home/matff/mysql:/storage/docker/mysql-datadir mysql:latest
+docker run --name my-mysql -p 32769:3306 -e MYSQL_ROOT_PASSWORD=my_secret_pw -d -v /home/matff/mysql:/var/lib/mysql mysql:latest
 
 Zum Starten eines zweiten Images als CLient:
 docker run -it --link my-mysql:mysql --rm mysql sh
-anschliessend Starten des CLients:
+anschlie�end Starten des CLients:
 exec mysql -h"$MYSQL_PORT_3306_TCP_ADDR" -P"$MYSQL_PORT_3306_TCP_PORT" -uroot -p"$MYSQL_ENV_MYSQL_ROOT_PASSWORD"
-oder Starten des CLients ueber die Docker-Images hinweg:
+oder Starten des CLients �ber die Docker-Images hinweg:
 exec mysql -hcp-server-30 -P32769 -uroot -pmy_secret_pw
 
 Anlegen einer neues Datenbank mit User
@@ -24,10 +24,17 @@ Mit docker container ls -a erhaelt man alle auf dem Server erzeugten Container
 Dort sucht man den Container mit dem Namen "my-mysql"
 und ruft ein
 docker restart <CONTAINER-ID> auf
-Problem: Ggf. wird nach dem Restart ein anderer Port nach aussen freigegeben (also nicht 32769 sondern 32768)
-Entweder die Anwendung umkonfigurieren oder den Container stoppen und restarten
+
+Da das Image mit -p 32769:3306 angelegt wurde, sollte bei einem Restart immer wieder der Port 32769 verwendet werden.
+Mit dem Volume-Befehl -v /home/matff/mysql:/var/lib/mysql bei der Anlage des Images werden im Verzeichnis /home/matff/mysql auf dem Host-System
+die Datenbank-Dateien (ausserhalb des Images) abgelegt. Es ist jetzt also nicht mehr unbedingt notwendig, ein docker restart zu machen.
+Alternativ kann auch ein neues Image erzeugt werden und mit dem Volume-Befehl -v /home/matff/mysql:/var/lib/mysql auf die
+bereits existierende Datenbank verwiesen werden.   
 
 Zugangsdaten zur MySql-DB:
 URL: jdbc:mysql://cp-server-30:32769/employeeplanning
 Benutzername: epmaster
 Passwort: epmasterpw
+
+
+
