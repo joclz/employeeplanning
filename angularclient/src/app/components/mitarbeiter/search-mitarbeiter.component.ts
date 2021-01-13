@@ -7,6 +7,7 @@ import {TableMitarbeiterComponent} from "./table-mitarbeiter.component";
 import {MitarbeiterDTO} from "../../models/mitarbeiter/mitarbeiter-dto";
 import {Observable} from "rxjs";
 import {map, startWith} from "rxjs/operators";
+import {DeckungsbeitragJahrData} from "../../models/deckungsbeitragJahr-data";
 
 @Component({
   selector: 'app-search-mitarbeiter',
@@ -34,7 +35,7 @@ export class SearchMitarbeiterComponent implements OnInit {
   deckungsbeitrag = new FormControl({value: '', disabled: true});
   deckungsbeitragFormGroup: FormGroup;
 
-  deckungsbeitragJahr: String[];
+  deckungsbeitragJahr: DeckungsbeitragJahrData;
   deckungsbeitragJahrFormGroup: FormGroup;
 
   isMitarbeiterBank = false;
@@ -80,6 +81,7 @@ export class SearchMitarbeiterComponent implements OnInit {
       deckungsbeitrag: this.deckungsbeitrag
     });
     this.deckungsbeitragJahrFormGroup = new FormGroup({});
+    this.deckungsbeitragJahr = new DeckungsbeitragJahrData();
     this.mitarbeiterBankFormGroup = new FormGroup({});
     this.mitarbeiterInternBankFormGroup = new FormGroup({});
   }
@@ -138,8 +140,23 @@ export class SearchMitarbeiterComponent implements OnInit {
   }
 
   getDeckungsbeitragJahrOnSubmit() {
-      this.mitarbeiterService.getDeckungsbeitragJahr().subscribe(result => this.deckungsbeitragJahr = result);
-    }
+    this.mitarbeiterService.getDeckungsbeitragJahr().subscribe(
+      result => {
+        this.deckungsbeitragJahr.januar = result[0].toString(),
+          this.deckungsbeitragJahr.februar = result[1].toString(),
+          this.deckungsbeitragJahr.maerz = result[2].toString(),
+          this.deckungsbeitragJahr.april = result[3].toString(),
+          this.deckungsbeitragJahr.mai = result[4].toString(),
+          this.deckungsbeitragJahr.juni = result[5].toString(),
+          this.deckungsbeitragJahr.juli = result[6].toString(),
+          this.deckungsbeitragJahr.august = result[7].toString(),
+          this.deckungsbeitragJahr.september = result[8].toString(),
+          this.deckungsbeitragJahr.oktober = result[9].toString(),
+          this.deckungsbeitragJahr.november = result[10].toString(),
+          this.deckungsbeitragJahr.dezember = result[11].toString()
+      }
+    );
+  }
 
   getMitarbeiterBankOnSubmit() {
     this.initMitarbeiterBank();
