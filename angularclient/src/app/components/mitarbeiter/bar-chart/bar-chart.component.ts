@@ -8,6 +8,8 @@ import {DeckungsbeitragJahrData} from "../../../models/deckungsbeitragJahr-data"
 })
 export class BarChartComponent implements OnInit {
 
+  fontColor = '#CCC';
+
   @Input()
   public deckungsbeitragJahr: DeckungsbeitragJahrData;
 
@@ -16,19 +18,19 @@ export class BarChartComponent implements OnInit {
     responsive: true,
     legend: {
       labels: {
-        fontColor: 'black'
+        fontColor: this.fontColor
       }
     },
     scales: {
       yAxes: [{
         ticks: {
           beginAtZero:true,
-          fontColor: 'black'
+          fontColor: this.fontColor
         },
       }],
       xAxes: [{
         ticks: {
-          fontColor: 'black'
+          fontColor: this.fontColor
         },
       }]
     }

@@ -41,6 +41,7 @@ import {DeleteMitarbeiterDialogComponent} from './components/mitarbeiter/delete-
 import {DeleteVertriebDialogComponent} from './components/vertrieb/delete-vertrieb-dialog.component';
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {BarChartComponent} from './components/mitarbeiter/bar-chart/bar-chart.component';
+import {DoughnutChartComponent} from './components/mitarbeiter/doughnut-chart/doughnut-chart.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import {BarChartComponent} from './components/mitarbeiter/bar-chart/bar-chart.co
     DeleteEinsatzDialogComponent,
     DeleteMitarbeiterDialogComponent,
     DeleteVertriebDialogComponent,
-    BarChartComponent
+    BarChartComponent,
+    DoughnutChartComponent
   ],
     imports: [
         BrowserModule,
