@@ -8,8 +8,15 @@
 <h1>Mitarbeiter-Planung (Mitarbeiter)</h1>
 <table>
     <tr>
-        <td> <form action="/goToStart" method="GET">
-            <button>Zurück</button></form>
+        <td>
+            <form action="/goToStart" method="GET">
+                <button>Zurück</button>
+            </form>
+        </td>
+        <td>
+            <form action="/perform_logout" method="GET">
+                <button>Logout</button>
+            </form>
         </td>
     </tr>
 </table>
@@ -20,12 +27,12 @@
 </form>
 <br>
 <form action="/getLastEndDateForMitarbeiter" method="GET">
-    <td><input input type=number step=1 name="mitarbeiterId"></td>
+    <input title="Mitarbeiter-Id" type=number step=1 name="mitarbeiterId">
     <button>Wie lange ist Mitarbeiter (mit ID) noch im Einsatz</button>
 </form>
 <br>
 <form action="/getChanceForMitarbeiter" method="GET">
-    <td><input input type=number step=1 name="mitarbeiterId"></td>
+    <input title="Mitarbeiter-Id" type=number step=1 name="mitarbeiterId">
     <button>Wie hoch ist Chance auf Verlängerung (für Mitarbeiter mit ID)</button>
 </form>
 <br>
@@ -34,11 +41,11 @@
 </form>
 <br>
 <form action="/countMitarbeiterImEinsatz" method="GET">
-    <td><select name="mitarbeiterStatus">
+    <select title="Mitarbeiter-Status" name="mitarbeiterStatus">
         <option value=""></option>
         <option value="ANGESTELLT">ANGESTELLT</option>
         <option value="SUBUNTERNEHMER">SUBUNTERNEHMER</option>
-    </select></td>
+    </select>
     <button>Wieviele Mitarbeiter bzw. Subunternehmer sind im Einsatz</button>
 </form>
 <br>
@@ -88,39 +95,41 @@
 <form action="/addMitarbeiter" method="POST" content="">
     <table class="editDataTable">
         <tr>
-            <td><label>Vorname:</label></td>
-            <td><input name="vorname"></td>
+            <td><label for="vorname">Vorname:</label></td>
+            <td><input id="vorname" name="vorname"></td>
         </tr>
         <tr>
-            <td><label>Name:</label></td>
-            <td><input name="name"></td>
+            <td><label for="name">Name:</label></td>
+            <td><input id="name" name="name"></td>
         </tr>
         <tr>
-            <td><label>Status:</label></td>
-            <td><select name="mitarbeiterStatus">
+            <td><label for="mitarbeiterStatus">Status:</label></td>
+            <td><select id="mitarbeiterStatus" name="mitarbeiterStatus">
                 <option value="ANGESTELLT">ANGESTELLT</option>
                 <option value="SUBUNTERNEHMER">SUBUNTERNEHMER</option>
             </select></td>
         </tr>
         <tr>
-            <td><label>Unit:</label></td>
-            <td><select name="mitarbeiterUnit">
+            <td><label for="unit">Unit:</label></td>
+            <td><select id="unit" name="mitarbeiterUnit">
                 <option value="FACTORY_MUENCHEN">FACTORY_MUENCHEN</option>
                 <option value="FACTORY_NUERNBERG">FACTORY_NUERNBERG</option>
             </select></td>
         </tr>
         <tr>
-            <td><label>Stundensatz EK:</label></td>
-            <td><input type=number step=0.01 name="stundensatzEK"></td>
+            <td><label for="stundensatzEK">Stundensatz EK:</label></td>
+            <td><input id="stundensatzEK" type=number step=0.01 name="stundensatzEK"></td>
         </tr>
         <tr>
-            <td><button>Mitarbeiter Hinzufügen</button></td>
+            <td>
+                <button>Mitarbeiter Hinzufügen</button>
+            </td>
         </tr>
     </table>
 </form>
 <hr/>
 <form action="/deleteMitarbeiter" method="POST">
-    <td><input input type=number step=1 name="mitarbeiterId"></td>
+    <input title="Mitarbeiter-Id" type=number step=1 name="mitarbeiterId">
     <button>Lösche Mitarbeiter (mit ID)</button>
 </form>
 </body>
