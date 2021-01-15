@@ -1,4 +1,6 @@
 export class DeckungsbeitragJahrData {
+  chartIsDisplayed: boolean;
+
   januar: string;
   februar: string;
   maerz: string;

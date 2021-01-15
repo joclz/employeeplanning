@@ -148,33 +148,43 @@ export class SearchMitarbeiterComponent implements OnInit {
   }
 
   getDeckungsbeitragJahrOnSubmit() {
-    this.mitarbeiterService.getDeckungsbeitragJahr().subscribe(
-      result => {
-        this.deckungsbeitragJahr.januar = result[0].toString(),
-          this.deckungsbeitragJahr.februar = result[1].toString(),
-          this.deckungsbeitragJahr.maerz = result[2].toString(),
-          this.deckungsbeitragJahr.april = result[3].toString(),
-          this.deckungsbeitragJahr.mai = result[4].toString(),
-          this.deckungsbeitragJahr.juni = result[5].toString(),
-          this.deckungsbeitragJahr.juli = result[6].toString(),
-          this.deckungsbeitragJahr.august = result[7].toString(),
-          this.deckungsbeitragJahr.september = result[8].toString(),
-          this.deckungsbeitragJahr.oktober = result[9].toString(),
-          this.deckungsbeitragJahr.november = result[10].toString(),
-          this.deckungsbeitragJahr.dezember = result[11].toString()
-      }
-    );
+    if (this.deckungsbeitragJahr.chartIsDisplayed) {
+      this.deckungsbeitragJahr.chartIsDisplayed = false;
+    } else {
+      this.mitarbeiterService.getDeckungsbeitragJahr().subscribe(
+        result => {
+          this.deckungsbeitragJahr.chartIsDisplayed = true;
+            this.deckungsbeitragJahr.januar = result[0].toString(),
+            this.deckungsbeitragJahr.februar = result[1].toString(),
+            this.deckungsbeitragJahr.maerz = result[2].toString(),
+            this.deckungsbeitragJahr.april = result[3].toString(),
+            this.deckungsbeitragJahr.mai = result[4].toString(),
+            this.deckungsbeitragJahr.juni = result[5].toString(),
+            this.deckungsbeitragJahr.juli = result[6].toString(),
+            this.deckungsbeitragJahr.august = result[7].toString(),
+            this.deckungsbeitragJahr.september = result[8].toString(),
+            this.deckungsbeitragJahr.oktober = result[9].toString(),
+            this.deckungsbeitragJahr.november = result[10].toString(),
+            this.deckungsbeitragJahr.dezember = result[11].toString()
+        }
+      );
+    }
   }
 
   getMitarbeiterEinsatzDateOnSubmit() {
-    this.mitarbeiterService.getMitarbeiterEinsatzDate().subscribe(
-      result => {
-        this.mitarbeiterEinsatzDate.maIntEinsatz = result[0].toString(),
-          this.mitarbeiterEinsatzDate.maExtEinsatz = result[1].toString(),
-          this.mitarbeiterEinsatzDate.maIntOhneEinsatz = result[2].toString(),
-          this.mitarbeiterEinsatzDate.maExtOhneEinsatz = result[3].toString()
-      }
-    )
+    if (this.mitarbeiterEinsatzDate.chartIsDisplayed) {
+      this.mitarbeiterEinsatzDate.chartIsDisplayed = false;
+    } else {
+      this.mitarbeiterService.getMitarbeiterEinsatzDate().subscribe(
+        result => {
+          this.mitarbeiterEinsatzDate.chartIsDisplayed = true;
+          this.mitarbeiterEinsatzDate.maIntEinsatz = result[0].toString(),
+            this.mitarbeiterEinsatzDate.maExtEinsatz = result[1].toString(),
+            this.mitarbeiterEinsatzDate.maIntOhneEinsatz = result[2].toString(),
+            this.mitarbeiterEinsatzDate.maExtOhneEinsatz = result[3].toString()
+        }
+      )
+    }
   }
 
 
