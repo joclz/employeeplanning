@@ -54,6 +54,10 @@ export class MitarbeiterService {
     return this.http.get<String[]>(environment.API_URL+'/getDeckungsbeitragJahr');
   }
 
+  public getMitarbeiterEinsatzDate(): Observable<String[]> {
+    return this.http.get<String[]>(environment.API_URL+'/getMitarbeiterEinsatzDate');
+  }
+
   public getMitarbeiterBank(): Observable<Mitarbeiter[]> {
     return this.http.get<Mitarbeiter[]>(environment.API_URL+'/listMitarbeiterBank');
   }

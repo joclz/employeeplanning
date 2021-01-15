@@ -79,8 +79,13 @@
   <mat-card-content *ngIf="deckungsbeitragJahr.dezember">
     <app-bar-chart [deckungsbeitragJahr]="deckungsbeitragJahr"></app-bar-chart>
   </mat-card-content>
-  <mat-card-content>
-    <app-doughnut-chart></app-doughnut-chart>
+</form>
+
+<form class="mitarbeiterEinsatzDateForm" [formGroup]="mitarbeiterEinsatzDateFormGroup" (ngSubmit)="getMitarbeiterEinsatzDateOnSubmit()">
+  <button mat-raised-button color="primary" type="submit" class="button, half-width">Doughnut Chart Einsatz Mitarbeiter
+  </button>
+  <mat-card-content *ngIf="mitarbeiterEinsatzDate.maIntEinsatz">
+    <app-doughnut-chart [mitarbeiterEinsatzDate]="mitarbeiterEinsatzDate"></app-doughnut-chart>
   </mat-card-content>
 </form>
 

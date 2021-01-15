@@ -19,6 +19,7 @@ import com.cegeka.employeeplanning.repositories.EinsatzRepository;
 import com.cegeka.employeeplanning.repositories.MitarbeiterRepository;
 import com.cegeka.employeeplanning.util.EmployeeplanningUtil;
 
+import org.assertj.core.util.IterableUtil;
 import org.assertj.core.util.VisibleForTesting;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -161,6 +162,29 @@ public class MitarbeiterService extends EmployeeplanningUtil {
     public int countMitarbeiterImEinsatz(MitarbeiterStatus mitarbeiterStatus) {
         Date today = today();
         return countMitarbeiterImEinsatz(mitarbeiterStatus, today);
+    }
+
+    /**
+     * Es wird die die Anzahl der Mitarbeiter mit Einsatz (sowohl interne MA als auch Subunternehmer)
+     * als auch die Anzahl der Mitarbeiter ohne Einsatz (auch sowohl interne MA als auch Subunternehmer) zurückgegeben.
+     * @return
+     */
+    public List<Integer> getMitarbeiterEinsatzDate() {
+        List<Integer> mitarbeiterEinsatzDate = new ArrayList<>();
+
+        int allMaAngestellt = IterableUtil.sizeOf(mitarbeiterRepository
+                .findMitarbeiterByMitarbeiterStatus(MitarbeiterStatus.ANGESTELLT));
+        int allMaSubunternehmer = IterableUtil.sizeOf(mitarbeiterRepository
+                .findMitarbeiterByMitarbeiterStatus(MitarbeiterStatus.SUBUNTERNEHMER));
+
+        int maAngestelltImEinsatz = countMitarbeiterImEinsatz(MitarbeiterStatus.ANGESTELLT);
+        mitarbeiterEinsatzDate.add(maAngestelltImEinsatz);
+        int maSubunternehmerImEinsatz = countMitarbeiterImEinsatz(MitarbeiterStatus.SUBUNTERNEHMER);
+        mitarbeiterEinsatzDate.add(maSubunternehmerImEinsatz);
+        mitarbeiterEinsatzDate.add(allMaAngestellt-maAngestelltImEinsatz);
+        mitarbeiterEinsatzDate.add(allMaSubunternehmer-maSubunternehmerImEinsatz);
+
+        return mitarbeiterEinsatzDate;
     }
 
     @VisibleForTesting

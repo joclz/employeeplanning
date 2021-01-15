@@ -98,4 +98,9 @@ public class EmployeeplanningMitarbeiterController {
     public List<MitarbeiterDTO> getMitarbeiterListOrderByName() {
         return mitarbeiterService.getMitarbeiterListOrderByName();
     }
+
+    @GetMapping("/getMitarbeiterEinsatzDate")
+    public List<Integer> getMitarbeiterEinsatzDate() {
+        return mitarbeiterService.getMitarbeiterEinsatzDate();
+    }
 }

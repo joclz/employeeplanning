@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {MitarbeiterEinsatzDate} from "../../../models/mitarbeiterEinsatzDate-data";
 
 @Component({
   selector: 'app-doughnut-chart',
@@ -8,6 +9,9 @@ import { Component, OnInit } from '@angular/core';
 export class DoughnutChartComponent implements OnInit {
 
   fontColor = '#CCC';
+
+  @Input()
+  public mitarbeiterEinsatzDate: MitarbeiterEinsatzDate;
 
   public  doughnutChartLabels = ['int. MA im Einsatz', 'ext. MA im Einsatz', 'int. MA nicht im Einsatz', 'ext. MA nicht im Einsatz'];
   public  doughnutChartData = [20, 25, 5, 3];
@@ -28,4 +32,12 @@ export class DoughnutChartComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  ngOnChanges(): void {
+    this.doughnutChartData = [
+      Number(this.mitarbeiterEinsatzDate.maIntEinsatz),
+          Number(this.mitarbeiterEinsatzDate.maExtEinsatz),
+          Number(this.mitarbeiterEinsatzDate.maIntOhneEinsatz),
+          Number(this.mitarbeiterEinsatzDate.maExtOhneEinsatz)
+    ];
+  }
 }

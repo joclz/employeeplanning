@@ -8,6 +8,7 @@ import {MitarbeiterDTO} from "../../models/mitarbeiter/mitarbeiter-dto";
 import {Observable} from "rxjs";
 import {map, startWith} from "rxjs/operators";
 import {DeckungsbeitragJahrData} from "../../models/deckungsbeitragJahr-data";
+import {MitarbeiterEinsatzDate} from "../../models/mitarbeiterEinsatzDate-data";
 
 @Component({
   selector: 'app-search-mitarbeiter',
@@ -37,6 +38,9 @@ export class SearchMitarbeiterComponent implements OnInit {
 
   deckungsbeitragJahr: DeckungsbeitragJahrData;
   deckungsbeitragJahrFormGroup: FormGroup;
+
+  mitarbeiterEinsatzDate: MitarbeiterEinsatzDate;
+  mitarbeiterEinsatzDateFormGroup: FormGroup;
 
   isMitarbeiterBank = false;
   mitarbeiterBankFormGroup: FormGroup;
@@ -82,6 +86,10 @@ export class SearchMitarbeiterComponent implements OnInit {
     });
     this.deckungsbeitragJahrFormGroup = new FormGroup({});
     this.deckungsbeitragJahr = new DeckungsbeitragJahrData();
+
+    this.mitarbeiterEinsatzDateFormGroup = new FormGroup({});
+    this.mitarbeiterEinsatzDate = new MitarbeiterEinsatzDate();
+
     this.mitarbeiterBankFormGroup = new FormGroup({});
     this.mitarbeiterInternBankFormGroup = new FormGroup({});
   }
@@ -157,6 +165,18 @@ export class SearchMitarbeiterComponent implements OnInit {
       }
     );
   }
+
+  getMitarbeiterEinsatzDateOnSubmit() {
+    this.mitarbeiterService.getMitarbeiterEinsatzDate().subscribe(
+      result => {
+        this.mitarbeiterEinsatzDate.maIntEinsatz = result[0].toString(),
+          this.mitarbeiterEinsatzDate.maExtEinsatz = result[1].toString(),
+          this.mitarbeiterEinsatzDate.maIntOhneEinsatz = result[2].toString(),
+          this.mitarbeiterEinsatzDate.maExtOhneEinsatz = result[3].toString()
+      }
+    )
+  }
+
 
   getMitarbeiterBankOnSubmit() {
     this.initMitarbeiterBank();
