@@ -5,6 +5,7 @@ import {EinsatzStatus} from "../../models/einsatz/einsatz-status.enum";
 import {EinsatzSucheDto} from "../../models/einsatz/einsatz-suche-dto";
 import {Einsatz} from "../../models/einsatz/einsatz";
 import {EinsatzDTO} from "../../models/einsatz/einsatz-dto";
+import {PartialEinsaetzeDTO} from "../../models/einsatz/partialeinsaetze-dto";
 import {environment} from "../../../environments/environment";
 
 @Injectable({
@@ -17,6 +18,10 @@ export class EinsatzService {
 
   public findAll(): Observable<Einsatz[]> {
     return this.http.get<Einsatz[]>(environment.API_URL+'/listEinsaetze');
+  }
+
+  public getPartialEinsaetze(params: HttpParams): Observable<PartialEinsaetzeDTO> {
+    return this.http.get<PartialEinsaetzeDTO>(environment.API_URL+'/partialEinsaetze', {params: params});
   }
 
   public save(einsatzDTO: EinsatzDTO): Observable<EinsatzDTO> {

@@ -3,6 +3,16 @@
   <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
 </mat-form-field>
 
+<mat-paginator
+  [pageSizeOptions]="[5, 10, 15, 20, 30]"
+  showFirstLastButtons
+  (page)="pageEvent = getPaginatorData($event)">
+</mat-paginator>
+<div *ngIf="loading;else table">
+  <mat-spinner class="center"></mat-spinner>
+</div>
+
+  <ng-template #table>
 <div class="einsatz-container">
   <table mat-table [dataSource]="dataSource" class="tableEinsatz" matSort>
 
@@ -117,5 +127,5 @@
     </mat-error>
   </div>
 
-  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
 </div>
+  </ng-template>

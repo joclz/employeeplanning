@@ -2,7 +2,6 @@ package com.cegeka.employeeplanning.service;
 
 import java.util.Collections;
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 import com.cegeka.employeeplanning.data.Einsatz;
@@ -10,6 +9,7 @@ import com.cegeka.employeeplanning.data.Mitarbeiter;
 import com.cegeka.employeeplanning.data.MitarbeiterVertrieb;
 import com.cegeka.employeeplanning.data.dto.EinsatzDTO;
 import com.cegeka.employeeplanning.data.dto.EinsatzSucheDTO;
+import com.cegeka.employeeplanning.data.dto.PartialEinsaetzeDTO;
 import com.cegeka.employeeplanning.data.enums.Enums.EinsatzStatus;
 import com.cegeka.employeeplanning.data.util.EinsatzSuche;
 import com.cegeka.employeeplanning.data.util.FindAllBuilder;
@@ -152,9 +152,15 @@ public class EinsatzService {
                 einsatzSuche.getEndeBis());
     }
 
-    public List<Einsatz> getPartialEinsaetze(ItemCriteria itemCriteria)
+    public PartialEinsaetzeDTO getPartialEinsaetze(ItemCriteria itemCriteria)
     {
-        return (FindAllBuilder.usingRepository(einsatzRepository).filterBy(itemCriteria.getFilter()).findAll(itemCriteria.getPage(),  itemCriteria.getSize()));
+        PartialEinsaetzeDTO partialEinsaetze = new PartialEinsaetzeDTO();
+
+        partialEinsaetze.setEinsaetze(FindAllBuilder.usingRepository(einsatzRepository).filterBy(itemCriteria.getFilter()).findAll(itemCriteria.getPage(),  itemCriteria.getSize()));
+
+        partialEinsaetze.setAnzahl(Integer.valueOf(FindAllBuilder.usingRepository(einsatzRepository).filterBy(itemCriteria.getFilter()).count()));
+
+        return partialEinsaetze;
     }
 
     /**

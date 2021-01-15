@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
-import {MatPaginator} from "@angular/material/paginator";
+import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {Einsatz} from "../../models/einsatz/einsatz";
 import {EinsatzService} from "../../services/einsatz/einsatz.service";
@@ -8,25 +8,36 @@ import {UpdateEinsatzService} from "../../services/einsatz/update-einsatz.servic
 import {EinsatzStatus} from "../../models/einsatz/einsatz-status.enum";
 import {MatDialog} from "@angular/material/dialog";
 import {DeleteEinsatzDialogComponent} from "./delete-einsatz-dialog.component";
+import {HttpClient, HttpParams } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-table-einsatz',
   templateUrl: './table-einsatz.component.html',
   styleUrls: ['./table-einsatz.component.css']
 })
-export class TableEinsatzComponent implements OnInit {
+export class TableEinsatzComponent /* implements OnInit */ {
 
   displayedColumns: string[] = ['id', 'mitarbeiter', 'mitarbeiterVertrieb', 'einsatzStatus', 'beginn', 'ende',
     'wahrscheinlichkeit', 'zusatzkostenReise', 'stundensatzVK', 'projektnummerNettime', 'beauftragungsnummer',
     'deckungsbeitrag', 'marge', 'actions'];
-  dataSource: MatTableDataSource<Einsatz>;
+    
+  dataSource = new MatTableDataSource<Einsatz>();
 
-  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   @Output() deleteEinsatzEvent = new EventEmitter();
 
   @Input() einsaetze: Einsatz[];
+  
+  loading: boolean = true;
+  
+  pageEvent: PageEvent;
+  
+  currentSize_save: number; 
+  offset_save: number;
+  limit_save: number;
 
   showSuccessMsg: boolean = false;
   showErrorMsg: boolean = false;
@@ -37,25 +48,85 @@ export class TableEinsatzComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.initDependingOnInput();
+    this.getData('0', '5');
+//    this.initDependingOnInput();
+  }
+  
+//  initDependingOnInput() {
+//    if (this.einsaetze) {
+//      this.init(this.einsaetze);
+//    } else {
+//      this.einsatzService.findAll().subscribe(result =>
+//        this.init(result));
+//    }
+//  }
+
+//  init(einsatz: Einsatz[]): void {
+//    this.dataSource = new MatTableDataSource(einsatz);
+
+//    this.dataSource.paginator = this.paginator;
+//    this.dataSource.sort = this.sort;
+//  }
+
+  getData(offset, limit){
+    this.currentSize_save = 0; 
+    this.offset_save = offset; 
+    this.limit_save = limit; 
+
+    let params = new HttpParams();
+    params = params.set('page', offset);
+    params = params.set('size', limit);
+
+    this.einsatzService.getPartialEinsaetze(params).subscribe((response: any) => {
+      this.loading = false;
+      this.einsaetze = response.einsaetze;
+      this.einsaetze.length = response.anzahl;
+
+      this.dataSource = new MatTableDataSource<any>(this.einsaetze);
+      this.dataSource.paginator = this.paginator;
+    })
   }
 
-  initDependingOnInput() {
-    if (this.einsaetze) {
-      this.init(this.einsaetze);
-    } else {
-      this.einsatzService.findAll().subscribe(result =>
-        this.init(result));
-    }
+  getNextData(currentSize, offset, limit){
+    this.currentSize_save = currentSize; 
+    this.offset_save = offset; 
+    this.limit_save = limit; 
+  
+    let params = new HttpParams();
+    params = params.set('page', offset);
+    params = params.set('size', limit);
+
+    this.einsatzService.getPartialEinsaetze(params).subscribe((response: any) => {
+      this.loading = false;
+
+      this.einsaetze.length = currentSize;
+      this.einsaetze.push(...response.einsaetze);
+
+      this.einsaetze.length = response.anzahl;
+
+      this.dataSource = new MatTableDataSource<any>(this.einsaetze);
+      this.dataSource._updateChangeSubscription();
+
+      this.dataSource.paginator = this.paginator;
+  
+    })
   }
 
-  init(einsatz: Einsatz[]): void {
-    this.dataSource = new MatTableDataSource(einsatz);
+  public getPaginatorData(event?:PageEvent) {
+    this.loading = true;
 
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    let pageIndex = event.pageIndex;
+    let pageSize = event.pageSize;
+
+    let previousIndex = event.previousPageIndex;
+
+    let previousSize = pageSize * pageIndex;
+
+    this.getNextData(previousSize, (pageIndex).toString(), pageSize.toString());
+    
+    return event;
   }
-
+  
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -67,8 +138,9 @@ export class TableEinsatzComponent implements OnInit {
 
   deleteEinsatz(id: string) {
     this.einsatzService.delete(id).subscribe(() => {
-      this.initDependingOnInput();
+//      this.initDependingOnInput();
       this.deleteEinsatzEvent.emit();
+      this.getNextData(this.currentSize_save, this.offset_save, this.limit_save);
       this.showSuccessMsg = true;
       this.showErrorMsg = false;
     }, () => {
