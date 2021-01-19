@@ -1,6 +1,6 @@
-import { Component} from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
+import {Component} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Router} from '@angular/router';
 import {LoginService} from "../../services/login/login.service";
 
 @Component({
@@ -19,7 +19,6 @@ export class LoginComponent {
 
   login() {
     this.loginService.authenticate(this.credentials, () => {
-      this.router.navigateByUrl('/');
       this.error = false;
     });
     return false;
