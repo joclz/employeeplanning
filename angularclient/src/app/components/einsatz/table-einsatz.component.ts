@@ -17,7 +17,7 @@ import {DeleteEinsatzDialogComponent} from "./delete-einsatz-dialog.component";
 export class TableEinsatzComponent implements OnInit {
 
   displayedColumns: string[] = ['id', 'mitarbeiter', 'mitarbeiterVertrieb', 'einsatzStatus', 'beginn', 'ende',
-    'wahrscheinlichkeit', 'zusatzkostenReise', 'stundensatzVK', 'projektnummerNettime', 'beauftragungsnummer',
+    'wahrscheinlichkeit', 'projektnummerNettime', 'beauftragungsnummer', 'zusatzkostenReise', 'stundensatzVK',
     'deckungsbeitrag', 'marge', 'actions'];
   dataSource: MatTableDataSource<Einsatz>;
 

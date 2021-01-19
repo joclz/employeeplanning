@@ -48,18 +48,6 @@
       <td mat-cell *matCellDef="let row"> {{row.wahrscheinlichkeit}} </td>
     </ng-container>
 
-    <!-- ZusatzkostenReise Column -->
-    <ng-container matColumnDef="zusatzkostenReise">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Zusatzkosten Reise</th>
-      <td mat-cell *matCellDef="let row"> {{row.zusatzkostenReise}} </td>
-    </ng-container>
-
-    <!-- Stundensatz VK Column -->
-    <ng-container matColumnDef="stundensatzVK">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Stundensatz VK</th>
-      <td mat-cell *matCellDef="let row"> {{row.stundensatzVK}} </td>
-    </ng-container>
-
     <!-- Projektnummer Nettime Column -->
     <ng-container matColumnDef="projektnummerNettime">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Projektnummer Nettime</th>
@@ -70,6 +58,18 @@
     <ng-container matColumnDef="beauftragungsnummer">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Beauftragungsnummer</th>
       <td mat-cell *matCellDef="let row"> {{row.beauftragungsnummer}} </td>
+    </ng-container>
+
+    <!-- ZusatzkostenReise Column -->
+    <ng-container matColumnDef="zusatzkostenReise">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Zusatzkosten Reise</th>
+      <td mat-cell *matCellDef="let row"> {{row.zusatzkostenReise}} </td>
+    </ng-container>
+
+    <!-- Stundensatz VK Column -->
+    <ng-container matColumnDef="stundensatzVK">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Stundensatz VK</th>
+      <td mat-cell *matCellDef="let row"> {{row.stundensatzVK}} </td>
     </ng-container>
 
     <!-- Deckungsbeitrag Column -->
