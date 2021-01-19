@@ -19,7 +19,7 @@ import {HttpClient, HttpParams } from '@angular/common/http';
 export class TableEinsatzComponent /* implements OnInit */ {
 
   displayedColumns: string[] = ['id', 'mitarbeiter', 'mitarbeiterVertrieb', 'einsatzStatus', 'beginn', 'ende',
-    'wahrscheinlichkeit', 'zusatzkostenReise', 'stundensatzVK', 'projektnummerNettime', 'beauftragungsnummer',
+    'wahrscheinlichkeit', 'projektnummerNettime', 'beauftragungsnummer', 'zusatzkostenReise', 'stundensatzVK',
     'deckungsbeitrag', 'marge', 'actions'];
     
   dataSource = new MatTableDataSource<Einsatz>();
