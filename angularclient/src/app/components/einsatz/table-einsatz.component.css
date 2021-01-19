@@ -1,6 +1,6 @@
 table {
   width: 100%;
-  text-align: center;
+  text-align: left;
 }
 
 .mat-column-beginn {
@@ -20,7 +20,8 @@ table {
   overflow: auto;
 }
 
-.deleteMessage{
+.deleteMessage {
   margin-left: 2%;
   margin-top: 1%;
 }
+
