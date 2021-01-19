@@ -39,6 +39,13 @@ public class MitarbeiterService extends EmployeeplanningUtil {
     public void update(Mitarbeiter mitarbeiter) {
         checkEntityExist(mitarbeiter.getId());
         mitarbeiterRepository.save(mitarbeiter);
+
+        Date today = today();
+        Iterable<Einsatz> einsaetzeOfMitarbeiter = einsatzRepository
+                .findEinsaetzeByEndeGreaterThanEqualAndMitarbeiter(today, Optional.of(mitarbeiter));
+        for (Einsatz einsatz : einsaetzeOfMitarbeiter) {
+            einsatzService.save(einsatz);
+        }
     }
 
     /**
