@@ -3,6 +3,10 @@
   text-align: center;
 }
 
+.login {
+  width: 75%;
+}
+
 .listMitarbeiter {
   width: 75%;
 }

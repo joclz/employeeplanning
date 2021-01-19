@@ -1,12 +1,12 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import {Injectable, NgModule} from '@angular/core';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {AddMitarbeiterFormComponent} from './components/mitarbeiter/add-mitarbeiter-form.component';
 import {MitarbeiterService} from "./services/mitarbeiter/mitarbeiter.service";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule, HttpHandler, HttpInterceptor, HttpRequest} from "@angular/common/http";
 import {TableMitarbeiterComponent} from './components/mitarbeiter/table-mitarbeiter.component';
 import {SearchMitarbeiterComponent} from './components/mitarbeiter/search-mitarbeiter.component';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
@@ -39,7 +39,19 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {DeleteMitarbeiterDialogComponent} from './components/mitarbeiter/delete-mitarbeiter-dialog.component';
 import {DeleteVertriebDialogComponent} from './components/vertrieb/delete-vertrieb-dialog.component';
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import { LoginComponent } from './components/login/login.component';
+import {LoginService} from "./services/login/login.service";
 
+@Injectable()
+export class XhrInterceptor implements HttpInterceptor {
+
+  intercept(req: HttpRequest<any>, next: HttpHandler) {
+    const xhr = req.clone({
+      headers: req.headers.set('X-Requested-With', 'XMLHttpRequest')
+    });
+    return next.handle(xhr);
+  }
+}
 @NgModule({
   declarations: [
     AppComponent,
@@ -56,7 +68,8 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
     AddEinsatzComponent,
     DeleteEinsatzDialogComponent,
     DeleteMitarbeiterDialogComponent,
-    DeleteVertriebDialogComponent
+    DeleteVertriebDialogComponent,
+    LoginComponent
   ],
     imports: [
         BrowserModule,
@@ -87,7 +100,9 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
 
   providers: [MitarbeiterService,
     {provide: MAT_DATE_LOCALE, useValue: 'de'},
-    {provide: LocationStrategy, useClass: HashLocationStrategy}],
+    {provide: LocationStrategy, useClass: HashLocationStrategy},
+    LoginService,
+    {provide: HTTP_INTERCEPTORS, useClass: XhrInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule {

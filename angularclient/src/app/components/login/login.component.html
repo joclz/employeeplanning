@@ -1,0 +1,17 @@
+<div class="alert alert-danger" [hidden]="!error">
+  There was a problem logging in. Please try again.
+</div>
+<form role="form" (submit)="login()">
+  <mat-form-field class="full-width">
+    <mat-label>Username</mat-label>
+    <input matInput type="text"
+           class="form-control" id="username" name="username" [(ngModel)]="credentials.username"/>
+  </mat-form-field>
+  <mat-form-field class="full-width">
+    <mat-label>Passwort</mat-label>
+    <input matInput type="password"
+           class="form-control" id="password" name="password"
+           [(ngModel)]="credentials.password"/>
+  </mat-form-field>
+  <button mat-raised-button color="primary"  type="submit" class="btn btn-primary">Submit</button>
+</form>

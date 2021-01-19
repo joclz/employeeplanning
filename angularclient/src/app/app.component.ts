@@ -5,6 +5,7 @@ import {Einsatz} from "./models/einsatz/einsatz";
 import {MitarbeiterVertrieb} from "./models/vertrieb/mitarbeiter-vertrieb";
 import {UpdateMitarbeiterVertriebService} from "./services/vertrieb/update-mitarbeiter-vertrieb.service";
 import {UpdateEinsatzService} from "./services/einsatz/update-einsatz.service";
+import {LoginService} from "./services/login/login.service";
 
 @Component({
   selector: 'app-root',
@@ -33,9 +34,12 @@ export class AppComponent {
   updateEinsatz: boolean = false;
   einsatz: Einsatz;
 
-  constructor(private updateMitarbeiterService: UpdateMitarbeiterService,
+  constructor(private loginService: LoginService,
+              private updateMitarbeiterService: UpdateMitarbeiterService,
               private updateMitarbeiterVertriebService: UpdateMitarbeiterVertriebService,
               private updateEinsatzService: UpdateEinsatzService) {
+    this.loginService.authenticate(undefined, undefined);
+
     updateMitarbeiterService.updateMitarbeiter$.subscribe(data =>
       this.onClickUpdateMitarbeiter(data)
     );
@@ -46,6 +50,15 @@ export class AppComponent {
       this.onClickUpdateEinsatz(data)
     );
   }
+
+  authenticated() { return this.loginService.authenticated; }
+
+  login() {
+  }
+
+  logout() {
+    this.loginService.logout();
+   }
 
   onClickListMitarbeiter() {
     this.resetComponents();

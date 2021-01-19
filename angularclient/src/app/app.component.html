@@ -20,12 +20,27 @@
           <a mat-menu-item (click)="onClickAddEinsatz()">Einsatz hinzufügen</a>
           <a mat-menu-item (click)="onClickSearchEinsatz()">Suche nach Einsatz</a>
         </mat-menu>
+        <button mat-button color="accent" [matMenuTriggerFor]="menuUser">User</button>
+        <mat-menu #menuUser="matMenu" [matMenuTriggerFor]="menuUser">
+          <a mat-menu-item (click)="login()">Login</a>
+          <a mat-menu-item (click)="logout()">Logout</a>
+        </mat-menu>
       </mat-card-actions>
     </mat-card-content>
   </mat-card>
 </div>
 
-<div class="center">
+<div *ngIf="!authenticated()" class="center">
+  <mat-card class="login">
+    <mat-card-title>Login</mat-card-title>
+    <mat-card-content>
+      <app-login></app-login>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<div *ngIf="authenticated()" class="center">
+
   <mat-card *ngIf="listMitarbeiter" class="listMitarbeiter">
     <mat-card-title>Liste der Mitarbeiter</mat-card-title>
     <mat-card-content>
