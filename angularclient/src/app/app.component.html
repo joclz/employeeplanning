@@ -22,7 +22,6 @@
         </mat-menu>
         <button mat-button color="accent" [matMenuTriggerFor]="menuUser">User</button>
         <mat-menu #menuUser="matMenu" [matMenuTriggerFor]="menuUser">
-          <a mat-menu-item (click)="login()">Login</a>
           <a mat-menu-item (click)="logout()">Logout</a>
         </mat-menu>
       </mat-card-actions>
