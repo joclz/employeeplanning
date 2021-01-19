@@ -29,6 +29,8 @@ public interface EinsatzRepository extends PagingAndSortingRepository<Einsatz, I
 
     Iterable<Einsatz> findEinsaetzeByEndeLessThanEqual(Date ende);
 
+    Iterable<Einsatz> findEinsaetzeByEndeGreaterThanEqualAndMitarbeiter(Date ende, Optional<Mitarbeiter> mitarbeiter);
+
     Iterable<Einsatz> findEinsaetzeByMitarbeiter_MitarbeiterStatus(Enums.MitarbeiterStatus status);
 
     @Query(
