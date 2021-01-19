@@ -1,28 +1,22 @@
 package com.cegeka.employeeplanning.service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-
 import com.cegeka.employeeplanning.data.Einsatz;
 import com.cegeka.employeeplanning.data.Mitarbeiter;
 import com.cegeka.employeeplanning.data.dto.MitarbeiterDTO;
 import com.cegeka.employeeplanning.data.enums.Enums.EinsatzStatus;
 import com.cegeka.employeeplanning.data.enums.Enums.MitarbeiterStatus;
 import com.cegeka.employeeplanning.data.util.EinsatzSuche;
+import com.cegeka.employeeplanning.data.util.MitarbeiterEinsatzDate;
 import com.cegeka.employeeplanning.exceptions.NoSuchMitarbeiterException;
 import com.cegeka.employeeplanning.repositories.EinsatzRepository;
 import com.cegeka.employeeplanning.repositories.MitarbeiterRepository;
 import com.cegeka.employeeplanning.util.EmployeeplanningUtil;
-
 import org.assertj.core.util.IterableUtil;
 import org.assertj.core.util.VisibleForTesting;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.*;
 
 @Service
 public class MitarbeiterService extends EmployeeplanningUtil {
@@ -33,19 +27,16 @@ public class MitarbeiterService extends EmployeeplanningUtil {
     @Autowired
     private MitarbeiterRepository mitarbeiterRepository;
 
-    public Mitarbeiter getMitarbeiterById(Integer id)
-    {
+    public Mitarbeiter getMitarbeiterById(Integer id) {
         return checkEntityExist(id);
     }
 
-    public void deleteById(Integer id)
-    {
+    public void deleteById(Integer id) {
         Mitarbeiter mitarbeiter = checkEntityExist(id);
         mitarbeiterRepository.delete(mitarbeiter);
     }
 
-    public void update(Mitarbeiter mitarbeiter)
-    {
+    public void update(Mitarbeiter mitarbeiter) {
         checkEntityExist(mitarbeiter.getId());
         mitarbeiterRepository.save(mitarbeiter);
     }
@@ -68,7 +59,7 @@ public class MitarbeiterService extends EmployeeplanningUtil {
         Iterable<Einsatz> einsaetzeByMitarbeiterId = einsatzRepository.findAllById(einsatzIds);
 
         Date lastEndDate = null;
-        List<Date> listEndDate = new ArrayList<Date>();
+        List<Date> listEndDate = new ArrayList<>();
         einsaetzeByMitarbeiterId.forEach(it -> listEndDate.add(it.getEnde()));
         listEndDate.sort(Collections.reverseOrder());
         if (!listEndDate.isEmpty()) {
@@ -95,7 +86,7 @@ public class MitarbeiterService extends EmployeeplanningUtil {
         Iterable<Einsatz> einsaetzeByMitarbeiterId = einsatzRepository.findAllById(einsatzIds);
 
         int biggestChance = 0;
-        List<Integer> listChance = new ArrayList<Integer>();
+        List<Integer> listChance = new ArrayList<>();
         einsaetzeByMitarbeiterId.forEach(it -> listChance.add(it.getWahrscheinlichkeit()));
         listChance.sort(Collections.reverseOrder());
         if (!listChance.isEmpty()) {
@@ -167,22 +158,42 @@ public class MitarbeiterService extends EmployeeplanningUtil {
     /**
      * Es wird die die Anzahl der Mitarbeiter mit Einsatz (sowohl interne MA als auch Subunternehmer)
      * als auch die Anzahl der Mitarbeiter ohne Einsatz (auch sowohl interne MA als auch Subunternehmer) zurückgegeben.
-     * @return
+     * @param month Integer
+     * @return MitarbeiterEinsatzDate
      */
-    public List<Integer> getMitarbeiterEinsatzDate() {
-        List<Integer> mitarbeiterEinsatzDate = new ArrayList<>();
+    public MitarbeiterEinsatzDate getMitarbeiterEinsatzDate(Integer month) {
+        MitarbeiterEinsatzDate mitarbeiterEinsatzDate = new MitarbeiterEinsatzDate();
 
         int allMaAngestellt = IterableUtil.sizeOf(mitarbeiterRepository
                 .findMitarbeiterByMitarbeiterStatus(MitarbeiterStatus.ANGESTELLT));
         int allMaSubunternehmer = IterableUtil.sizeOf(mitarbeiterRepository
                 .findMitarbeiterByMitarbeiterStatus(MitarbeiterStatus.SUBUNTERNEHMER));
 
-        int maAngestelltImEinsatz = countMitarbeiterImEinsatz(MitarbeiterStatus.ANGESTELLT);
-        mitarbeiterEinsatzDate.add(maAngestelltImEinsatz);
-        int maSubunternehmerImEinsatz = countMitarbeiterImEinsatz(MitarbeiterStatus.SUBUNTERNEHMER);
-        mitarbeiterEinsatzDate.add(maSubunternehmerImEinsatz);
-        mitarbeiterEinsatzDate.add(allMaAngestellt-maAngestelltImEinsatz);
-        mitarbeiterEinsatzDate.add(allMaSubunternehmer-maSubunternehmerImEinsatz);
+        Date today = today();
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(today);
+        if (month != 0) {
+            int actualMonth = calendar.get(Calendar.MONTH);
+            int newMonth = actualMonth + month;
+            if (newMonth < Calendar.JANUARY) {
+                newMonth = Calendar.JANUARY;
+            }
+            else if (newMonth > Calendar.DECEMBER) {
+                newMonth = Calendar.DECEMBER;
+            }
+            calendar.set(Calendar.MONTH, newMonth);
+            today = calendar.getTime();
+        }
+
+        int maAngestelltImEinsatz = countMitarbeiterImEinsatz(MitarbeiterStatus.ANGESTELLT, today);
+        mitarbeiterEinsatzDate.setMaIntEinsatz(maAngestelltImEinsatz);
+
+        int maSubunternehmerImEinsatz = countMitarbeiterImEinsatz(MitarbeiterStatus.SUBUNTERNEHMER, today);
+        mitarbeiterEinsatzDate.setMaExtEinsatz(maSubunternehmerImEinsatz);
+        mitarbeiterEinsatzDate.setMaIntOhneEinsatz(allMaAngestellt - maAngestelltImEinsatz);
+        mitarbeiterEinsatzDate.setMaExtOhneEinsatz(allMaSubunternehmer - maSubunternehmerImEinsatz);
+
+        mitarbeiterEinsatzDate.setActualMonth(calendar.get(Calendar.MONTH));
 
         return mitarbeiterEinsatzDate;
     }
@@ -200,7 +211,7 @@ public class MitarbeiterService extends EmployeeplanningUtil {
 
     public List<MitarbeiterDTO> getMitarbeiterListOrderByName() {
         Iterable<Mitarbeiter> mitarbeiterOrderByName = mitarbeiterRepository.findMitarbeiterByOrderByName();
-        List<MitarbeiterDTO> mitarbeiterDTOList = new ArrayList<MitarbeiterDTO>();
+        List<MitarbeiterDTO> mitarbeiterDTOList = new ArrayList<>();
 
         for (Mitarbeiter mitarbeiter : mitarbeiterOrderByName) {
             String name = mitarbeiter.getName() + ", " + mitarbeiter.getVorname();
@@ -210,11 +221,9 @@ public class MitarbeiterService extends EmployeeplanningUtil {
         return mitarbeiterDTOList;
     }
 
-    private Mitarbeiter checkEntityExist(Integer id)
-    {
+    private Mitarbeiter checkEntityExist(Integer id) {
         Optional<Mitarbeiter> mitarbeiter = mitarbeiterRepository.findById(id);
-        if (!mitarbeiter.isPresent())
-        {
+        if (!mitarbeiter.isPresent()) {
             throw new NoSuchMitarbeiterException();
         }
         return mitarbeiter.get();

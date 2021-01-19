@@ -5,6 +5,7 @@ import {Mitarbeiter} from "../../models/mitarbeiter/mitarbeiter";
 import {MitarbeiterStatus} from "../../models/mitarbeiter/mitarbeiter-status.enum";
 import {MitarbeiterDTO} from "../../models/mitarbeiter/mitarbeiter-dto";
 import {environment} from "../../../environments/environment";
+import {MitarbeiterEinsatzDate} from "../../models/mitarbeiterEinsatzDate-data";
 
 @Injectable({
   providedIn: 'root'
@@ -54,8 +55,9 @@ export class MitarbeiterService {
     return this.http.get<String[]>(environment.API_URL+'/getDeckungsbeitragJahr');
   }
 
-  public getMitarbeiterEinsatzDate(): Observable<String[]> {
-    return this.http.get<String[]>(environment.API_URL+'/getMitarbeiterEinsatzDate');
+  public getMitarbeiterEinsatzDate(month: bigint): Observable<MitarbeiterEinsatzDate> {
+    let params = new HttpParams().set("month", String(month));
+    return this.http.get<MitarbeiterEinsatzDate>(environment.API_URL+'/getMitarbeiterEinsatzDate', {params: params});
   }
 
   public getMitarbeiterBank(): Observable<Mitarbeiter[]> {
