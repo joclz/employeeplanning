@@ -1,22 +1,17 @@
 package com.cegeka.employeeplanning.controller;
 
-import java.util.Date;
-import java.util.List;
-
 import com.cegeka.employeeplanning.data.Mitarbeiter;
 import com.cegeka.employeeplanning.data.dto.MitarbeiterDTO;
 import com.cegeka.employeeplanning.data.enums.Enums;
 import com.cegeka.employeeplanning.data.enums.Enums.MitarbeiterStatus;
+import com.cegeka.employeeplanning.data.util.MitarbeiterEinsatzDate;
 import com.cegeka.employeeplanning.repositories.MitarbeiterRepository;
 import com.cegeka.employeeplanning.service.MitarbeiterService;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
+import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -97,5 +92,10 @@ public class EmployeeplanningMitarbeiterController {
     @GetMapping("/getMitarbeiterListOrderByName")
     public List<MitarbeiterDTO> getMitarbeiterListOrderByName() {
         return mitarbeiterService.getMitarbeiterListOrderByName();
+    }
+
+    @GetMapping("/getMitarbeiterEinsatzDate")
+    public MitarbeiterEinsatzDate getMitarbeiterEinsatzDate(@RequestParam("month") Integer month) {
+        return mitarbeiterService.getMitarbeiterEinsatzDate(month);
     }
 }

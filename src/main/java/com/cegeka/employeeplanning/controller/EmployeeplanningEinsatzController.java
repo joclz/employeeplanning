@@ -2,6 +2,7 @@ package com.cegeka.employeeplanning.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import com.cegeka.employeeplanning.data.Einsatz;
 import com.cegeka.employeeplanning.data.dto.EinsatzDTO;
@@ -12,17 +13,14 @@ import com.cegeka.employeeplanning.data.util.EinsatzSuche;
 import com.cegeka.employeeplanning.data.util.ItemCriteria;
 import com.cegeka.employeeplanning.repositories.EinsatzRepository;
 import com.cegeka.employeeplanning.service.EinsatzService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -94,6 +92,11 @@ public class EmployeeplanningEinsatzController {
         return einsatzService.getDeckungsbeitrag();
     }
 
+    @GetMapping("/getDeckungsbeitragJahr")
+    public List<Double> getDeckungsbeitragJahr() {
+        return einsatzService.getDeckungsbeitragJahr();
+    }
+
     @GetMapping("/getEinsatzById")
     public Einsatz getEinsatzById(@RequestParam("einsatzId") Integer id) {
         return einsatzService.getEinsatzById(id);
@@ -116,8 +119,7 @@ public class EmployeeplanningEinsatzController {
     // TODO: Hier müsste über den Spaltennamen ermittelt werden, um welchen Datentyp es sich handelt und dann das Erzeugen der Specifications entsprechend angepasst werden.
     @GetMapping("/partialEinsaetze")
     public PartialEinsaetzeDTO getPartialEinsaetze(
-            ItemCriteria criteria)
-    {
+            ItemCriteria criteria) {
         return einsatzService.getPartialEinsaetze(criteria);
     }
 

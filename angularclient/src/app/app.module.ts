@@ -1,5 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
+import {ChartsModule} from 'ng2-charts';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
@@ -39,6 +40,8 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {DeleteMitarbeiterDialogComponent} from './components/mitarbeiter/delete-mitarbeiter-dialog.component';
 import {DeleteVertriebDialogComponent} from './components/vertrieb/delete-vertrieb-dialog.component';
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import {BarChartComponent} from './components/mitarbeiter/bar-chart/bar-chart.component';
+import {DoughnutChartComponent} from './components/mitarbeiter/doughnut-chart/doughnut-chart.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +59,9 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
     AddEinsatzComponent,
     DeleteEinsatzDialogComponent,
     DeleteMitarbeiterDialogComponent,
-    DeleteVertriebDialogComponent
+    DeleteVertriebDialogComponent,
+    BarChartComponent,
+    DoughnutChartComponent
   ],
     imports: [
         BrowserModule,
@@ -82,7 +87,8 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
         MatNativeDateModule,
         MatTabsModule,
         MatDialogModule,
-        MatAutocompleteModule
+        MatAutocompleteModule,
+        ChartsModule
     ],
 
   providers: [MitarbeiterService,

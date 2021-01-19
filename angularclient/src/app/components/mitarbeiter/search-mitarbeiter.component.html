@@ -77,6 +77,30 @@
   <mat-divider></mat-divider>
 </div>
 
+<form class="deckungsbeitragJahrForm" [formGroup]="deckungsbeitragJahrFormGroup" (ngSubmit)="getDeckungsbeitragJahrOnSubmit()">
+  <button mat-raised-button color="primary" type="submit" class="button, half-width">Bar Chart Deckungsbeitrag
+  </button>
+  <mat-card-content *ngIf="deckungsbeitragJahr.chartIsDisplayed">
+    <app-bar-chart [deckungsbeitragJahr]="deckungsbeitragJahr"></app-bar-chart>
+  </mat-card-content>
+</form>
+
+<form class="mitarbeiterEinsatzDateForm" [formGroup]="mitarbeiterEinsatzDateFormGroup" (ngSubmit)="getMitarbeiterEinsatzDateOnSubmit()">
+  <button mat-raised-button color="primary" type="submit" class="button, half-width">Doughnut Chart Einsatz Mitarbeiter
+  </button>
+  <mat-card-content *ngIf="mitarbeiterEinsatzDate.chartIsDisplayed">
+    <app-doughnut-chart [mitarbeiterEinsatzDate]="mitarbeiterEinsatzDate"></app-doughnut-chart>
+    <button (click)="getMitarbeiterEinsatzDateOnSubmitLastMonth()" mat-raised-button color="primary" class="button, nav-button-left"><
+    </button>
+    <button (click)="getMitarbeiterEinsatzDateOnSubmitNextMonth()" mat-raised-button color="primary" class="button, nav-button-right">>
+    </button>
+  </mat-card-content>
+</form>
+
+<div style="margin: 1%">
+  <mat-divider></mat-divider>
+</div>
+
 <form class="mitarbeiterBankForm" [formGroup]="mitarbeiterBankFormGroup" (ngSubmit)="getMitarbeiterBankOnSubmit()">
   <button mat-raised-button color="primary" type="submit" class="button, half-width">
     Liste aller Mitarbeiter ohne gegenwärtigen und zukünftigen Einsatz
