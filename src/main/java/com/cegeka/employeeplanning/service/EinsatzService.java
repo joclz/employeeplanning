@@ -1,9 +1,6 @@
 package com.cegeka.employeeplanning.service;
 
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import com.cegeka.employeeplanning.data.Einsatz;
 import com.cegeka.employeeplanning.data.Mitarbeiter;
@@ -73,8 +70,7 @@ public class EinsatzService {
 
     public EinsatzSuche convertToEntity(EinsatzSucheDTO einsatzSucheDTO) {
         ModelMapper modelMapper = new ModelMapper();
-        EinsatzSuche einsatzSuche = modelMapper.map(einsatzSucheDTO, EinsatzSuche.class);
-        return einsatzSuche;
+        return modelMapper.map(einsatzSucheDTO, EinsatzSuche.class);
     }
 
     /**
@@ -159,7 +155,7 @@ public class EinsatzService {
 
         partialEinsaetze.setEinsaetze(FindAllBuilder.usingRepository(einsatzRepository).filterBy(itemCriteria.getFilter()).findAll(itemCriteria.getPage(),  itemCriteria.getSize()));
 
-        partialEinsaetze.setAnzahl(Integer.valueOf(FindAllBuilder.usingRepository(einsatzRepository).filterBy(itemCriteria.getFilter()).count()));
+        partialEinsaetze.setAnzahl(FindAllBuilder.usingRepository(einsatzRepository).filterBy(itemCriteria.getFilter()).count());
 
         return partialEinsaetze;
     }

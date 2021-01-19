@@ -1,9 +1,5 @@
 package com.cegeka.employeeplanning.controller;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-
 import com.cegeka.employeeplanning.data.Einsatz;
 import com.cegeka.employeeplanning.data.dto.EinsatzDTO;
 import com.cegeka.employeeplanning.data.dto.EinsatzSucheDTO;
