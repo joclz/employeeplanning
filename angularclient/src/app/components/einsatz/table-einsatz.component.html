@@ -75,7 +75,7 @@
     <!-- Deckungsbeitrag Column -->
     <ng-container matColumnDef="deckungsbeitrag">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Deckungsbeitrag</th>
-      <td mat-cell *matCellDef="let row"> {{row.deckungsbeitrag}} </td>
+      <td mat-cell *matCellDef="let row"> {{row.deckungsbeitrag | number:'1.2-2'}} </td>
     </ng-container>
 
     <!-- Marge Column -->
