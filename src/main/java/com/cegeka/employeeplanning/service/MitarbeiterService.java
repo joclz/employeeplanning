@@ -36,6 +36,13 @@ public class MitarbeiterService extends EmployeeplanningUtil {
         mitarbeiterRepository.delete(mitarbeiter);
     }
 
+    /**
+     * Für ein Mitarbeiter-Update wird nicht nur der Mitarbeiter-Datensatz aktualisiert, sondern auch
+     * alle Einsätze des jeweiligen Mitarbeiters neu berechnet (Deckungsbeitrag und Marge),
+     * deren Ende-Datum noch nicht erreicht ist.
+     *
+     * @param mitarbeiter Mitarbeiter
+     */
     public void update(Mitarbeiter mitarbeiter) {
         checkEntityExist(mitarbeiter.getId());
         mitarbeiterRepository.save(mitarbeiter);
@@ -60,7 +67,8 @@ public class MitarbeiterService extends EmployeeplanningUtil {
         einsatzService.findEinsaetzeByMitarbeiterId(mitarbeiterId).forEach(id -> einsatzIds.add(id.getId()));
 
         Set<Integer> einsatzIdsStatus = new HashSet<>();
-        einsatzRepository.findEinsaetzeByEinsatzStatus(EinsatzStatus.BEAUFTRAGT).forEach(id -> einsatzIdsStatus.add(id.getId()));
+        einsatzRepository.findEinsaetzeByEinsatzStatus(EinsatzStatus.BEAUFTRAGT).forEach(id ->
+                einsatzIdsStatus.add(id.getId()));
         einsatzIds.retainAll(einsatzIdsStatus);
 
         Iterable<Einsatz> einsaetzeByMitarbeiterId = einsatzRepository.findAllById(einsatzIds);
@@ -87,7 +95,8 @@ public class MitarbeiterService extends EmployeeplanningUtil {
         einsatzService.findEinsaetzeByMitarbeiterId(mitarbeiterId).forEach(id -> einsatzIds.add(id.getId()));
 
         Set<Integer> einsatzIdsStatus = new HashSet<>();
-        einsatzRepository.findEinsaetzeByEinsatzStatus(EinsatzStatus.ANGEBOTEN).forEach(id -> einsatzIdsStatus.add(id.getId()));
+        einsatzRepository.findEinsaetzeByEinsatzStatus(EinsatzStatus.ANGEBOTEN).forEach(id ->
+                einsatzIdsStatus.add(id.getId()));
         einsatzIds.retainAll(einsatzIdsStatus);
 
         Iterable<Einsatz> einsaetzeByMitarbeiterId = einsatzRepository.findAllById(einsatzIds);
@@ -131,7 +140,8 @@ public class MitarbeiterService extends EmployeeplanningUtil {
 
     @VisibleForTesting
     public Iterable<Mitarbeiter> getMitarbeiterBank(boolean intern, Date today) {
-        EinsatzSuche einsatzSuche = new EinsatzSuche(null, null, null, EinsatzStatus.BEAUFTRAGT, null, null, today, null);
+        EinsatzSuche einsatzSuche = new EinsatzSuche(null, null, null,
+                EinsatzStatus.BEAUFTRAGT, null, null, today, null);
         Iterable<Einsatz> einsaetze = einsatzService.findEinsaetzeBySuchkriterien(einsatzSuche);
 
         Set<Integer> mitarbeiterIdBeauftragtSet = new HashSet<>();
@@ -165,6 +175,7 @@ public class MitarbeiterService extends EmployeeplanningUtil {
     /**
      * Es wird die die Anzahl der Mitarbeiter mit Einsatz (sowohl interne MA als auch Subunternehmer)
      * als auch die Anzahl der Mitarbeiter ohne Einsatz (auch sowohl interne MA als auch Subunternehmer) zurückgegeben.
+     *
      * @param month Integer
      * @return MitarbeiterEinsatzDate
      */
@@ -184,8 +195,7 @@ public class MitarbeiterService extends EmployeeplanningUtil {
             int newMonth = actualMonth + month;
             if (newMonth < Calendar.JANUARY) {
                 newMonth = Calendar.JANUARY;
-            }
-            else if (newMonth > Calendar.DECEMBER) {
+            } else if (newMonth > Calendar.DECEMBER) {
                 newMonth = Calendar.DECEMBER;
             }
             calendar.set(Calendar.MONTH, newMonth);
@@ -235,5 +245,4 @@ public class MitarbeiterService extends EmployeeplanningUtil {
         }
         return mitarbeiter.get();
     }
-
 }
