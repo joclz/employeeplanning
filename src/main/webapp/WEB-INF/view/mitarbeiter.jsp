@@ -1,3 +1,5 @@
+<%--suppress HtmlUnknownTarget --%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,12 +11,12 @@
 <table>
     <tr>
         <td>
-            <form action="/goToStart" method="GET">
+            <form action="<%=request.getContextPath()%>/goToStart" method="GET">
                 <button>Zur&uuml;ck</button>
             </form>
         </td>
         <td>
-            <form action="/logout" method="GET">
+            <form action="<%=request.getContextPath()%>/logout" method="GET">
                 <button>Logout</button>
             </form>
         </td>
@@ -22,25 +24,25 @@
 </table>
 
 <hr/>
-<form action="/listMitarbeiter" method="GET">
+<form action="<%=request.getContextPath()%>/listMitarbeiter" method="GET">
     <button>Liste aller Mitarbeiter</button>
 </form>
 <br>
-<form action="/getLastEndDateForMitarbeiter" method="GET">
+<form action="<%=request.getContextPath()%>/getLastEndDateForMitarbeiter" method="GET">
     <input title="Mitarbeiter-Id" type=number step=1 name="mitarbeiterId">
     <button>Wie lange ist Mitarbeiter (mit ID) noch im Einsatz</button>
 </form>
 <br>
-<form action="/getChanceForMitarbeiter" method="GET">
+<form action="<%=request.getContextPath()%>/getChanceForMitarbeiter" method="GET">
     <input title="Mitarbeiter-Id" type=number step=1 name="mitarbeiterId">
     <button>Wie hoch ist Chance auf Verl&auml;ngerung (f&uuml;r Mitarbeiter mit ID)</button>
 </form>
 <br>
-<form action="/listMitarbeiterBank" method="GET">
+<form action="<%=request.getContextPath()%>/listMitarbeiterBank" method="GET">
     <button>Liste aller Mitarbeiter auf der Bank</button>
 </form>
 <br>
-<form action="/countMitarbeiterImEinsatz" method="GET">
+<form action="<%=request.getContextPath()%>/countMitarbeiterImEinsatz" method="GET">
     <select title="Mitarbeiter-Status" name="mitarbeiterStatus">
         <option value=""></option>
         <option value="ANGESTELLT">ANGESTELLT</option>
@@ -49,11 +51,11 @@
     <button>Wieviele Mitarbeiter bzw. Subunternehmer sind im Einsatz</button>
 </form>
 <br>
-<form action="/listMitarbeiterInternBank" method="GET">
+<form action="<%=request.getContextPath()%>/listMitarbeiterInternBank" method="GET">
     <button>Welche internen Mitarbeiter sind aktuell nicht im Einsatz</button>
 </form>
 <br>
-<form action="/getDeckungsbeitrag" method="GET">
+<form action="<%=request.getContextPath()%>/getDeckungsbeitrag" method="GET">
     <button>Welchen Umsatz bzw. Deckungsbeitrag haben wir aktuell</button>
 </form>
 <!--
@@ -92,7 +94,7 @@
 -->
 
 <hr/>
-<form action="/addMitarbeiter" method="POST" content="">
+<form action="<%=request.getContextPath()%>/addMitarbeiter" method="POST" content="">
     <table class="editDataTable">
         <tr>
             <td><label for="vorname">Vorname:</label></td>
@@ -126,17 +128,13 @@
             </td>
         </tr>
     </table>
-    <input type="hidden"
-           name="${_csrf.parameterName}"
-           value="${_csrf.token}"/>
+    <sec:csrfInput/>
 </form>
 <hr/>
-<form action="/deleteMitarbeiter" method="POST">
+<form action="<%=request.getContextPath()%>/deleteMitarbeiter" method="POST">
     <input title="Mitarbeiter-Id" type=number step=1 name="mitarbeiterId">
     <button>L&ouml;sche Mitarbeiter (mit ID)</button>
-    <input type="hidden"
-           name="${_csrf.parameterName}"
-           value="${_csrf.token}"/>
+    <sec:csrfInput/>
 </form>
 </body>
 </html>

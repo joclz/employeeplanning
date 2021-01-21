@@ -1,3 +1,4 @@
+<%--suppress HtmlUnknownTarget --%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,16 +9,16 @@
 <h1>Mitarbeiter-Planung</h1>
 <table>
     <tr>
-        <td> <form action="/goToMitarbeiter" method="GET">
+        <td> <form action="<%=request.getContextPath()%>/goToMitarbeiter" method="GET">
             <button>Mitarbeiter</button></form>
         </td>
-        <td> <form action="/goToMitarbeiterVertrieb" method="GET">
+        <td> <form action="<%=request.getContextPath()%>/goToMitarbeiterVertrieb" method="GET">
             <button>Mitarbeiter Vertrieb</button></form>
         </td>
-        <td> <form action="/goToEinsatz" method="GET">
+        <td> <form action="<%=request.getContextPath()%>/goToEinsatz" method="GET">
             <button>Einsatz</button></form>
         </td>
-        <td> <form action="/logout" method="GET">
+        <td> <form action="<%=request.getContextPath()%>/logout" method="GET">
             <button>Logout</button>
         </form>
         </td>

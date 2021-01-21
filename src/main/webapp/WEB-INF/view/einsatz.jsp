@@ -1,3 +1,5 @@
+<%--suppress HtmlUnknownTarget --%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,12 +11,12 @@
 <table>
     <tr>
         <td>
-            <form action="/goToStart" method="GET">
+            <form action="<%=request.getContextPath()%>/goToStart" method="GET">
                 <button>Zur&uuml;ck</button>
             </form>
         </td>
         <td>
-            <form action="/logout" method="GET">
+            <form action="<%=request.getContextPath()%>/logout" method="GET">
                 <button>Logout</button>
             </form>
         </td>
@@ -22,11 +24,11 @@
 </table>
 
 <hr/>
-<form action="/listEinsaetze" method="GET">
+<form action="<%=request.getContextPath()%>/listEinsaetze" method="GET">
     <button>Liste aller Eins&auml;tze</button>
 </form>
 <br>
-<form action="/findEinsaetzeByEinsatzStatus" method="GET">
+<form action="<%=request.getContextPath()%>/findEinsaetzeByEinsatzStatus" method="GET">
     <select title="Status" name="status">
         <option value="NULL"></option>
         <option value="ANGEBOTEN">ANGEBOTEN</option>
@@ -36,17 +38,17 @@
     <button>Liste der Eins&auml;tze mit Status</button>
 </form>
 <br>
-<form action="/findEinsaetzeByMitarbeiterVertrieb" method="GET">
+<form action="<%=request.getContextPath()%>/findEinsaetzeByMitarbeiterVertrieb" method="GET">
     <input title="Mitarbeiter" type=number step=1 name="mitarbeiterVertriebId">
     <button>Liste der Eins&auml;tze f&uuml;r Vertriebsmitarbeiter (ID)</button>
 </form>
 <br>
-<form action="/getEinsatzById" method="GET">
+<form action="<%=request.getContextPath()%>/getEinsatzById" method="GET">
     <input title="Einsatz" type=number step=1 name="einsatzId">
     <button>Lade Einsatz mit ID</button>
 </form>
 <hr/>
-<form action="/findEinsaetzeBySuchkriterien" method="POST">
+<form action="<%=request.getContextPath()%>/findEinsaetzeBySuchkriterien" method="POST">
     <table class="editDataTable">
         <tr>
             <td><label for="mitarbeiterVertriebId_findEinsaetzeBySuchkriterien">Mitarbeiter Vertrieb (ID):</label></td>
@@ -97,7 +99,7 @@
     </table>
 </form>
 <hr/>
-<form action="/addEinsatz" method="POST" content="">
+<form action="<%=request.getContextPath()%>/addEinsatz" method="POST" content="">
     <table class="editDataTable">
         <tr>
             <td><label for="mitarbeiterVertriebId_addEinsatz">Mitarbeiter Vertrieb (ID):</label></td>
@@ -149,17 +151,13 @@
             </td>
         </tr>
     </table>
-    <input type="hidden"
-           name="${_csrf.parameterName}"
-           value="${_csrf.token}"/>
+    <sec:csrfInput/>
 </form>
 <hr/>
-<form action="/deleteEinsatz" method="POST">
+<form action="<%=request.getContextPath()%>/deleteEinsatz" method="POST">
     <input title="Einsatz-Id" type=number step=1 name="einsatzId">
     <button>L&ouml;sche Einsatz (mit ID)</button>
-    <input type="hidden"
-           name="${_csrf.parameterName}"
-           value="${_csrf.token}"/>
+    <sec:csrfInput/>
 </form>
 </body>
 </html>

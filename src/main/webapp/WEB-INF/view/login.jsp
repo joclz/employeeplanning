@@ -1,3 +1,4 @@
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -20,9 +21,7 @@
             <td><input name="submit" type="submit" value="submit"/></td>
         </tr>
     </table>
-    <input type="hidden"
-           name="${_csrf.parameterName}"
-           value="${_csrf.token}"/>
+    <sec:csrfInput/>
 </form>
 </body>
 </html>

@@ -1,3 +1,5 @@
+<%--suppress HtmlUnknownTarget --%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,12 +12,12 @@
 <table>
     <tr>
         <td>
-            <form action="/goToStart" method="GET">
+            <form action="<%=request.getContextPath()%>/goToStart" method="GET">
                 <button>Zur&uuml;ck</button>
             </form>
         </td>
         <td>
-            <form action="/logout" method="GET">
+            <form action="<%=request.getContextPath()%>/logout" method="GET">
                 <button>Logout</button>
             </form>
         </td>
@@ -23,12 +25,12 @@
 </table>
 
 <hr/>
-<form action="/listMitarbeiterVertrieb" method="GET">
+<form action="<%=request.getContextPath()%>/listMitarbeiterVertrieb" method="GET">
     <button>Liste aller Mitarbeiter Vertrieb</button>
 </form>
 
 <hr/>
-<form action="/addMitarbeiterVertrieb" method="POST" content="">
+<form action="<%=request.getContextPath()%>/addMitarbeiterVertrieb" method="POST" content="">
     <table class="editDataTable">
         <tr>
             <td><label for="vorname">Vorname:</label></td>
@@ -44,17 +46,13 @@
             </td>
         </tr>
     </table>
-    <input type="hidden"
-           name="${_csrf.parameterName}"
-           value="${_csrf.token}"/>
+    <sec:csrfInput/>
 </form>
 <hr/>
-<form action="/deleteMitarbeiterVertrieb" method="POST">
+<form action="<%=request.getContextPath()%>/deleteMitarbeiterVertrieb" method="POST">
     <input title="Mitarbeiter-Id" type=number step=1 name="mitarbeiterVertriebId">
     <button>L&ouml;sche Mitarbeiter Vertrieb (mit ID)</button>
-    <input type="hidden"
-           name="${_csrf.parameterName}"
-           value="${_csrf.token}"/>
+    <sec:csrfInput/>
 </form>
 </body>
 </html>
