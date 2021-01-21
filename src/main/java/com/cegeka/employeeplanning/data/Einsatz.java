@@ -39,12 +39,12 @@ public class Einsatz {
     private Date beginn;
 //    @Temporal(TemporalType.DATE)
     private Date ende;
-    private int wahrscheinlichkeit;
-    private double zusatzkostenReise;
-    private double stundensatzVK;
+    private Integer wahrscheinlichkeit;
+    private Double zusatzkostenReise;
+    private Double stundensatzVK;
     private String projektnummerNettime;
     private String beauftragungsnummer;
 
-    private double deckungsbeitrag;
-    private double marge;
+    private Double deckungsbeitrag;
+    private Double marge;
 }

@@ -9,11 +9,11 @@ import javax.persistence.criteria.Root;
 public enum FilterOperation
 {
     // @formatter:off
-    LESS_EQUAL_THAN("<=", (b, k, v) -> b.lessThanOrEqualTo(k, v)),
-    GREATER_EQUAL_THAN(">=", (b, k, v) -> b.greaterThanOrEqualTo(k, v)),
+    LESS_EQUAL_THAN("<=", (b, k, v) -> b.lessThanOrEqualTo(k, v.toString())),
+    GREATER_EQUAL_THAN(">=", (b, k, v) -> b.greaterThanOrEqualTo(k, v.toString())),
     CONTAINS(":>", (b, k, v) -> b.like(k, b.literal("%" + v + "%"))),
-    GREATER_THAN(">", (b, k, v) -> b.greaterThan(k, v)),
-    LESS_THAN("<", (b, k, v) -> b.lessThan(k, v)),
+    GREATER_THAN(">", (b, k, v) -> b.greaterThan(k, v.toString())),
+    LESS_THAN("<", (b, k, v) -> b.lessThan(k, v.toString())),
     EQUALS("::", (b, k, v) -> b.equal(k, v));
     // @formatter:on
 
@@ -30,7 +30,7 @@ public enum FilterOperation
     }
 
     public Predicate build(CriteriaBuilder builder, Root<?> entity, String key, Object value) {
-        return operation.predicate(builder, entity.get(key), value.toString());
+        return operation.predicate(builder, entity.get(key), castToRequiredType(entity.get(key).getJavaType(),value.toString()));
     }
 
     static FilterOperation parse(String str) {
@@ -44,8 +44,27 @@ public enum FilterOperation
 //        throw new WrongFilterException(String.format("Filter operation '%s' not found", str));
     }
 
+    private Object castToRequiredType(Class fieldType, String value) {
+        if(fieldType.isAssignableFrom(Double.class)) {
+          return Double.valueOf(value);
+        } else if(fieldType.isAssignableFrom(Integer.class)) {
+          return Integer.valueOf(value);
+        } else if(Enum.class.isAssignableFrom(fieldType)) {
+          return Enum.valueOf(fieldType, value);
+        }
+        return null;
+    }
+
+//    private Object castToRequiredType(Class fieldType, List<String> value) {
+//        List<Object> lists = new ArrayList<>();
+//        for (String s : value) {
+//          lists.add(castToRequiredType(fieldType, s));
+//        }
+//        return lists;
+//    }
+
     @FunctionalInterface
     interface FilterPredicateFunction {
-        Predicate predicate(CriteriaBuilder builder, Path<String> key, String value);
+        Predicate predicate(CriteriaBuilder builder, Path<String> key, Object value);
     }
 }
