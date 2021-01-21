@@ -16,8 +16,9 @@
             </form>
         </td>
         <td>
-            <form action="<%=request.getContextPath()%>/logout" method="GET">
+            <form action="logout" method="POST">
                 <button>Logout</button>
+                <sec:csrfInput/>
             </form>
         </td>
     </tr>

@@ -1,4 +1,5 @@
 <%--suppress HtmlUnknownTarget --%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,8 +19,9 @@
         <td> <form action="<%=request.getContextPath()%>/goToEinsatz" method="GET">
             <button>Einsatz</button></form>
         </td>
-        <td> <form action="<%=request.getContextPath()%>/logout" method="GET">
+        <td> <form action="logout" method="POST">
             <button>Logout</button>
+            <sec:csrfInput/>
         </form>
         </td>
     </tr>
