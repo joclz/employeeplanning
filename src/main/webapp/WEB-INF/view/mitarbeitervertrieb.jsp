@@ -11,7 +11,7 @@
     <tr>
         <td>
             <form action="/goToStart" method="GET">
-                <button>Zurück</button>
+                <button>Zur&uuml;ck</button>
             </form>
         </td>
         <td>
@@ -40,15 +40,21 @@
         </tr>
         <tr>
             <td>
-                <button>Mitarbeiter Vertrieb Hinzufügen</button>
+                <button>Mitarbeiter Vertrieb Hinzuf&uuml;gen</button>
             </td>
         </tr>
     </table>
+    <input type="hidden"
+           name="${_csrf.parameterName}"
+           value="${_csrf.token}"/>
 </form>
 <hr/>
 <form action="/deleteMitarbeiterVertrieb" method="POST">
     <input title="Mitarbeiter-Id" type=number step=1 name="mitarbeiterVertriebId">
-    <button>Lösche Mitarbeiter Vertrieb (mit ID)</button>
+    <button>L&ouml;sche Mitarbeiter Vertrieb (mit ID)</button>
+    <input type="hidden"
+           name="${_csrf.parameterName}"
+           value="${_csrf.token}"/>
 </form>
 </body>
 </html>

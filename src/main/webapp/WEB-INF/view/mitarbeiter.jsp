@@ -10,7 +10,7 @@
     <tr>
         <td>
             <form action="/goToStart" method="GET">
-                <button>Zurück</button>
+                <button>Zur&uuml;ck</button>
             </form>
         </td>
         <td>
@@ -33,7 +33,7 @@
 <br>
 <form action="/getChanceForMitarbeiter" method="GET">
     <input title="Mitarbeiter-Id" type=number step=1 name="mitarbeiterId">
-    <button>Wie hoch ist Chance auf Verlängerung (für Mitarbeiter mit ID)</button>
+    <button>Wie hoch ist Chance auf Verl&auml;ngerung (f&uuml;r Mitarbeiter mit ID)</button>
 </form>
 <br>
 <form action="/listMitarbeiterBank" method="GET">
@@ -122,15 +122,21 @@
         </tr>
         <tr>
             <td>
-                <button>Mitarbeiter Hinzufügen</button>
+                <button>Mitarbeiter Hinzuf&uuml;gen</button>
             </td>
         </tr>
     </table>
+    <input type="hidden"
+           name="${_csrf.parameterName}"
+           value="${_csrf.token}"/>
 </form>
 <hr/>
 <form action="/deleteMitarbeiter" method="POST">
     <input title="Mitarbeiter-Id" type=number step=1 name="mitarbeiterId">
-    <button>Lösche Mitarbeiter (mit ID)</button>
+    <button>L&ouml;sche Mitarbeiter (mit ID)</button>
+    <input type="hidden"
+           name="${_csrf.parameterName}"
+           value="${_csrf.token}"/>
 </form>
 </body>
 </html>

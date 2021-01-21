@@ -27,32 +27,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         // http builder configurations for authorize requests and form login (see below)
-//        http
-//                .csrf().disable()
-//                .authorizeRequests()
-//                .antMatchers("/admin/**").hasRole("ADMIN")
-//                .antMatchers("/anonymous*").anonymous()
-//                .antMatchers("/login*").permitAll()
-//                .anyRequest().authenticated()
-//                .and()
-//                .formLogin()
-//                .loginPage("/login.html")
-//                .loginProcessingUrl("/perform_login")
-//                .defaultSuccessUrl("/start.html", true)
-//                .failureUrl("/login.html?error=true")
-//                .and()
-//                .logout()
-//                .logoutUrl("/perform_logout")
-//                .deleteCookies("JSESSIONID")
-//              ;
         http
-                .httpBasic()
-                .and()
+                .httpBasic().and()
+                .csrf()
+                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
                 .authorizeRequests()
-                .antMatchers("/index.html", "/", "/home", "/login").permitAll()
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/anonymous*").anonymous()
+                .antMatchers("/login*").permitAll()
                 .anyRequest().authenticated()
-                .and().csrf()
-                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+                .and()
+                .formLogin()
+                .loginPage("/login")
+                .loginProcessingUrl("/login")
+                .defaultSuccessUrl("/goToStart", true)
+                .failureUrl("/login")
+                .and()
+                .logout()
+                .logoutUrl("/logout")
+                .deleteCookies("JSESSIONID")
+        ;
     }
 
     @Bean

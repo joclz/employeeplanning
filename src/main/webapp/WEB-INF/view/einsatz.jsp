@@ -10,7 +10,7 @@
     <tr>
         <td>
             <form action="/goToStart" method="GET">
-                <button>Zurück</button>
+                <button>Zur&uuml;ck</button>
             </form>
         </td>
         <td>
@@ -23,7 +23,7 @@
 
 <hr/>
 <form action="/listEinsaetze" method="GET">
-    <button>Liste aller Einsätze</button>
+    <button>Liste aller Eins&auml;tze</button>
 </form>
 <br>
 <form action="/findEinsaetzeByEinsatzStatus" method="GET">
@@ -33,12 +33,12 @@
         <option value="BEAUFTRAGT">BEAUFTRAGT</option>
         <option value="ABGELEHNT">ABGELEHNT</option>
     </select>
-    <button>Liste der Einsätze mit Status</button>
+    <button>Liste der Eins&auml;tze mit Status</button>
 </form>
 <br>
 <form action="/findEinsaetzeByMitarbeiterVertrieb" method="GET">
     <input title="Mitarbeiter" type=number step=1 name="mitarbeiterVertriebId">
-    <button>Liste der Einsätze für Vertriebsmitarbeiter (ID)</button>
+    <button>Liste der Eins&auml;tze f&uuml;r Vertriebsmitarbeiter (ID)</button>
 </form>
 <br>
 <form action="/getEinsatzById" method="GET">
@@ -91,7 +91,7 @@
         </tr>
         <tr>
             <td>
-                <button>Liste der Einsätze nach Suchkriterien</button>
+                <button>Liste der Eins&auml;tze nach Suchkriterien</button>
             </td>
         </tr>
     </table>
@@ -124,7 +124,7 @@
             <td><input id="ende" type=date name="ende" value="2020-12-31"></td>
         </tr>
         <tr>
-            <td><label for="wahrscheinlichkeit">Wahrscheinlichkeit (für Status angeboten):</label></td>
+            <td><label for="wahrscheinlichkeit">Wahrscheinlichkeit (f&uuml;r Status angeboten):</label></td>
             <td><input id="wahrscheinlichkeit" type=number step=1 name="wahrscheinlichkeit" value="0"></td>
         </tr>
         <tr>
@@ -145,15 +145,21 @@
         </tr>
         <tr>
             <td>
-                <button>Einsatz Hinzufügen</button>
+                <button>Einsatz Hinzuf&uuml;gen</button>
             </td>
         </tr>
     </table>
+    <input type="hidden"
+           name="${_csrf.parameterName}"
+           value="${_csrf.token}"/>
 </form>
 <hr/>
 <form action="/deleteEinsatz" method="POST">
     <input title="Einsatz-Id" type=number step=1 name="einsatzId">
-    <button>Lösche Einsatz (mit ID)</button>
+    <button>L&ouml;sche Einsatz (mit ID)</button>
+    <input type="hidden"
+           name="${_csrf.parameterName}"
+           value="${_csrf.token}"/>
 </form>
 </body>
 </html>

@@ -5,7 +5,8 @@
 </head>
 <body>
 <h1>Login</h1>
-<form name='f' action="perform_login" method='POST'>
+<%--suppress HtmlUnknownTarget --%>
+<form name='f' action="login" method='POST'>
     <table>
         <tr>
             <td><label for="username">User</label></td>
@@ -13,12 +14,15 @@
         </tr>
         <tr>
             <td><label for="password">Password</label></td>
-            <td><input id="password" type='password' name='password' /></td>
+            <td><input id="password" type='password' name='password'/></td>
         </tr>
         <tr>
-            <td><input name="submit" type="submit" value="submit" /></td>
+            <td><input name="submit" type="submit" value="submit"/></td>
         </tr>
     </table>
+    <input type="hidden"
+           name="${_csrf.parameterName}"
+           value="${_csrf.token}"/>
 </form>
 </body>
 </html>

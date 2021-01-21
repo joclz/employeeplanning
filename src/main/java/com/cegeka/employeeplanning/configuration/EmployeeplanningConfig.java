@@ -40,10 +40,11 @@ public class EmployeeplanningConfig implements WebMvcConfigurer {
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/employeeplanning").setViewName("forward:/index.html");
 
-        registry.addViewController("/goToStart").setViewName("start.html");
-        registry.addViewController("/goToMitarbeiter").setViewName("mitarbeiter.html");
-        registry.addViewController("/goToMitarbeiterVertrieb").setViewName("mitarbeitervertrieb.html");
-        registry.addViewController("/goToEinsatz").setViewName("einsatz.html");
+        registry.addViewController("/goToStart").setViewName("start");
+        registry.addViewController("/goToMitarbeiter").setViewName("mitarbeiter");
+        registry.addViewController("/goToMitarbeiterVertrieb").setViewName("mitarbeitervertrieb");
+        registry.addViewController("/goToEinsatz").setViewName("einsatz");
+        registry.addViewController("/login").setViewName("login");
 
 //        registry.addViewController("/").setViewName("forward:/empty.html");
     }
