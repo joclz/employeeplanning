@@ -35,10 +35,6 @@ export class TableEinsatzComponent /* implements OnInit */ {
   
   pageEvent: PageEvent;
   
-  currentSize_save: number; 
-  offset_save: number;
-  limit_save: number;
-
   showSuccessMsg: boolean = false;
   showErrorMsg: boolean = false;
 
@@ -69,10 +65,6 @@ export class TableEinsatzComponent /* implements OnInit */ {
 //  }
 
   getData(offset, limit){
-    this.currentSize_save = 0; 
-    this.offset_save = offset; 
-    this.limit_save = limit; 
-
     let params = new HttpParams();
     params = params.set('page', offset);
     params = params.set('size', limit);
@@ -88,10 +80,6 @@ export class TableEinsatzComponent /* implements OnInit */ {
   }
 
   getNextData(currentSize, offset, limit){
-    this.currentSize_save = currentSize; 
-    this.offset_save = offset; 
-    this.limit_save = limit; 
-  
     let params = new HttpParams();
     params = params.set('page', offset);
     params = params.set('size', limit);
@@ -140,7 +128,10 @@ export class TableEinsatzComponent /* implements OnInit */ {
     this.einsatzService.delete(id).subscribe(() => {
 //      this.initDependingOnInput();
       this.deleteEinsatzEvent.emit();
-      this.getNextData(this.currentSize_save, this.offset_save, this.limit_save);
+      
+      this.paginator.pageIndex = 0
+      this.getNextData(0, 0, this.paginator.pageSize);
+      
       this.showSuccessMsg = true;
       this.showErrorMsg = false;
     }, () => {
