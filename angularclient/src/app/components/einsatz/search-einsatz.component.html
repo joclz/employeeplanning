@@ -117,6 +117,16 @@
         <mat-datepicker #endeBisPicker></mat-datepicker>
       </mat-form-field>
 
+      <mat-form-field appearance="fill" class="half-width">
+        <mat-label>Wahrscheinlichkeit Von</mat-label>
+        <input matInput formControlName="wahrscheinlichkeitVon" placeholder="0">
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="half-width">
+        <mat-label>Wahrscheinlichkeit Bis</mat-label>
+        <input matInput formControlName="wahrscheinlichkeitBis" placeholder="100">
+      </mat-form-field>
+
       <button mat-raised-button color="primary" type="submit" class="button, half-width">
         Suche
       </button>
@@ -126,6 +136,6 @@
       </button>
     </form>
 
-    <app-table-einsatz *ngIf="isSearch" [einsaetze]="einsaetzeSearchList"></app-table-einsatz>
+    <app-table-einsatz *ngIf="isSearch" [einsaetze]="einsaetzeSearchList" [einsaetzeFilter]="einsaetzeFilter"></app-table-einsatz>
   </mat-tab>
 </mat-tab-group>
