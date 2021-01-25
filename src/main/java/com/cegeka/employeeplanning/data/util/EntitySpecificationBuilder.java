@@ -1,5 +1,8 @@
 package com.cegeka.employeeplanning.data.util;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -51,7 +54,6 @@ public class EntitySpecificationBuilder<T>
 
                     {
                         switch (operation){
-                        // TODO Datums
 
                         case "::":
                            return (Specification<T>) (root, query, cb) -> {
@@ -60,6 +62,11 @@ public class EntitySpecificationBuilder<T>
                                   return cb.equal(root.join(table).get(key),
                                           castToRequiredType(root.join(table).get(key).getJavaType(),
                                                              value.toString()));
+                              }
+                              if (root.get(key).getJavaType().isAssignableFrom(Date.class))
+                              {
+                                  Date dateInput = createDateInput(value);
+                                  return cb.equal(root.get(key), dateInput);
                               }
                               return cb.equal(root.get(key),
                                castToRequiredType(root.get(key).getJavaType(),
@@ -74,6 +81,11 @@ public class EntitySpecificationBuilder<T>
                                            (Number) castToRequiredType(
                                                   root.join(table).get(key).getJavaType(),
                                                   value.toString()));
+                               }
+                               if (root.get(key).getJavaType().isAssignableFrom(Date.class))
+                               {
+                                   Date dateInput = createDateInput(value);
+                                   return cb.greaterThan(root.get(key), dateInput);
                                }
                                return cb.gt(root.get(key),
                                (Number) castToRequiredType(
@@ -90,6 +102,11 @@ public class EntitySpecificationBuilder<T>
                                                    root.join(table).get(key).getJavaType(),
                                                    value.toString()));
                                 }
+                                if (root.get(key).getJavaType().isAssignableFrom(Date.class))
+                                {
+                                    Date dateInput = createDateInput(value);
+                                    return cb.greaterThanOrEqualTo(root.get(key), dateInput);
+                                }
                                 return cb.ge(root.get(key),
                                 (Number) castToRequiredType(
                                        root.get(key).getJavaType(),
@@ -105,6 +122,11 @@ public class EntitySpecificationBuilder<T>
                                                   root.join(table).get(key).getJavaType(),
                                                   value.toString()));
                                }
+                               if (root.get(key).getJavaType().isAssignableFrom(Date.class))
+                               {
+                                   Date dateInput = createDateInput(value);
+                                   return cb.lessThan(root.get(key), dateInput);
+                               }
                                return cb.lt(root.get(key),
                                (Number) castToRequiredType(
                                       root.get(key).getJavaType(),
@@ -119,6 +141,11 @@ public class EntitySpecificationBuilder<T>
                                             (Number) castToRequiredType(
                                                    root.join(table).get(key).getJavaType(),
                                                    value.toString()));
+                                }
+                                if (root.get(key).getJavaType().isAssignableFrom(Date.class))
+                                {
+                                    Date dateInput = createDateInput(value);
+                                    return cb.lessThanOrEqualTo(root.get(key), dateInput);
                                 }
                                 return cb.le(root.get(key),
                                 (Number) castToRequiredType(
@@ -150,6 +177,23 @@ public class EntitySpecificationBuilder<T>
 
             return null;
         }).filter(s -> s != null).collect(Collectors.toList());
+    }
+
+    private static Date createDateInput(String value)
+    {
+        Date dateInput;
+          try
+          {
+              dateInput = new SimpleDateFormat("dd-MM-yyyy").parse(value);
+          }
+          catch (ParseException ex)
+          {
+              // TODO Auto-generated catch block
+              // Think twice how to handle this exception!
+              // LOG.log(Level.SEVERE,ex.getMessage(),ex);
+              throw new RuntimeException(ex.getMessage(),ex);
+          }
+        return dateInput;
     }
 
     private static Object castToRequiredType(Class fieldType, String value) {
