@@ -53,8 +53,17 @@ export class EinsatzService {
 
   public writeEinsaetzeFilter(einsatzSucheDTO: EinsatzSucheDto): string[] {
     let einsaetzeFilter: Array<string> = [];
+    if (einsatzSucheDTO.mitarbeiterId.toString() != '') {
+      einsaetzeFilter.push(("mitarbeiter.id::" + einsatzSucheDTO.mitarbeiterId.toString()));
+    }
+    if (einsatzSucheDTO.mitarbeiterVertriebId.toString() != '') {
+      einsaetzeFilter.push(("mitarbeiterVertrieb.id::" + einsatzSucheDTO.mitarbeiterVertriebId.toString()));
+    }
     if (einsatzSucheDTO.einsatzStatus.toString() != '') {
-      einsaetzeFilter.push("einsatzStatus::" + einsatzSucheDTO.einsatzStatus.toString().toUpperCase());
+      einsaetzeFilter.push("einsatzStatus::" + einsatzSucheDTO.einsatzStatus.toUpperCase());
+    }
+    if(einsatzSucheDTO.mitarbeiterStatus.toString() != '') {
+      einsaetzeFilter.push(("mitarbeiter.mitarbeiterStatus::" + einsatzSucheDTO.mitarbeiterStatus.toUpperCase()));
     }
     if (einsatzSucheDTO.wahrscheinlichkeitVon.valueOf() != 0) {
       einsaetzeFilter.push("wahrscheinlichkeit>=" + einsatzSucheDTO.wahrscheinlichkeitVon.valueOf());
