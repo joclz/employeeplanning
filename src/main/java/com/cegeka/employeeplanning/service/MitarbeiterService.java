@@ -141,7 +141,7 @@ public class MitarbeiterService extends EmployeeplanningUtil {
     @VisibleForTesting
     public Iterable<Mitarbeiter> getMitarbeiterBank(boolean intern, Date today) {
         EinsatzSuche einsatzSuche = new EinsatzSuche(null, null, null,
-                EinsatzStatus.BEAUFTRAGT, null, null, today, null);
+                EinsatzStatus.BEAUFTRAGT, null, null, today, null, null, null);
         Iterable<Einsatz> einsaetze = einsatzService.findEinsaetzeBySuchkriterien(einsatzSuche);
 
         Set<Integer> mitarbeiterIdBeauftragtSet = new HashSet<>();
@@ -218,7 +218,7 @@ public class MitarbeiterService extends EmployeeplanningUtil {
     @VisibleForTesting
     public int countMitarbeiterImEinsatz(MitarbeiterStatus mitarbeiterStatus, Date today) {
         EinsatzSuche einsatzSuche = new EinsatzSuche(null, null, mitarbeiterStatus,
-                EinsatzStatus.BEAUFTRAGT, null, today, today, null);
+                EinsatzStatus.BEAUFTRAGT, null, today, today, null, null, null);
         Iterable<Einsatz> einsaetze = einsatzService.findEinsaetzeBySuchkriterien(einsatzSuche);
 
         Set<Integer> mitarbeiterIdSet = new HashSet<>();

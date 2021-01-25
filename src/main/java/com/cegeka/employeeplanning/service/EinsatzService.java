@@ -146,7 +146,9 @@ public class EinsatzService {
                 einsatzSuche.getBeginnVon(),
                 einsatzSuche.getBeginnBis(),
                 einsatzSuche.getEndeVon(),
-                einsatzSuche.getEndeBis());
+                einsatzSuche.getEndeBis(),
+                einsatzSuche.getWahrscheinlichkeitVon(),
+                einsatzSuche.getWahrscheinlichkeitBis());
     }
 
     public PartialEinsaetzeDTO getPartialEinsaetze(ItemCriteria itemCriteria)
@@ -188,7 +190,8 @@ public class EinsatzService {
 
     @VisibleForTesting
     public double getDeckungsbeitrag(Date today) {
-        EinsatzSuche einsatzSuche = new EinsatzSuche(null, null, null, EinsatzStatus.BEAUFTRAGT, null, today, today, null);
+        EinsatzSuche einsatzSuche = new EinsatzSuche(null, null, null,
+                EinsatzStatus.BEAUFTRAGT, null, today, today, null, null, null);
         Iterable<Einsatz> einsaetze = findEinsaetzeBySuchkriterien(einsatzSuche);
         double summeDeckungsbeitrag = 0.;
         for (Einsatz einsatz : einsaetze) {

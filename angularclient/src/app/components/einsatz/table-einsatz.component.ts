@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
@@ -8,7 +8,7 @@ import {UpdateEinsatzService} from "../../services/einsatz/update-einsatz.servic
 import {EinsatzStatus} from "../../models/einsatz/einsatz-status.enum";
 import {MatDialog} from "@angular/material/dialog";
 import {DeleteEinsatzDialogComponent} from "./delete-einsatz-dialog.component";
-import {HttpClient, HttpParams } from '@angular/common/http';
+import {HttpParams} from '@angular/common/http';
 
 
 @Component({
@@ -21,7 +21,7 @@ export class TableEinsatzComponent /* implements OnInit */ {
   displayedColumns: string[] = ['id', 'mitarbeiter', 'mitarbeiterVertrieb', 'einsatzStatus', 'beginn', 'ende',
     'wahrscheinlichkeit', 'projektnummerNettime', 'beauftragungsnummer', 'zusatzkostenReise', 'stundensatzVK',
     'deckungsbeitrag', 'marge', 'actions'];
-    
+
   dataSource = new MatTableDataSource<Einsatz>();
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -30,11 +30,12 @@ export class TableEinsatzComponent /* implements OnInit */ {
   @Output() deleteEinsatzEvent = new EventEmitter();
 
   @Input() einsaetze: Einsatz[];
-  
+  @Input() einsaetzeFilter: string[];
+
   loading: boolean = true;
-  
+
   pageEvent: PageEvent;
-  
+
   showSuccessMsg: boolean = false;
   showErrorMsg: boolean = false;
 
@@ -44,10 +45,10 @@ export class TableEinsatzComponent /* implements OnInit */ {
   }
 
   ngOnInit() {
-    this.getData('0', '5');
+    this.getData('0', '5', this.einsaetzeFilter);
 //    this.initDependingOnInput();
   }
-  
+
 //  initDependingOnInput() {
 //    if (this.einsaetze) {
 //      this.init(this.einsaetze);
@@ -64,10 +65,15 @@ export class TableEinsatzComponent /* implements OnInit */ {
 //    this.dataSource.sort = this.sort;
 //  }
 
-  getData(offset, limit){
+  getData(offset, limit, allFilters: string[]) {
     let params = new HttpParams();
     params = params.set('page', offset);
     params = params.set('size', limit);
+    if (allFilters != null) {
+      for (let i = 0; i < allFilters.length; i++) {
+        params = params.append('filter', allFilters[i]);
+      }
+    }
 
     this.einsatzService.getPartialEinsaetze(params).subscribe((response: any) => {
       this.loading = false;
@@ -79,10 +85,15 @@ export class TableEinsatzComponent /* implements OnInit */ {
     })
   }
 
-  getNextData(currentSize, offset, limit){
+  getNextData(currentSize, offset, limit, allFilters: string[]) {
     let params = new HttpParams();
     params = params.set('page', offset);
     params = params.set('size', limit);
+    if (allFilters != null) {
+      for (let i = 0; i < allFilters.length; i++) {
+        params = params.append('filter', allFilters[i]);
+      }
+    }
 
     this.einsatzService.getPartialEinsaetze(params).subscribe((response: any) => {
       this.loading = false;
@@ -96,11 +107,11 @@ export class TableEinsatzComponent /* implements OnInit */ {
       this.dataSource._updateChangeSubscription();
 
       this.dataSource.paginator = this.paginator;
-  
+
     })
   }
 
-  public getPaginatorData(event?:PageEvent) {
+  public getPaginatorData(event?: PageEvent) {
     this.loading = true;
 
     let pageIndex = event.pageIndex;
@@ -110,11 +121,11 @@ export class TableEinsatzComponent /* implements OnInit */ {
 
     let previousSize = pageSize * pageIndex;
 
-    this.getNextData(previousSize, (pageIndex).toString(), pageSize.toString());
-    
+    this.getNextData(previousSize, (pageIndex).toString(), pageSize.toString(), this.einsaetzeFilter);
+
     return event;
   }
-  
+
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -128,10 +139,10 @@ export class TableEinsatzComponent /* implements OnInit */ {
     this.einsatzService.delete(id).subscribe(() => {
 //      this.initDependingOnInput();
       this.deleteEinsatzEvent.emit();
-      
+
       this.paginator.pageIndex = 0
-      this.getNextData(0, 0, this.paginator.pageSize);
-      
+      this.getNextData(0, 0, this.paginator.pageSize, this.einsaetzeFilter);
+
       this.showSuccessMsg = true;
       this.showErrorMsg = false;
     }, () => {
@@ -159,7 +170,7 @@ export class TableEinsatzComponent /* implements OnInit */ {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result) {
+      if (result) {
         this.deleteEinsatz(result)
       }
     });

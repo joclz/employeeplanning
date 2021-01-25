@@ -1,13 +1,5 @@
 package com.cegeka.employeeplanning.service;
 
-import static com.cegeka.employeeplanning.util.EmployeeplanningUtil.TEST_IMPORT;
-import static com.cegeka.employeeplanning.util.EmployeeplanningUtil.round;
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
-
 import com.cegeka.employeeplanning.data.Einsatz;
 import com.cegeka.employeeplanning.data.dto.EinsatzDTO;
 import com.cegeka.employeeplanning.data.dto.EinsatzSucheDTO;
@@ -17,11 +9,18 @@ import com.cegeka.employeeplanning.data.enums.Enums.MitarbeiterStatus;
 import com.cegeka.employeeplanning.data.util.EinsatzSuche;
 import com.cegeka.employeeplanning.repositories.EinsatzRepository;
 import com.cegeka.employeeplanning.util.EmployeeplanningUtil;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
+
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
+
+import static com.cegeka.employeeplanning.util.EmployeeplanningUtil.TEST_IMPORT;
+import static com.cegeka.employeeplanning.util.EmployeeplanningUtil.round;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @Sql(TEST_IMPORT)
@@ -83,7 +82,7 @@ public class EinsatzServiceTests {
     @Test
     public void test_findEinsaetzeBySuchkriterien_given_keine_expected_9() {
         EinsatzSuche einsatzSuche = new EinsatzSuche(null, null, null,
-                null, null, null, null, null);
+                null, null, null, null, null, null, null);
         Iterable<Einsatz> einsaetze = einsatzService.findEinsaetzeBySuchkriterien(einsatzSuche);
         assertThat(einsaetze.spliterator().getExactSizeIfKnown()).isEqualTo(9);
     }
@@ -91,7 +90,7 @@ public class EinsatzServiceTests {
     @Test
     public void test_findEinsaetzeBySuchkriterien_given_BeginnVon20201002_expected_4() {
         EinsatzSuche einsatzSuche = new EinsatzSuche(null, null, null,
-                null, EmployeeplanningUtil.parseDate("2020-10-02"), null, null, null);
+                null, EmployeeplanningUtil.parseDate("2020-10-02"), null, null, null, null, null);
         Iterable<Einsatz> einsaetze = einsatzService.findEinsaetzeBySuchkriterien(einsatzSuche);
         assertThat(einsaetze.spliterator().getExactSizeIfKnown()).isEqualTo(4);
     }
@@ -99,7 +98,7 @@ public class EinsatzServiceTests {
     @Test
     public void test_findEinsaetzeBySuchkriterien_given_BeginnBis20201002_expected_6() {
         EinsatzSuche einsatzSuche = new EinsatzSuche(null, null, null,
-                null, null, EmployeeplanningUtil.parseDate("2020-10-02"), null, null);
+                null, null, EmployeeplanningUtil.parseDate("2020-10-02"), null, null, null, null);
         Iterable<Einsatz> einsaetze = einsatzService.findEinsaetzeBySuchkriterien(einsatzSuche);
         assertThat(einsaetze.spliterator().getExactSizeIfKnown()).isEqualTo(6);
     }
@@ -107,7 +106,7 @@ public class EinsatzServiceTests {
     @Test
     public void test_findEinsaetzeBySuchkriterien_given_mAStatusSUBUNTERNEHMER_BeginnBis20201002_expected_2() {
         EinsatzSuche einsatzSuche = new EinsatzSuche(null, null, MitarbeiterStatus.SUBUNTERNEHMER,
-                null, null, EmployeeplanningUtil.parseDate("2020-10-02"), null, null);
+                null, null, EmployeeplanningUtil.parseDate("2020-10-02"), null, null, null, null);
         Iterable<Einsatz> einsaetze = einsatzService.findEinsaetzeBySuchkriterien(einsatzSuche);
         assertThat(einsaetze.spliterator().getExactSizeIfKnown()).isEqualTo(2);
     }
@@ -115,7 +114,7 @@ public class EinsatzServiceTests {
     @Test
     public void test_findEinsaetzeBySuchkriterien_given_mAStatusSUBUNTERNEHMER_StatusBEAUFTRAGT_BeginnBis20201002_expected_1() {
         EinsatzSuche einsatzSuche = new EinsatzSuche(null, null, MitarbeiterStatus.SUBUNTERNEHMER,
-                EinsatzStatus.BEAUFTRAGT, null, EmployeeplanningUtil.parseDate("2020-10-02"), null, null);
+                EinsatzStatus.BEAUFTRAGT, null, EmployeeplanningUtil.parseDate("2020-10-02"), null, null, null, null);
         Iterable<Einsatz> einsaetze = einsatzService.findEinsaetzeBySuchkriterien(einsatzSuche);
         assertThat(einsaetze.spliterator().getExactSizeIfKnown()).isEqualTo(1);
     }
@@ -123,7 +122,7 @@ public class EinsatzServiceTests {
     @Test
     public void test_findEinsaetzeBySuchkriterien_given_mAStatusANGESTELLT_BeginnBis20201002_expected_4() {
         EinsatzSuche einsatzSuche = new EinsatzSuche(null, null, MitarbeiterStatus.ANGESTELLT,
-                null, null, EmployeeplanningUtil.parseDate("2020-10-02"), null, null);
+                null, null, EmployeeplanningUtil.parseDate("2020-10-02"), null, null, null, null);
         Iterable<Einsatz> einsaetze = einsatzService.findEinsaetzeBySuchkriterien(einsatzSuche);
         assertThat(einsaetze.spliterator().getExactSizeIfKnown()).isEqualTo(4);
     }
@@ -131,7 +130,7 @@ public class EinsatzServiceTests {
     @Test
     public void test_findEinsaetzeBySuchkriterien_given_BeginnVon20201002_BeginnBis20201002_expected_1() {
         EinsatzSuche einsatzSuche = new EinsatzSuche(null, null, null,
-                null, EmployeeplanningUtil.parseDate("2020-10-02"), EmployeeplanningUtil.parseDate("2020-10-02"), null, null);
+                null, EmployeeplanningUtil.parseDate("2020-10-02"), EmployeeplanningUtil.parseDate("2020-10-02"), null, null, null, null);
         Iterable<Einsatz> einsaetze = einsatzService.findEinsaetzeBySuchkriterien(einsatzSuche);
         assertThat(einsaetze.spliterator().getExactSizeIfKnown()).isEqualTo(1);
     }
@@ -139,7 +138,7 @@ public class EinsatzServiceTests {
     @Test
     public void test_findEinsaetzeBySuchkriterien_given_EndeBis20201231_expected_4() {
         EinsatzSuche einsatzSuche = new EinsatzSuche(null, null, null,
-                null, null, null, null, EmployeeplanningUtil.parseDate("2020-12-31"));
+                null, null, null, null, EmployeeplanningUtil.parseDate("2020-12-31"), null, null);
         Iterable<Einsatz> einsaetze = einsatzService.findEinsaetzeBySuchkriterien(einsatzSuche);
         assertThat(einsaetze.spliterator().getExactSizeIfKnown()).isEqualTo(4);
     }
@@ -147,7 +146,7 @@ public class EinsatzServiceTests {
     @Test
     public void test_findEinsaetzeBySuchkriterien_given_EndeVon20201231_expected_7() {
         EinsatzSuche einsatzSuche = new EinsatzSuche(null, null, null,
-                null, null, null, EmployeeplanningUtil.parseDate("2020-12-31"), null);
+                null, null, null, EmployeeplanningUtil.parseDate("2020-12-31"), null, null, null);
         Iterable<Einsatz> einsaetze = einsatzService.findEinsaetzeBySuchkriterien(einsatzSuche);
         assertThat(einsaetze.spliterator().getExactSizeIfKnown()).isEqualTo(7);
     }
@@ -155,7 +154,7 @@ public class EinsatzServiceTests {
     @Test
     public void test_findEinsaetzeBySuchkriterien_given_EndeVon20201231_EndeBis20201231_expected_2() {
         EinsatzSuche einsatzSuche = new EinsatzSuche(null, null, null,
-                null, null, null, EmployeeplanningUtil.parseDate("2020-12-31"), EmployeeplanningUtil.parseDate("2020-12-31"));
+                null, null, null, EmployeeplanningUtil.parseDate("2020-12-31"), EmployeeplanningUtil.parseDate("2020-12-31"), null, null);
         Iterable<Einsatz> einsaetze = einsatzService.findEinsaetzeBySuchkriterien(einsatzSuche);
         assertThat(einsaetze.spliterator().getExactSizeIfKnown()).isEqualTo(2);
     }
@@ -163,7 +162,7 @@ public class EinsatzServiceTests {
     @Test
     public void test_findEinsaetzeBySuchkriterien_given_vertriebMa1_EndeBis20201231_expected_3() {
         EinsatzSuche einsatzSuche = new EinsatzSuche(1, null, null,
-                null, null, null, null, EmployeeplanningUtil.parseDate("2020-12-31"));
+                null, null, null, null, EmployeeplanningUtil.parseDate("2020-12-31"), null, null);
         Iterable<Einsatz> einsaetze = einsatzService.findEinsaetzeBySuchkriterien(einsatzSuche);
         assertThat(einsaetze.spliterator().getExactSizeIfKnown()).isEqualTo(3);
     }
@@ -171,7 +170,7 @@ public class EinsatzServiceTests {
     @Test
     public void test_findEinsaetzeBySuchkriterien_given_vertriebMa1_statusANGEBOTEN_EndeBis20201231_expected_1() {
         EinsatzSuche einsatzSuche = new EinsatzSuche(1, null, null,
-                EinsatzStatus.ANGEBOTEN, null, null, null, EmployeeplanningUtil.parseDate("2020-12-31"));
+                EinsatzStatus.ANGEBOTEN, null, null, null, EmployeeplanningUtil.parseDate("2020-12-31"), null, null);
         Iterable<Einsatz> einsaetze = einsatzService.findEinsaetzeBySuchkriterien(einsatzSuche);
         assertThat(einsaetze.spliterator().getExactSizeIfKnown()).isEqualTo(1);
     }
@@ -179,7 +178,7 @@ public class EinsatzServiceTests {
     @Test
     public void test_findEinsaetzeBySuchkriterien_given_vertriebMa1_statusANGEBOTEN_expected_2() {
         EinsatzSuche einsatzSuche = new EinsatzSuche(1, null, null,
-                EinsatzStatus.ANGEBOTEN, null, null, null, null);
+                EinsatzStatus.ANGEBOTEN, null, null, null, null, null, null);
         Iterable<Einsatz> einsaetze = einsatzService.findEinsaetzeBySuchkriterien(einsatzSuche);
         assertThat(einsaetze.spliterator().getExactSizeIfKnown()).isEqualTo(2);
     }
@@ -187,9 +186,25 @@ public class EinsatzServiceTests {
     @Test
     public void test_findEinsaetzeBySuchkriterien_given_vertriebMa1_Ma5_statusANGEBOTEN_expected_1() {
         EinsatzSuche einsatzSuche = new EinsatzSuche(1, 5, null,
-                EinsatzStatus.ANGEBOTEN, null, null, null, null);
+                EinsatzStatus.ANGEBOTEN, null, null, null, null, null, null);
         Iterable<Einsatz> einsaetze = einsatzService.findEinsaetzeBySuchkriterien(einsatzSuche);
         assertThat(einsaetze.spliterator().getExactSizeIfKnown()).isEqualTo(1);
+    }
+
+    @Test
+    public void test_findEinsaetzeBySuchkriterien_given_abWahrscheinlichkeit51_expected_3() {
+        EinsatzSuche einsatzSuche = new EinsatzSuche(null, null, null,
+                null, null, null, null, null, 51, null);
+        Iterable<Einsatz> einsaetze = einsatzService.findEinsaetzeBySuchkriterien(einsatzSuche);
+        assertThat(einsaetze.spliterator().getExactSizeIfKnown()).isEqualTo(3);
+    }
+
+    @Test
+    public void test_findEinsaetzeBySuchkriterien_given_bisWahrscheinlichkeit49_expected_3() {
+        EinsatzSuche einsatzSuche = new EinsatzSuche(null, null, null,
+                null, null, null, null, null, null, 49);
+        Iterable<Einsatz> einsaetze = einsatzService.findEinsaetzeBySuchkriterien(einsatzSuche);
+        assertThat(einsaetze.spliterator().getExactSizeIfKnown()).isEqualTo(4);
     }
 
     @Test
@@ -224,7 +239,7 @@ public class EinsatzServiceTests {
 
     @Test
     public void test_convertToEntity_givenMA2_MAV1_expected_correctValues() {
-        EinsatzDTO einsatzDTO = new EinsatzDTO(2,1, EinsatzStatus.ANGEBOTEN,
+        EinsatzDTO einsatzDTO = new EinsatzDTO(2, 1, EinsatzStatus.ANGEBOTEN,
                 EmployeeplanningUtil.parseDate("2020-09-01"), EmployeeplanningUtil.parseDate("2021-08-31"),
                 50, 20, 100,
                 "projektnummerNettime", "beauftragungsnummer");
@@ -246,7 +261,7 @@ public class EinsatzServiceTests {
 
     @Test
     public void test_convertToEntity_givenMA0_MAV0_expected_MaNullAndMavNull_But_remainingValuesCorrect() {
-        EinsatzDTO einsatzDTO = new EinsatzDTO(0,0, EinsatzStatus.ANGEBOTEN,
+        EinsatzDTO einsatzDTO = new EinsatzDTO(0, 0, EinsatzStatus.ANGEBOTEN,
                 EmployeeplanningUtil.parseDate("2020-09-01"), EmployeeplanningUtil.parseDate("2021-08-31"),
                 50, 20, 100,
                 "projektnummerNettime", "beauftragungsnummer");
@@ -265,9 +280,9 @@ public class EinsatzServiceTests {
 
     @Test
     public void test_convertToEntity_givenEinsatzSucheMitEnums_expected_correctValues() {
-        EinsatzSucheDTO einsatzSucheDTO = new EinsatzSucheDTO(1,1, "ANGESTELLT",
+        EinsatzSucheDTO einsatzSucheDTO = new EinsatzSucheDTO(1, 1, "ANGESTELLT",
                 "ANGEBOTEN", EmployeeplanningUtil.parseDate("2020-09-01"), EmployeeplanningUtil.parseDate("2021-08-31"),
-                EmployeeplanningUtil.parseDate("2020-09-01"), EmployeeplanningUtil.parseDate("2021-08-31"));
+                EmployeeplanningUtil.parseDate("2020-09-01"), EmployeeplanningUtil.parseDate("2021-08-31"), null, null);
         EinsatzSuche einsatzSuche = einsatzService.convertToEntity(einsatzSucheDTO);
         assertThat(einsatzSuche.getBeginnVon()).isEqualTo("2020-09-01");
         assertThat(einsatzSuche.getMitarbeiterStatus()).isEqualTo(MitarbeiterStatus.ANGESTELLT);
@@ -276,9 +291,9 @@ public class EinsatzServiceTests {
 
     @Test
     public void test_convertToEntity_givenEinsatzSucheOhneEnums_expected_NullValues() {
-        EinsatzSucheDTO einsatzSucheDTO = new EinsatzSucheDTO(1,1, "",
+        EinsatzSucheDTO einsatzSucheDTO = new EinsatzSucheDTO(1, 1, "",
                 "", EmployeeplanningUtil.parseDate("2020-09-01"), EmployeeplanningUtil.parseDate("2021-08-31"),
-                EmployeeplanningUtil.parseDate("2020-09-01"), EmployeeplanningUtil.parseDate("2021-08-31"));
+                EmployeeplanningUtil.parseDate("2020-09-01"), EmployeeplanningUtil.parseDate("2021-08-31"), null, null);
         EinsatzSuche einsatzSuche = einsatzService.convertToEntity(einsatzSucheDTO);
         assertThat(einsatzSuche.getBeginnVon()).isEqualTo("2020-09-01");
         assertThat(einsatzSuche.getMitarbeiterStatus()).isNull();
