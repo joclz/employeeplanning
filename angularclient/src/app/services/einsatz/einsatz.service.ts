@@ -7,6 +7,7 @@ import {Einsatz} from "../../models/einsatz/einsatz";
 import {EinsatzDTO} from "../../models/einsatz/einsatz-dto";
 import {PartialEinsaetzeDTO} from "../../models/einsatz/partialeinsaetze-dto";
 import {environment} from "../../../environments/environment";
+import {DatePipe} from "@angular/common";
 
 @Injectable({
   providedIn: 'root'
@@ -59,19 +60,36 @@ export class EinsatzService {
     if (einsatzSucheDTO.mitarbeiterVertriebId.toString() != '') {
       einsaetzeFilter.push(("mitarbeiterVertrieb.id::" + einsatzSucheDTO.mitarbeiterVertriebId.toString()));
     }
-    if (einsatzSucheDTO.einsatzStatus.toString() != '') {
+    if (einsatzSucheDTO.einsatzStatus != null && einsatzSucheDTO.einsatzStatus.toString() != '') {
       einsaetzeFilter.push("einsatzStatus::" + einsatzSucheDTO.einsatzStatus.toUpperCase());
     }
-    if(einsatzSucheDTO.mitarbeiterStatus.toString() != '') {
+    if (einsatzSucheDTO.mitarbeiterStatus != null && einsatzSucheDTO.mitarbeiterStatus.toString() != '') {
       einsaetzeFilter.push(("mitarbeiter.mitarbeiterStatus::" + einsatzSucheDTO.mitarbeiterStatus.toUpperCase()));
     }
-    if (einsatzSucheDTO.wahrscheinlichkeitVon.valueOf() != 0) {
+    if (einsatzSucheDTO.wahrscheinlichkeitVon != null && einsatzSucheDTO.wahrscheinlichkeitVon.valueOf() != 0) {
       einsaetzeFilter.push("wahrscheinlichkeit>=" + einsatzSucheDTO.wahrscheinlichkeitVon.valueOf());
     }
-    if (einsatzSucheDTO.wahrscheinlichkeitBis.valueOf() != 0) {
+    if (einsatzSucheDTO.wahrscheinlichkeitBis != null && einsatzSucheDTO.wahrscheinlichkeitBis.valueOf() != 0) {
       einsaetzeFilter.push("wahrscheinlichkeit<=" + einsatzSucheDTO.wahrscheinlichkeitBis.valueOf());
     }
+    if (einsatzSucheDTO.beginnVon != null && einsatzSucheDTO.beginnVon.valueOf() != 0) {
+      einsaetzeFilter.push("beginn>=" + this.dateformatter(einsatzSucheDTO.beginnVon));
+    }
+    if (einsatzSucheDTO.beginnBis != null && einsatzSucheDTO.beginnBis.valueOf() != 0) {
+      einsaetzeFilter.push("beginn<=" + this.dateformatter(einsatzSucheDTO.beginnBis));
+    }
+    if (einsatzSucheDTO.endeVon != null && einsatzSucheDTO.endeVon.valueOf() != 0) {
+      einsaetzeFilter.push("ende>=" + this.dateformatter(einsatzSucheDTO.endeVon));
+    }
+    if (einsatzSucheDTO.endeBis != null && einsatzSucheDTO.endeBis.valueOf() != 0) {
+      einsaetzeFilter.push("ende<=" + this.dateformatter(einsatzSucheDTO.endeBis));
+    }
     return einsaetzeFilter;
+  }
+
+  dateformatter(date: Date): String {
+    let datepipe = new DatePipe('en-US');
+    return datepipe.transform(date, 'dd-MM-yyyy')
   }
 
   public getEinsatzById(id: string): Observable<Einsatz[]> {
