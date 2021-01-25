@@ -2,19 +2,19 @@
 
   <mat-tab label="Angeboten">
     <ng-template matTabContent>
-      <app-table-einsatz *ngIf="isEinsatzAngeboten" [einsaetze]=einsaetzeAngebotenList></app-table-einsatz>
+      <app-table-einsatz *ngIf="isEinsatzAngeboten" [einsaetze]=einsaetzeAngebotenList [einsaetzeFilter]="einsaetzeFilter"></app-table-einsatz>
     </ng-template>
   </mat-tab>
 
   <mat-tab label="Beauftragt">
     <ng-template matTabContent>
-      <app-table-einsatz *ngIf="isEinsatzBeauftragt" [einsaetze]=einsaetzeBeauftragtList></app-table-einsatz>
+      <app-table-einsatz *ngIf="isEinsatzBeauftragt" [einsaetze]=einsaetzeBeauftragtList [einsaetzeFilter]="einsaetzeFilter"></app-table-einsatz>
     </ng-template>
   </mat-tab>
 
   <mat-tab label="Abgelehnt">
     <ng-template matTabContent>
-      <app-table-einsatz *ngIf="isEinsatzAbgelehnt" [einsaetze]=einsaetzeAbgelehntList></app-table-einsatz>
+      <app-table-einsatz *ngIf="isEinsatzAbgelehnt" [einsaetze]=einsaetzeAbgelehntList [einsaetzeFilter]="einsaetzeFilter"></app-table-einsatz>
     </ng-template>
   </mat-tab>
 
