@@ -26,9 +26,9 @@ public class FindAllBuilder<E, R extends PagingAndSortingRepository<E, ?> & JpaS
         this.repository = repository;
     }
 
-    public List<E> findAll(int page, int limit)
+    public List<E> findAll(int page, int limit, Sort sort)
     {
-        return new LinkedList<E>(repository.findAll(filters, PageRequest.of(page,  limit, sort)).getContent());
+        return new LinkedList<E>(repository.findAll(filters, PageRequest.of(page, limit, sort)).getContent());
     }
 
     public int count()

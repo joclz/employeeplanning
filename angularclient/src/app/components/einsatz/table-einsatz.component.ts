@@ -10,7 +10,6 @@ import {MatDialog} from "@angular/material/dialog";
 import {DeleteEinsatzDialogComponent} from "./delete-einsatz-dialog.component";
 import {HttpParams} from '@angular/common/http';
 
-
 @Component({
   selector: 'app-table-einsatz',
   templateUrl: './table-einsatz.component.html',
@@ -35,6 +34,9 @@ export class TableEinsatzComponent /* implements OnInit */ {
   loading: boolean = true;
 
   pageEvent: PageEvent;
+  
+  sortActive: string;
+  sortDirection: string;
 
   showSuccessMsg: boolean = false;
   showErrorMsg: boolean = false;
@@ -69,6 +71,10 @@ export class TableEinsatzComponent /* implements OnInit */ {
     let params = new HttpParams();
     params = params.set('page', offset);
     params = params.set('size', limit);
+    if (this.sortActive != null) {
+      params = params.set('sortActive', this.sortActive);
+      params = params.set('sortDirection', this.sortDirection);
+    }
     if (allFilters != null) {
       for (let i = 0; i < allFilters.length; i++) {
         params = params.append('filter', allFilters[i]);
@@ -89,6 +95,10 @@ export class TableEinsatzComponent /* implements OnInit */ {
     let params = new HttpParams();
     params = params.set('page', offset);
     params = params.set('size', limit);
+    if (this.sortActive != null) {
+      params = params.set('sortActive', this.sortActive);
+      params = params.set('sortDirection', this.sortDirection);
+    }
     if (allFilters != null) {
       for (let i = 0; i < allFilters.length; i++) {
         params = params.append('filter', allFilters[i]);
@@ -124,6 +134,16 @@ export class TableEinsatzComponent /* implements OnInit */ {
     this.getNextData(previousSize, (pageIndex).toString(), pageSize.toString(), this.einsaetzeFilter);
 
     return event;
+  }
+
+  public sortData(sort: MatSort) {
+    this.sortActive = sort.active;
+    this.sortDirection = sort.direction;
+    
+    this.paginator.pageIndex = 0
+    this.getNextData(0, 0, this.paginator.pageSize, this.einsaetzeFilter);
+      
+    return sort;
   }
 
   applyFilter(event: Event) {
