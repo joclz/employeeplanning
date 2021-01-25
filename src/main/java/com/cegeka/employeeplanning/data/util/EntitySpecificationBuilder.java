@@ -31,53 +31,111 @@ public class EntitySpecificationBuilder<T>
             for (FilterOperation op : FilterOperation.values()) {
                 int index = str.indexOf(op.getOperationName());
                 if (index > 0) {
-                    String key = str.substring(0, index);
+                    String keyConcat = str.substring(0, index);
                     String value = str.substring(index + op.getOperationName().length());
                     String operation = op.getOperationName();
-                    {
-                        // TODO. Joins
 
+                    int indexDot = keyConcat.indexOf(".");
+                    String key;
+                    String table;
+                    if (indexDot > 0)
+                    {
+                        table = keyConcat.substring(0,indexDot);
+                        key = keyConcat.substring(indexDot+1);
+                    }
+                    else
+                    {
+                        key = keyConcat;
+                        table = null;
+                    }
+
+                    {
                         switch (operation){
-                        // TODO DAtums
+                        // TODO Datums
 
                         case "::":
-                           return (Specification<T>) (root, query, cb) ->
-                              cb.equal(root.get(key),
+                           return (Specification<T>) (root, query, cb) -> {
+                              if (table != null)
+                              {
+                                  return cb.equal(root.join(table).get(key),
+                                          castToRequiredType(root.join(table).get(key).getJavaType(),
+                                                             value.toString()));
+                              }
+                              return cb.equal(root.get(key),
                                castToRequiredType(root.get(key).getJavaType(),
                                                   value.toString()));
+                           };
 
                         case ">":
-                           return (Specification<T>) (root, query, cb) ->
-                              cb.gt(root.get(key),
+                           return (Specification<T>) (root, query, cb) -> {
+                               if (table != null)
+                               {
+                                   return cb.gt(root.join(table).get(key),
+                                           (Number) castToRequiredType(
+                                                  root.join(table).get(key).getJavaType(),
+                                                  value.toString()));
+                               }
+                               return cb.gt(root.get(key),
                                (Number) castToRequiredType(
                                       root.get(key).getJavaType(),
                                       value.toString()));
+                           };
 
                         case ">=":
-                            return (Specification<T>) (root, query, cb) ->
-                               cb.ge(root.get(key),
+                            return (Specification<T>) (root, query, cb) -> {
+                                if (table != null)
+                                {
+                                    return cb.ge(root.join(table).get(key),
+                                            (Number) castToRequiredType(
+                                                   root.join(table).get(key).getJavaType(),
+                                                   value.toString()));
+                                }
+                                return cb.ge(root.get(key),
                                 (Number) castToRequiredType(
                                        root.get(key).getJavaType(),
                                        value.toString()));
+                            };
 
                         case "<":
-                           return (Specification<T>) (root, query, cb) ->
-                              cb.lt(root.get(key),
+                           return (Specification<T>) (root, query, cb) -> {
+                               if (table != null)
+                               {
+                                   return cb.lt(root.join(table).get(key),
+                                           (Number) castToRequiredType(
+                                                  root.join(table).get(key).getJavaType(),
+                                                  value.toString()));
+                               }
+                               return cb.lt(root.get(key),
                                (Number) castToRequiredType(
                                       root.get(key).getJavaType(),
                                       value.toString()));
+                           };
 
                         case "<=":
-                            return (Specification<T>) (root, query, cb) ->
-                               cb.le(root.get(key),
+                            return (Specification<T>) (root, query, cb) -> {
+                                if (table != null)
+                                {
+                                    return cb.le(root.join(table).get(key),
+                                            (Number) castToRequiredType(
+                                                   root.join(table).get(key).getJavaType(),
+                                                   value.toString()));
+                                }
+                                return cb.le(root.get(key),
                                 (Number) castToRequiredType(
                                        root.get(key).getJavaType(),
                                        value.toString()));
+                            };
 
                         case ":>":
-                          return (Specification<T>) (root, query, cb) ->
-                              cb.like(root.get(key),
+                          return (Specification<T>) (root, query, cb) -> {
+                              if (table != null)
+                              {
+                                  return cb.like(root.join(table).get(key),
+                                          "%"+value.toString()+"%");
+                              }
+                              return cb.like(root.get(key),
                                               "%"+value.toString()+"%");
+                          };
 
 
                         default:
