@@ -9,7 +9,7 @@
 
   <ng-template #table>
 <div class="einsatz-container">
-  <table mat-table [dataSource]="dataSource" class="tableEinsatz" matSort>
+  <table mat-table [dataSource]="dataSource" class="tableEinsatz" matSort (matSortChange)="sortData($event)">
 
     <!-- ID Column -->
     <ng-container matColumnDef="id">

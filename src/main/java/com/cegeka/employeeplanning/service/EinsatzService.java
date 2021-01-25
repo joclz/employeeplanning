@@ -1,6 +1,12 @@
 package com.cegeka.employeeplanning.service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.Optional;
 
 import com.cegeka.employeeplanning.data.Einsatz;
 import com.cegeka.employeeplanning.data.Mitarbeiter;
@@ -21,6 +27,8 @@ import com.cegeka.employeeplanning.util.EmployeeplanningUtil;
 import org.assertj.core.util.VisibleForTesting;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -155,7 +163,20 @@ public class EinsatzService {
     {
         PartialEinsaetzeDTO partialEinsaetze = new PartialEinsaetzeDTO();
 
-        partialEinsaetze.setEinsaetze(FindAllBuilder.usingRepository(einsatzRepository).filterBy(itemCriteria.getFilter()).findAll(itemCriteria.getPage(),  itemCriteria.getSize()));
+        Sort sort = Sort.unsorted();;
+
+        if ((itemCriteria.getSortActive() != null) && (itemCriteria.getSortActive().length() > 0))
+        {
+            Direction direction = Sort.Direction.ASC;
+            if (itemCriteria.getSortDirection().compareToIgnoreCase("desc") == 0)
+            {
+                direction = Sort.Direction.DESC;
+            }
+
+            sort = Sort.by(direction, itemCriteria.getSortActive());
+        }
+
+        partialEinsaetze.setEinsaetze(FindAllBuilder.usingRepository(einsatzRepository).filterBy(itemCriteria.getFilter()).findAll(itemCriteria.getPage(), itemCriteria.getSize(), sort));
 
         partialEinsaetze.setAnzahl(FindAllBuilder.usingRepository(einsatzRepository).filterBy(itemCriteria.getFilter()).count());
 
