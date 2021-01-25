@@ -32,8 +32,10 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
+import java.util.Optional;
+
 @SpringBootTest
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(addFilters = false)
 @Sql(TEST_IMPORT)
 public class EmployeeplanningControllerTests {
     @Autowired
@@ -54,7 +56,7 @@ public class EmployeeplanningControllerTests {
         }
     }
 
-    // @Test
+    @Test
     public void test_listMitarbeiter_Expected_CorrectValuesAndNumber7() throws Exception {
         MockHttpServletRequestBuilder requestBuilder = get("/listMitarbeiter");
         ResultActions perform = this.mockMvc.perform(requestBuilder);
@@ -71,7 +73,7 @@ public class EmployeeplanningControllerTests {
 
     @Test
     public void test_addMitarbeiterMitEinzelnenWerten_Expected_CorrectValuesAndNumber8() throws Exception {
-        MultiValueMap multiValueMap = new LinkedMultiValueMap<>();
+        MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<>();
         multiValueMap.add("vorname", "Hannes");
         multiValueMap.add("name", "Wolf");
         multiValueMap.add("status", Enums.MitarbeiterStatus.ANGESTELLT.name());
@@ -130,7 +132,9 @@ public class EmployeeplanningControllerTests {
 
     @Test
     public void test_updateMitarbeiter_Expected_newValue() throws Exception {
-        Mitarbeiter mitarbeiter = mitarbeiterRepository.findById(Integer.valueOf(1)).get();
+        final Optional<Mitarbeiter> mitarbeiter1 = mitarbeiterRepository.findById(1);
+        assertThat(mitarbeiter1.isPresent()).isTrue();
+        Mitarbeiter mitarbeiter = mitarbeiter1.get();
         double neuerStundensatz = mitarbeiter.getStundensatzEK()*2;
         mitarbeiter.setStundensatzEK(neuerStundensatz);
 
@@ -140,14 +144,18 @@ public class EmployeeplanningControllerTests {
         ResultActions perform = this.mockMvc.perform(requestBuilder);
         perform.andExpect(status().isOk());
 
-        Mitarbeiter mitarbeiterNeu = mitarbeiterRepository.findById(Integer.valueOf(1)).get();
+        final Optional<Mitarbeiter> mitarbeiterNeu1 = mitarbeiterRepository.findById(1);
+        assertThat(mitarbeiterNeu1.isPresent()).isTrue();
+        Mitarbeiter mitarbeiterNeu = mitarbeiterNeu1.get();
         assertThat(mitarbeiterNeu.getStundensatzEK()).isEqualTo(neuerStundensatz);
     }
 
     @Test
     public void test_updateMitarbeiterId_Expected_Status404() throws Exception {
-        Mitarbeiter mitarbeiter = mitarbeiterRepository.findById(Integer.valueOf(1)).get();
-        mitarbeiter.setId(Integer.valueOf(99));
+        final Optional<Mitarbeiter> mitarbeiter1 = mitarbeiterRepository.findById(1);
+        assertThat(mitarbeiter1.isPresent()).isTrue();
+        Mitarbeiter mitarbeiter = mitarbeiter1.get();
+        mitarbeiter.setId(99);
 
         MockHttpServletRequestBuilder requestBuilder = post("/updateMitarbeiter")
                 .content(asJsonString(mitarbeiter)).contentType(MediaType.APPLICATION_JSON)
@@ -158,7 +166,9 @@ public class EmployeeplanningControllerTests {
 
     @Test
     public void test_updateMitarbeiterVertrieb_Expected_newValue() throws Exception {
-        MitarbeiterVertrieb mitarbeiterVertrieb = mitarbeiterVertriebRepository.findById(Integer.valueOf(1)).get();
+        final Optional<MitarbeiterVertrieb> mitarbeiterVertrieb1 = mitarbeiterVertriebRepository.findById(1);
+        assertThat(mitarbeiterVertrieb1.isPresent()).isTrue();
+        MitarbeiterVertrieb mitarbeiterVertrieb = mitarbeiterVertrieb1.get();
         String doppelname = mitarbeiterVertrieb.getVorname() + " Hans";
         mitarbeiterVertrieb.setVorname(doppelname);
 
@@ -168,14 +178,18 @@ public class EmployeeplanningControllerTests {
         ResultActions perform = this.mockMvc.perform(requestBuilder);
         perform.andExpect(status().isOk());
 
-        MitarbeiterVertrieb mitarbeiterVertriebNeu = mitarbeiterVertriebRepository.findById(Integer.valueOf(1)).get();
+        final Optional<MitarbeiterVertrieb> mitarbeiterVertriebNeu1 = mitarbeiterVertriebRepository.findById(1);
+        assertThat(mitarbeiterVertriebNeu1.isPresent()).isTrue();
+        MitarbeiterVertrieb mitarbeiterVertriebNeu = mitarbeiterVertriebNeu1.get();
         assertThat(mitarbeiterVertriebNeu.getVorname()).isEqualTo(doppelname);
     }
 
     @Test
     public void test_updateMitarbeiterVertriebId_Expected_Status404() throws Exception {
-        MitarbeiterVertrieb mitarbeiterVertrieb = mitarbeiterVertriebRepository.findById(Integer.valueOf(1)).get();
-        mitarbeiterVertrieb.setId(Integer.valueOf(99));
+        final Optional<MitarbeiterVertrieb> mitarbeiterVertrieb1 = mitarbeiterVertriebRepository.findById(1);
+        assertThat(mitarbeiterVertrieb1.isPresent()).isTrue();
+        MitarbeiterVertrieb mitarbeiterVertrieb = mitarbeiterVertrieb1.get();
+        mitarbeiterVertrieb.setId(99);
 
         MockHttpServletRequestBuilder requestBuilder = post("/updateMitarbeiterVertrieb")
                 .content(asJsonString(mitarbeiterVertrieb)).contentType(MediaType.APPLICATION_JSON)
@@ -200,7 +214,9 @@ public class EmployeeplanningControllerTests {
 
     @Test
     public void test_updateEinsatz_Expected_newValue() throws Exception {
-        Einsatz einsatz = einsatzRepository.findById(Integer.valueOf(1)).get();
+        final Optional<Einsatz> einsatz1 = einsatzRepository.findById(1);
+        assertThat(einsatz1.isPresent()).isTrue();
+        Einsatz einsatz = einsatz1.get();
         double neuerStundensatzVK = einsatz.getStundensatzVK()*2;
         EinsatzDTO neuerEinsatz = convertFromEntity(einsatz);
         neuerEinsatz.setStundensatzVK(neuerStundensatzVK);
@@ -211,15 +227,19 @@ public class EmployeeplanningControllerTests {
         ResultActions perform = this.mockMvc.perform(requestBuilder);
         perform.andExpect(status().isOk());
 
-        Einsatz einsatzNeu = einsatzRepository.findById(Integer.valueOf(1)).get();
+        final Optional<Einsatz> einsatzNeu1 = einsatzRepository.findById(1);
+        assertThat(einsatzNeu1.isPresent()).isTrue();
+        Einsatz einsatzNeu = einsatzNeu1.get();
         assertThat(einsatzNeu.getStundensatzVK()).isEqualTo(neuerStundensatzVK);
     }
 
     @Test
     public void test_updateEinsatzId_Expected_Status404() throws Exception {
-        Einsatz einsatz = einsatzRepository.findById(Integer.valueOf(1)).get();
+        final Optional<Einsatz> einsatz1 = einsatzRepository.findById(1);
+        assertThat(einsatz1.isPresent()).isTrue();
+        Einsatz einsatz = einsatz1.get();
         EinsatzDTO neuerEinsatz = convertFromEntity(einsatz);
-        neuerEinsatz.setId(Integer.valueOf(99));
+        neuerEinsatz.setId(99);
 
         MockHttpServletRequestBuilder requestBuilder = post("/updateEinsatz")
                 .content(asJsonString(neuerEinsatz)).contentType(MediaType.APPLICATION_JSON)
