@@ -16,13 +16,16 @@ public class EinsatzSucheDTO {
     Date beginnBis;
     Date endeVon;
     Date endeBis;
+    Integer wahrscheinlichkeitVon;
+    Integer wahrscheinlichkeitBis;
 
     public EinsatzSucheDTO(Integer mitarbeiterVertriebId,
                            Integer mitarbeiterId,
                            String mitarbeiterStatus,
                            String einsatzStatus,
                            Date beginnVon, Date beginnBis,
-                           Date endeVon, Date endeBis)
+                           Date endeVon, Date endeBis,
+                           Integer wahrscheinlichkeitVon, Integer wahrscheinlichkeitBis)
     {
         this.mitarbeiterVertriebId = mitarbeiterVertriebId;
         this.mitarbeiterId = mitarbeiterId;
@@ -32,5 +35,7 @@ public class EinsatzSucheDTO {
         this.beginnBis = beginnBis;
         this.endeVon = endeVon;
         this.endeBis = endeBis;
+        this.wahrscheinlichkeitVon = wahrscheinlichkeitVon;
+        this.wahrscheinlichkeitBis = wahrscheinlichkeitBis;
     }
 }

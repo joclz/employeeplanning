@@ -1,7 +1,10 @@
 package com.cegeka.employeeplanning.service;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,6 +13,7 @@ import com.cegeka.employeeplanning.data.Mitarbeiter;
 import com.cegeka.employeeplanning.data.MitarbeiterVertrieb;
 import com.cegeka.employeeplanning.data.dto.EinsatzDTO;
 import com.cegeka.employeeplanning.data.dto.EinsatzSucheDTO;
+import com.cegeka.employeeplanning.data.dto.PartialEinsaetzeDTO;
 import com.cegeka.employeeplanning.data.enums.Enums.EinsatzStatus;
 import com.cegeka.employeeplanning.data.util.EinsatzSuche;
 import com.cegeka.employeeplanning.data.util.FindAllBuilder;
@@ -23,6 +27,8 @@ import com.cegeka.employeeplanning.util.EmployeeplanningUtil;
 import org.assertj.core.util.VisibleForTesting;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -72,8 +78,7 @@ public class EinsatzService {
 
     public EinsatzSuche convertToEntity(EinsatzSucheDTO einsatzSucheDTO) {
         ModelMapper modelMapper = new ModelMapper();
-        EinsatzSuche einsatzSuche = modelMapper.map(einsatzSucheDTO, EinsatzSuche.class);
-        return einsatzSuche;
+        return modelMapper.map(einsatzSucheDTO, EinsatzSuche.class);
     }
 
     /**
@@ -149,12 +154,33 @@ public class EinsatzService {
                 einsatzSuche.getBeginnVon(),
                 einsatzSuche.getBeginnBis(),
                 einsatzSuche.getEndeVon(),
-                einsatzSuche.getEndeBis());
+                einsatzSuche.getEndeBis(),
+                einsatzSuche.getWahrscheinlichkeitVon(),
+                einsatzSuche.getWahrscheinlichkeitBis());
     }
 
-    public List<Einsatz> getPartialEinsaetze(ItemCriteria itemCriteria)
+    public PartialEinsaetzeDTO getPartialEinsaetze(ItemCriteria itemCriteria)
     {
-        return (FindAllBuilder.usingRepository(einsatzRepository).filterBy(itemCriteria.getFilter()).findAll(itemCriteria.getPage(),  itemCriteria.getSize()));
+        PartialEinsaetzeDTO partialEinsaetze = new PartialEinsaetzeDTO();
+
+        Sort sort = Sort.unsorted();;
+
+        if ((itemCriteria.getSortActive() != null) && (itemCriteria.getSortActive().length() > 0))
+        {
+            Direction direction = Sort.Direction.ASC;
+            if (itemCriteria.getSortDirection().compareToIgnoreCase("desc") == 0)
+            {
+                direction = Sort.Direction.DESC;
+            }
+
+            sort = Sort.by(direction, itemCriteria.getSortActive());
+        }
+
+        partialEinsaetze.setEinsaetze(FindAllBuilder.usingRepository(einsatzRepository).filterBy(itemCriteria.getFilter()).findAll(itemCriteria.getPage(), itemCriteria.getSize(), sort));
+
+        partialEinsaetze.setAnzahl(FindAllBuilder.usingRepository(einsatzRepository).filterBy(itemCriteria.getFilter()).count());
+
+        return partialEinsaetze;
     }
 
     /**
@@ -166,9 +192,27 @@ public class EinsatzService {
         return getDeckungsbeitrag(today);
     }
 
+    /**
+     * Frage: Welchen Umsatz bzw. Deckungsbeiträge haben wir über das komplette Jahr
+     * Es werden die Deckungsbeiträge aller Beauftragten Einsätze addiert und für die 12 Monate zurückgegeben.
+     */
+    public List<Double> getDeckungsbeitragJahr() {
+        List<Double> deckungsbeitragJahr = new ArrayList<>();
+        Date dateActual = EmployeeplanningUtil.today();
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(dateActual);
+        for (int monat = 0; monat < 12; monat ++) {
+            calendar.set(Calendar.MONTH, monat);
+            dateActual = calendar.getTime();
+            deckungsbeitragJahr.add(getDeckungsbeitrag(dateActual));
+        }
+        return deckungsbeitragJahr;
+    }
+
     @VisibleForTesting
     public double getDeckungsbeitrag(Date today) {
-        EinsatzSuche einsatzSuche = new EinsatzSuche(null, null, null, EinsatzStatus.BEAUFTRAGT, null, today, today, null);
+        EinsatzSuche einsatzSuche = new EinsatzSuche(null, null, null,
+                EinsatzStatus.BEAUFTRAGT, null, today, today, null, null, null);
         Iterable<Einsatz> einsaetze = findEinsaetzeBySuchkriterien(einsatzSuche);
         double summeDeckungsbeitrag = 0.;
         for (Einsatz einsatz : einsaetze) {

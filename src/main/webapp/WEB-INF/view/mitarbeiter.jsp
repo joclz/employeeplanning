@@ -59,6 +59,10 @@
 <form action="<%=request.getContextPath()%>/getDeckungsbeitrag" method="GET">
     <button>Welchen Umsatz bzw. Deckungsbeitrag haben wir aktuell</button>
 </form>
+<br>
+<form action="/getDeckungsbeitragJahr" method="GET">
+    <button>Welchen Umsatz bzw. Deckungsbeitrag haben wir übers Jahr</button>
+</form>
 <!--
 <hr>
 <form action="/addMitarbeiterMitEinzelnenWerten" method="POST">

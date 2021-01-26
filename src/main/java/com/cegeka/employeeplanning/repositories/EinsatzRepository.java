@@ -29,6 +29,8 @@ public interface EinsatzRepository extends PagingAndSortingRepository<Einsatz, I
 
     Iterable<Einsatz> findEinsaetzeByEndeLessThanEqual(Date ende);
 
+    Iterable<Einsatz> findEinsaetzeByEndeGreaterThanEqualAndMitarbeiter(Date ende, Optional<Mitarbeiter> mitarbeiter);
+
     Iterable<Einsatz> findEinsaetzeByMitarbeiter_MitarbeiterStatus(Enums.MitarbeiterStatus status);
 
     @Query(
@@ -41,6 +43,8 @@ public interface EinsatzRepository extends PagingAndSortingRepository<Einsatz, I
             + "  AND (e.beginn <= :beginnBis or :beginnBis is null)"
             + "  AND (e.ende >= :endeVon or :endeVon is null)"
             + "  AND (e.ende <= :endeBis or :endeBis is null)"
+            + "  AND (e.wahrscheinlichkeit >= :wahrscheinlichkeitVon or :wahrscheinlichkeitVon is null)"
+            + "  AND (e.wahrscheinlichkeit <= :wahrscheinlichkeitBis or :wahrscheinlichkeitBis is null)"
     )
     Iterable<Einsatz> findEinsaetzeBySuchkriterien(
             @Param("mitarbeitervertriebId") Integer mitarbeitervertriebId,
@@ -50,5 +54,8 @@ public interface EinsatzRepository extends PagingAndSortingRepository<Einsatz, I
             @Param("beginnVon") Date beginnVon,
             @Param("beginnBis") Date beginnBis,
             @Param("endeVon") Date endeVon,
-            @Param("endeBis") Date endeBis);
+            @Param("endeBis") Date endeBis,
+            @Param("wahrscheinlichkeitVon") Integer wahrscheinlichkeitVon,
+            @Param("wahrscheinlichkeitBis") Integer wahrscheinlichkeitBis
+    );
 }

@@ -24,9 +24,9 @@ export class AddEinsatzComponent implements OnInit {
   einsatzStatus = new FormControl('', [Validators.required]);
   beginn = new FormControl('', [Validators.required]);
   ende = new FormControl('', [Validators.required]);
-  wahrscheinlichkeit = new FormControl('', [Validators.required]);
-  zusatzkostenReise = new FormControl('', [Validators.required]);
-  stundensatzVK = new FormControl('', [Validators.required]);
+  wahrscheinlichkeit = new FormControl('', [Validators.required, Validators.pattern('^[0-9]+$')]);
+  zusatzkostenReise = new FormControl('', [Validators.required, Validators.pattern('^[0-9]+([\\.][0-9]+)?$')]);
+  stundensatzVK = new FormControl('', [Validators.required, Validators.pattern('^[0-9]+([\\.][0-9]+)?$')]);
   projektnummerNettime = new FormControl('', [Validators.required]);
   beauftragungsnummer = new FormControl('', [Validators.required]);
 
@@ -63,10 +63,10 @@ export class AddEinsatzComponent implements OnInit {
     this.einsatzService.save(einsatzDTO).subscribe(() => {
       this.formRef.resetForm()
       this.showSuccessMsg = true;
-      this.showErrorMsg = false; 
+      this.showErrorMsg = false;
     }, (err) => {
        this.showSuccessMsg = false;
-       this.showErrorMsg = true; 
+       this.showErrorMsg = true;
     });
   }
 

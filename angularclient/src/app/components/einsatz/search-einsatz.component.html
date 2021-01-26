@@ -2,19 +2,19 @@
 
   <mat-tab label="Angeboten">
     <ng-template matTabContent>
-      <app-table-einsatz *ngIf="isEinsatzAngeboten" [einsaetze]=einsaetzeAngebotenList></app-table-einsatz>
+      <app-table-einsatz *ngIf="isEinsatzAngeboten" [einsaetze]=einsaetzeAngebotenList [einsaetzeFilter]="einsaetzeFilter"></app-table-einsatz>
     </ng-template>
   </mat-tab>
 
   <mat-tab label="Beauftragt">
     <ng-template matTabContent>
-      <app-table-einsatz *ngIf="isEinsatzBeauftragt" [einsaetze]=einsaetzeBeauftragtList></app-table-einsatz>
+      <app-table-einsatz *ngIf="isEinsatzBeauftragt" [einsaetze]=einsaetzeBeauftragtList [einsaetzeFilter]="einsaetzeFilter"></app-table-einsatz>
     </ng-template>
   </mat-tab>
 
   <mat-tab label="Abgelehnt">
     <ng-template matTabContent>
-      <app-table-einsatz *ngIf="isEinsatzAbgelehnt" [einsaetze]=einsaetzeAbgelehntList></app-table-einsatz>
+      <app-table-einsatz *ngIf="isEinsatzAbgelehnt" [einsaetze]=einsaetzeAbgelehntList [einsaetzeFilter]="einsaetzeFilter"></app-table-einsatz>
     </ng-template>
   </mat-tab>
 
@@ -117,6 +117,16 @@
         <mat-datepicker #endeBisPicker></mat-datepicker>
       </mat-form-field>
 
+      <mat-form-field appearance="fill" class="half-width">
+        <mat-label>Wahrscheinlichkeit Von</mat-label>
+        <input matInput formControlName="wahrscheinlichkeitVon" placeholder="0">
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="half-width">
+        <mat-label>Wahrscheinlichkeit Bis</mat-label>
+        <input matInput formControlName="wahrscheinlichkeitBis" placeholder="100">
+      </mat-form-field>
+
       <button mat-raised-button color="primary" type="submit" class="button, half-width">
         Suche
       </button>
@@ -126,6 +136,6 @@
       </button>
     </form>
 
-    <app-table-einsatz *ngIf="isSearch" [einsaetze]="einsaetzeSearchList"></app-table-einsatz>
+    <app-table-einsatz *ngIf="isSearch" [einsaetze]="einsaetzeSearchList" [einsaetzeFilter]="einsaetzeFilter"></app-table-einsatz>
   </mat-tab>
 </mat-tab-group>

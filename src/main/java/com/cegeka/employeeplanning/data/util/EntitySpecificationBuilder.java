@@ -1,5 +1,8 @@
 package com.cegeka.employeeplanning.data.util;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -31,13 +34,177 @@ public class EntitySpecificationBuilder<T>
             for (FilterOperation op : FilterOperation.values()) {
                 int index = str.indexOf(op.getOperationName());
                 if (index > 0) {
-                    String key = str.substring(0, index);
+                    String keyConcat = str.substring(0, index);
                     String value = str.substring(index + op.getOperationName().length());
-                    return (Specification<T>) (root, query, cb) -> op.build(cb, root, key, value);
+                    String operation = op.getOperationName();
+
+                    int indexDot = keyConcat.indexOf(".");
+                    String key;
+                    String table;
+                    if (indexDot > 0)
+                    {
+                        table = keyConcat.substring(0,indexDot);
+                        key = keyConcat.substring(indexDot+1);
+                    }
+                    else
+                    {
+                        key = keyConcat;
+                        table = null;
+                    }
+
+                    {
+                        switch (operation){
+
+                        case "::":
+                           return (Specification<T>) (root, query, cb) -> {
+                              if (table != null)
+                              {
+                                  return cb.equal(root.join(table).get(key),
+                                          castToRequiredType(root.join(table).get(key).getJavaType(),
+                                                             value.toString()));
+                              }
+                              if (root.get(key).getJavaType().isAssignableFrom(Date.class))
+                              {
+                                  Date dateInput = createDateInput(value);
+                                  return cb.equal(root.get(key), dateInput);
+                              }
+                              return cb.equal(root.get(key),
+                               castToRequiredType(root.get(key).getJavaType(),
+                                                  value.toString()));
+                           };
+
+                        case ">":
+                           return (Specification<T>) (root, query, cb) -> {
+                               if (table != null)
+                               {
+                                   return cb.gt(root.join(table).get(key),
+                                           (Number) castToRequiredType(
+                                                  root.join(table).get(key).getJavaType(),
+                                                  value.toString()));
+                               }
+                               if (root.get(key).getJavaType().isAssignableFrom(Date.class))
+                               {
+                                   Date dateInput = createDateInput(value);
+                                   return cb.greaterThan(root.get(key), dateInput);
+                               }
+                               return cb.gt(root.get(key),
+                               (Number) castToRequiredType(
+                                      root.get(key).getJavaType(),
+                                      value.toString()));
+                           };
+
+                        case ">=":
+                            return (Specification<T>) (root, query, cb) -> {
+                                if (table != null)
+                                {
+                                    return cb.ge(root.join(table).get(key),
+                                            (Number) castToRequiredType(
+                                                   root.join(table).get(key).getJavaType(),
+                                                   value.toString()));
+                                }
+                                if (root.get(key).getJavaType().isAssignableFrom(Date.class))
+                                {
+                                    Date dateInput = createDateInput(value);
+                                    return cb.greaterThanOrEqualTo(root.get(key), dateInput);
+                                }
+                                return cb.ge(root.get(key),
+                                (Number) castToRequiredType(
+                                       root.get(key).getJavaType(),
+                                       value.toString()));
+                            };
+
+                        case "<":
+                           return (Specification<T>) (root, query, cb) -> {
+                               if (table != null)
+                               {
+                                   return cb.lt(root.join(table).get(key),
+                                           (Number) castToRequiredType(
+                                                  root.join(table).get(key).getJavaType(),
+                                                  value.toString()));
+                               }
+                               if (root.get(key).getJavaType().isAssignableFrom(Date.class))
+                               {
+                                   Date dateInput = createDateInput(value);
+                                   return cb.lessThan(root.get(key), dateInput);
+                               }
+                               return cb.lt(root.get(key),
+                               (Number) castToRequiredType(
+                                      root.get(key).getJavaType(),
+                                      value.toString()));
+                           };
+
+                        case "<=":
+                            return (Specification<T>) (root, query, cb) -> {
+                                if (table != null)
+                                {
+                                    return cb.le(root.join(table).get(key),
+                                            (Number) castToRequiredType(
+                                                   root.join(table).get(key).getJavaType(),
+                                                   value.toString()));
+                                }
+                                if (root.get(key).getJavaType().isAssignableFrom(Date.class))
+                                {
+                                    Date dateInput = createDateInput(value);
+                                    return cb.lessThanOrEqualTo(root.get(key), dateInput);
+                                }
+                                return cb.le(root.get(key),
+                                (Number) castToRequiredType(
+                                       root.get(key).getJavaType(),
+                                       value.toString()));
+                            };
+
+                        case ":>":
+                          return (Specification<T>) (root, query, cb) -> {
+                              if (table != null)
+                              {
+                                  return cb.like(root.join(table).get(key),
+                                          "%"+value.toString()+"%");
+                              }
+                              return cb.like(root.get(key),
+                                              "%"+value.toString()+"%");
+                          };
+
+
+                        default:
+                          throw new RuntimeException("Operation not supported yet");
+                        }
+                    }
+
+
+//                    return (Specification<T>) (root, query, cb) -> op.build(cb, root, key, value);
                 }
             }
 
             return null;
         }).filter(s -> s != null).collect(Collectors.toList());
     }
+
+    private static Date createDateInput(String value)
+    {
+        Date dateInput;
+          try
+          {
+              dateInput = new SimpleDateFormat("dd-MM-yyyy").parse(value);
+          }
+          catch (ParseException ex)
+          {
+              // TODO Auto-generated catch block
+              // Think twice how to handle this exception!
+              // LOG.log(Level.SEVERE,ex.getMessage(),ex);
+              throw new RuntimeException(ex.getMessage(),ex);
+          }
+        return dateInput;
+    }
+
+    private static Object castToRequiredType(Class fieldType, String value) {
+        if(fieldType.isAssignableFrom(Double.class)) {
+          return Double.valueOf(value);
+        } else if(fieldType.isAssignableFrom(Integer.class)) {
+          return Integer.valueOf(value);
+        } else if(Enum.class.isAssignableFrom(fieldType)) {
+          return Enum.valueOf(fieldType, value);
+        }
+        return null;
+    }
+
 }

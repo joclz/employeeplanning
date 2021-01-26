@@ -1,5 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {Injectable, NgModule} from '@angular/core';
+import {ChartsModule} from 'ng2-charts';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
@@ -41,6 +42,8 @@ import {DeleteVertriebDialogComponent} from './components/vertrieb/delete-vertri
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import { LoginComponent } from './components/login/login.component';
 import {LoginService} from "./services/login/login.service";
+import {BarChartComponent} from './components/mitarbeiter/bar-chart/bar-chart.component';
+import {DoughnutChartComponent} from './components/mitarbeiter/doughnut-chart/doughnut-chart.component';
 
 @Injectable()
 export class XhrInterceptor implements HttpInterceptor {
@@ -69,7 +72,9 @@ export class XhrInterceptor implements HttpInterceptor {
     DeleteEinsatzDialogComponent,
     DeleteMitarbeiterDialogComponent,
     DeleteVertriebDialogComponent,
-    LoginComponent
+    LoginComponent,
+    BarChartComponent,
+    DoughnutChartComponent
   ],
     imports: [
         BrowserModule,
@@ -95,7 +100,8 @@ export class XhrInterceptor implements HttpInterceptor {
         MatNativeDateModule,
         MatTabsModule,
         MatDialogModule,
-        MatAutocompleteModule
+        MatAutocompleteModule,
+        ChartsModule
     ],
 
   providers: [MitarbeiterService,

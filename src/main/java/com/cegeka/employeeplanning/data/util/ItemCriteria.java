@@ -13,5 +13,7 @@ public class ItemCriteria
 {
     private int page = 0;
     private int size = 25;
+    private String sortActive = "";
+    private String sortDirection = "";
     private List<String> filter;
 }

@@ -10,4 +10,6 @@ export class EinsatzSucheDto {
   beginnBis: Date;
   endeVon: Date;
   endeBis: Date;
+  wahrscheinlichkeitVon: number;
+  wahrscheinlichkeitBis: number;
 }

@@ -7,6 +7,8 @@ import {TableMitarbeiterComponent} from "./table-mitarbeiter.component";
 import {MitarbeiterDTO} from "../../models/mitarbeiter/mitarbeiter-dto";
 import {Observable} from "rxjs";
 import {map, startWith} from "rxjs/operators";
+import {DeckungsbeitragJahrData} from "../../models/deckungsbeitragJahr-data";
+import {MitarbeiterEinsatzDate} from "../../models/mitarbeiterEinsatzDate-data";
 
 @Component({
   selector: 'app-search-mitarbeiter',
@@ -33,6 +35,12 @@ export class SearchMitarbeiterComponent implements OnInit {
 
   deckungsbeitrag = new FormControl({value: '', disabled: true});
   deckungsbeitragFormGroup: FormGroup;
+
+  deckungsbeitragJahr: DeckungsbeitragJahrData;
+  deckungsbeitragJahrFormGroup: FormGroup;
+
+  mitarbeiterEinsatzDate: MitarbeiterEinsatzDate;
+  mitarbeiterEinsatzDateFormGroup: FormGroup;
 
   isMitarbeiterBank = false;
   mitarbeiterBankFormGroup: FormGroup;
@@ -76,6 +84,12 @@ export class SearchMitarbeiterComponent implements OnInit {
     this.deckungsbeitragFormGroup = new FormGroup({
       deckungsbeitrag: this.deckungsbeitrag
     });
+    this.deckungsbeitragJahrFormGroup = new FormGroup({});
+    this.deckungsbeitragJahr = new DeckungsbeitragJahrData();
+
+    this.mitarbeiterEinsatzDateFormGroup = new FormGroup({});
+    this.mitarbeiterEinsatzDate = new MitarbeiterEinsatzDate();
+
     this.mitarbeiterBankFormGroup = new FormGroup({});
     this.mitarbeiterInternBankFormGroup = new FormGroup({});
   }
@@ -132,6 +146,65 @@ export class SearchMitarbeiterComponent implements OnInit {
   getDeckungsbeitragOnSubmit() {
     this.mitarbeiterService.getDeckungsbeitrag().subscribe(result => this.deckungsbeitrag.setValue(result.toString()));
   }
+
+  getDeckungsbeitragJahrOnSubmit() {
+    if (this.deckungsbeitragJahr.chartIsDisplayed) {
+      this.deckungsbeitragJahr.chartIsDisplayed = false;
+    } else {
+      this.mitarbeiterService.getDeckungsbeitragJahr().subscribe(
+        result => {
+          this.deckungsbeitragJahr.chartIsDisplayed = true;
+          this.deckungsbeitragJahr.januar = result[0].toString();
+            this.deckungsbeitragJahr.februar = result[1].toString();
+            this.deckungsbeitragJahr.maerz = result[2].toString();
+            this.deckungsbeitragJahr.april = result[3].toString();
+            this.deckungsbeitragJahr.mai = result[4].toString();
+            this.deckungsbeitragJahr.juni = result[5].toString();
+            this.deckungsbeitragJahr.juli = result[6].toString();
+            this.deckungsbeitragJahr.august = result[7].toString();
+            this.deckungsbeitragJahr.september = result[8].toString();
+            this.deckungsbeitragJahr.oktober = result[9].toString();
+            this.deckungsbeitragJahr.november = result[10].toString();
+            this.deckungsbeitragJahr.dezember = result[11].toString();
+        }
+      );
+    }
+  }
+
+  getMitarbeiterEinsatzDateOnSubmitLastMonth() {
+    let actualMonth: bigint = BigInt(this.mitarbeiterEinsatzDate.actualMonth) - BigInt(1);
+    this.mitarbeiterEinsatzDate.chartIsDisplayed = false;
+    this.getMitarbeiterEinsatzDate(actualMonth);
+  }
+
+  getMitarbeiterEinsatzDateOnSubmitNextMonth() {
+    let actualMonth: bigint = BigInt(this.mitarbeiterEinsatzDate.actualMonth) + BigInt(1);
+    this.mitarbeiterEinsatzDate.chartIsDisplayed = false;
+    this.getMitarbeiterEinsatzDate(actualMonth);
+  }
+
+  getMitarbeiterEinsatzDateOnSubmit() {
+    let actualMonth: bigint = BigInt(0);
+    this.getMitarbeiterEinsatzDate(actualMonth);
+  }
+
+  getMitarbeiterEinsatzDate(month: bigint) {
+    if (this.mitarbeiterEinsatzDate.chartIsDisplayed) {
+      this.mitarbeiterEinsatzDate.chartIsDisplayed = false;
+    } else {
+      this.mitarbeiterService.getMitarbeiterEinsatzDate(month).subscribe(
+        result => {
+          this.mitarbeiterEinsatzDate.chartIsDisplayed = true;
+          this.mitarbeiterEinsatzDate.maIntEinsatz = result.maIntEinsatz;
+          this.mitarbeiterEinsatzDate.maExtEinsatz = result.maExtEinsatz;
+          this.mitarbeiterEinsatzDate.maIntOhneEinsatz = result.maIntOhneEinsatz;
+          this.mitarbeiterEinsatzDate.maExtOhneEinsatz = result.maExtOhneEinsatz;
+          this.mitarbeiterEinsatzDate.actualMonth = result.actualMonth;
+        }
+      )
+    }
+  }
+
 
   getMitarbeiterBankOnSubmit() {
     this.initMitarbeiterBank();

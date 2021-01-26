@@ -29,6 +29,8 @@ export class SearchEinsatzComponent implements OnInit, OnDestroy {
   beginnBis = new FormControl('');
   endeVon = new FormControl('');
   endeBis = new FormControl('');
+  wahrscheinlichkeitVon = new FormControl('');
+  wahrscheinlichkeitBis = new FormControl('');
   searchFormGroup: FormGroup;
 
   filteredMitarbeiterVertrieb: Observable<MitarbeiterDTO[]>;
@@ -52,6 +54,7 @@ export class SearchEinsatzComponent implements OnInit, OnDestroy {
   einsaetzeAbgelehntList: Einsatz[];
   einsaetzeMitarbeiterVertriebList: Einsatz[];
   einsaetzeSearchList: Einsatz[];
+  einsaetzeFilter: String[];
 
   mitarbeiterList: Array<MitarbeiterDTO>;
 
@@ -86,7 +89,9 @@ export class SearchEinsatzComponent implements OnInit, OnDestroy {
       beginnVon: this.beginnVon,
       beginnBis: this.beginnBis,
       endeVon: this.endeVon,
-      endeBis: this.endeBis
+      endeBis: this.endeBis,
+      wahrscheinlichkeitVon: this.wahrscheinlichkeitVon,
+      wahrscheinlichkeitBis: this.wahrscheinlichkeitBis
     });
 
     this.searchMitarbeiterVertriebFormGroup = new FormGroup({
@@ -116,6 +121,17 @@ export class SearchEinsatzComponent implements OnInit, OnDestroy {
   search() {
     this.isSearch = false;
 
+    let einsatzSucheDTO = this.initEinsatzSucheDTO();
+
+    this.einsaetzeFilter = this.einsatzService.writeEinsaetzeFilter(einsatzSucheDTO);
+
+    this.einsatzService.findEinsaetzeBySuchkriterien(einsatzSucheDTO).subscribe(result => {
+      this.einsaetzeSearchList = result;
+      this.isSearch = true;
+    });
+  }
+
+  initEinsatzSucheDTO(): EinsatzSucheDto {
     let einsatzSucheDTO = new EinsatzSucheDto();
     einsatzSucheDTO.mitarbeiterVertriebId = this.mitarbeiterVertrieb.value ? this.mitarbeiterVertrieb.value.id : '';
     einsatzSucheDTO.mitarbeiterId = this.mitarbeiter.value ? this.mitarbeiter.value.id : '';
@@ -125,11 +141,9 @@ export class SearchEinsatzComponent implements OnInit, OnDestroy {
     einsatzSucheDTO.beginnBis = this.beginnBis.value;
     einsatzSucheDTO.endeVon = this.endeVon.value;
     einsatzSucheDTO.endeBis = this.endeBis.value;
-
-    this.einsatzService.findEinsaetzeBySuchkriterien(einsatzSucheDTO).subscribe(result => {
-      this.einsaetzeSearchList = result;
-      this.isSearch = true;
-    });
+    einsatzSucheDTO.wahrscheinlichkeitVon = this.wahrscheinlichkeitVon.value;
+    einsatzSucheDTO.wahrscheinlichkeitBis = this.wahrscheinlichkeitBis.value;
+    return einsatzSucheDTO;
   }
 
   searchMitarbeiterVertrieb() {
@@ -155,12 +169,20 @@ export class SearchEinsatzComponent implements OnInit, OnDestroy {
       this.initFirstTab();
     }
     if (index === 1) {
+      let einsatzSucheDTO = this.initEinsatzSucheDTO();
+      einsatzSucheDTO.einsatzStatus = EinsatzStatus.BEAUFTRAGT;
+      this.einsaetzeFilter = this.einsatzService.writeEinsaetzeFilter(einsatzSucheDTO);
+
       this.einsatzService.findEinsaetzeByEinsatzStatus(this.getEinsatzStatus(EinsatzStatus.BEAUFTRAGT)).subscribe(result => {
         this.einsaetzeBeauftragtList = result;
         this.isEinsatzBeauftragt = true;
       });
     }
     if (index === 2) {
+      let einsatzSucheDTO = this.initEinsatzSucheDTO();
+      einsatzSucheDTO.einsatzStatus = EinsatzStatus.ABGELEHNT;
+      this.einsaetzeFilter = this.einsatzService.writeEinsaetzeFilter(einsatzSucheDTO);
+
       this.einsatzService.findEinsaetzeByEinsatzStatus(this.getEinsatzStatus(EinsatzStatus.ABGELEHNT)).subscribe(result => {
         this.einsaetzeAbgelehntList = result;
         this.isEinsatzAbgelehnt = true;
@@ -173,6 +195,10 @@ export class SearchEinsatzComponent implements OnInit, OnDestroy {
   }
 
   private initFirstTab() {
+    let einsatzSucheDTO = this.initEinsatzSucheDTO();
+    einsatzSucheDTO.einsatzStatus = EinsatzStatus.ANGEBOTEN;
+    this.einsaetzeFilter = this.einsatzService.writeEinsaetzeFilter(einsatzSucheDTO);
+
     this.einsatzService.findEinsaetzeByEinsatzStatus(this.getEinsatzStatus(EinsatzStatus.ANGEBOTEN)).subscribe(result => {
       this.einsaetzeAngebotenList = result;
       this.isEinsatzAngeboten = true;
