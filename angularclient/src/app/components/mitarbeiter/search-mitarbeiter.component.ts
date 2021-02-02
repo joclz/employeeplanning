@@ -172,24 +172,24 @@ export class SearchMitarbeiterComponent implements OnInit {
   }
 
   getMitarbeiterEinsatzDateOnSubmitLastMonth() {
-    let actualMonth: bigint = BigInt(this.mitarbeiterEinsatzDate.actualMonth) - BigInt(1);
+    let actualMonth = this.mitarbeiterEinsatzDate.actualMonth - 1;
     this.mitarbeiterEinsatzDate.chartIsDisplayed = false;
     this.getMitarbeiterEinsatzDate(actualMonth);
   }
 
   getMitarbeiterEinsatzDateOnSubmitNextMonth() {
-    let actualMonth: bigint = BigInt(this.mitarbeiterEinsatzDate.actualMonth) + BigInt(1);
+    let actualMonth =  this.mitarbeiterEinsatzDate.actualMonth + 1;
     this.mitarbeiterEinsatzDate.chartIsDisplayed = false;
     this.getMitarbeiterEinsatzDate(actualMonth);
   }
 
   getMitarbeiterEinsatzDateOnSubmit() {
     let today = new Date();
-    let actualMonth = BigInt(today.getMonth());
+    let actualMonth = today.getMonth();
     this.getMitarbeiterEinsatzDate(actualMonth);
   }
 
-  getMitarbeiterEinsatzDate(month: bigint) {
+  getMitarbeiterEinsatzDate(month: number) {
     if (this.mitarbeiterEinsatzDate.chartIsDisplayed) {
       this.mitarbeiterEinsatzDate.chartIsDisplayed = false;
     } else {
