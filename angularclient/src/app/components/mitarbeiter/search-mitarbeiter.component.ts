@@ -184,7 +184,8 @@ export class SearchMitarbeiterComponent implements OnInit {
   }
 
   getMitarbeiterEinsatzDateOnSubmit() {
-    let actualMonth: bigint = BigInt(0);
+    let today = new Date();
+    let actualMonth = BigInt(today.getMonth());
     this.getMitarbeiterEinsatzDate(actualMonth);
   }
 

@@ -190,17 +190,17 @@ public class MitarbeiterService extends EmployeeplanningUtil {
         Date today = today();
         Calendar calendar = new GregorianCalendar();
         calendar.setTime(today);
-        if (month != 0) {
-            int actualMonth = calendar.get(Calendar.MONTH);
-            int newMonth = actualMonth + month;
-            if (newMonth < Calendar.JANUARY) {
-                newMonth = Calendar.JANUARY;
-            } else if (newMonth > Calendar.DECEMBER) {
-                newMonth = Calendar.DECEMBER;
-            }
-            calendar.set(Calendar.MONTH, newMonth);
-            today = calendar.getTime();
+
+        //int actualMonth = calendar.get(Calendar.MONTH);
+        int newMonth = month;
+
+        if (newMonth < Calendar.JANUARY) {
+            newMonth = Calendar.JANUARY;
+        } else if (newMonth > Calendar.DECEMBER) {
+            newMonth = Calendar.DECEMBER;
         }
+        calendar.set(Calendar.MONTH, newMonth);
+        today = calendar.getTime();
 
         int maAngestelltImEinsatz = countMitarbeiterImEinsatz(MitarbeiterStatus.ANGESTELLT, today);
         mitarbeiterEinsatzDate.setMaIntEinsatz(maAngestelltImEinsatz);
