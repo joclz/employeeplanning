@@ -55,7 +55,7 @@ export class MitarbeiterService {
     return this.http.get<String[]>(environment.API_URL+'/getDeckungsbeitragJahr');
   }
 
-  public getMitarbeiterEinsatzDate(month: bigint): Observable<MitarbeiterEinsatzDate> {
+  public getMitarbeiterEinsatzDate(month: number): Observable<MitarbeiterEinsatzDate> {
     let params = new HttpParams().set("month", String(month));
     return this.http.get<MitarbeiterEinsatzDate>(environment.API_URL+'/getMitarbeiterEinsatzDate', {params: params});
   }
