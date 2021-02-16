@@ -102,9 +102,13 @@ public class EinsatzService {
         if (einsatz.getMitarbeiter() != null) {
             stundensatzEK = einsatz.getMitarbeiter().getStundensatzEK();
         }
-        einsatz.setDeckungsbeitrag(einsatz.getStundensatzVK() - einsatz.getZusatzkostenReise() - stundensatzEK);
-        if (einsatz.getStundensatzVK() != 0) {
-            einsatz.setMarge(einsatz.getDeckungsbeitrag() / einsatz.getStundensatzVK());
+        einsatz.setDeckungsbeitrag(Double.valueOf(einsatz.getStundensatzVK().doubleValue() - einsatz.getZusatzkostenReise().doubleValue() - stundensatzEK));
+        if (einsatz.getStundensatzVK().doubleValue() != 0) {
+            einsatz.setMarge(Double.valueOf(einsatz.getDeckungsbeitrag().doubleValue() / einsatz.getStundensatzVK().doubleValue()));
+        }
+        else
+        {
+            einsatz.setMarge(Double.valueOf(0.0));
         }
         return einsatz;
     }
@@ -163,7 +167,7 @@ public class EinsatzService {
     {
         PartialEinsaetzeDTO partialEinsaetze = new PartialEinsaetzeDTO();
 
-        Sort sort = Sort.unsorted();;
+        Sort sort = Sort.unsorted();
 
         if ((itemCriteria.getSortActive() != null) && (itemCriteria.getSortActive().length() > 0))
         {
@@ -178,7 +182,7 @@ public class EinsatzService {
 
         partialEinsaetze.setEinsaetze(FindAllBuilder.usingRepository(einsatzRepository).filterBy(itemCriteria.getFilter()).findAll(itemCriteria.getPage(), itemCriteria.getSize(), sort));
 
-        partialEinsaetze.setAnzahl(FindAllBuilder.usingRepository(einsatzRepository).filterBy(itemCriteria.getFilter()).count());
+        partialEinsaetze.setAnzahl(Integer.valueOf(FindAllBuilder.usingRepository(einsatzRepository).filterBy(itemCriteria.getFilter()).count()));
 
         return partialEinsaetze;
     }
@@ -204,7 +208,7 @@ public class EinsatzService {
         for (int monat = 0; monat < 12; monat ++) {
             calendar.set(Calendar.MONTH, monat);
             dateActual = calendar.getTime();
-            deckungsbeitragJahr.add(getDeckungsbeitrag(dateActual));
+            deckungsbeitragJahr.add(Double.valueOf(getDeckungsbeitrag(dateActual)));
         }
         return deckungsbeitragJahr;
     }
@@ -216,7 +220,7 @@ public class EinsatzService {
         Iterable<Einsatz> einsaetze = findEinsaetzeBySuchkriterien(einsatzSuche);
         double summeDeckungsbeitrag = 0.;
         for (Einsatz einsatz : einsaetze) {
-            summeDeckungsbeitrag += einsatz.getDeckungsbeitrag();
+            summeDeckungsbeitrag += einsatz.getDeckungsbeitrag().doubleValue();
         }
         return summeDeckungsbeitrag;
     }

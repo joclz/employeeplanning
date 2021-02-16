@@ -7,7 +7,7 @@ import {AppComponent} from './app.component';
 import {AddMitarbeiterFormComponent} from './components/mitarbeiter/add-mitarbeiter-form.component';
 import {MitarbeiterService} from "./services/mitarbeiter/mitarbeiter.service";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {HTTP_INTERCEPTORS, HttpClientModule, HttpHandler, HttpInterceptor, HttpRequest} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule, HttpHandler, HttpInterceptor, HttpRequest, } from "@angular/common/http";
 import {TableMitarbeiterComponent} from './components/mitarbeiter/table-mitarbeiter.component';
 import {SearchMitarbeiterComponent} from './components/mitarbeiter/search-mitarbeiter.component';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
@@ -44,17 +44,9 @@ import { LoginComponent } from './components/login/login.component';
 import {LoginService} from "./services/login/login.service";
 import {BarChartComponent} from './components/mitarbeiter/bar-chart/bar-chart.component';
 import {DoughnutChartComponent} from './components/mitarbeiter/doughnut-chart/doughnut-chart.component';
+import { HttpModule, XSRFStrategy, CookieXSRFStrategy } from "@angular/http";
 
-@Injectable()
-export class XhrInterceptor implements HttpInterceptor {
 
-  intercept(req: HttpRequest<any>, next: HttpHandler) {
-    const xhr = req.clone({
-      headers: req.headers.set('X-Requested-With', 'XMLHttpRequest')
-    });
-    return next.handle(xhr);
-  }
-}
 @NgModule({
   declarations: [
     AppComponent,
@@ -108,7 +100,10 @@ export class XhrInterceptor implements HttpInterceptor {
     {provide: MAT_DATE_LOCALE, useValue: 'de'},
     {provide: LocationStrategy, useClass: HashLocationStrategy},
     LoginService,
-    {provide: HTTP_INTERCEPTORS, useClass: XhrInterceptor, multi: true}],
+    {
+      provide: XSRFStrategy,
+      useValue: new CookieXSRFStrategy('myCookieName', 'My-Header-Name')
+    }],
   bootstrap: [AppComponent]
 })
 export class AppModule {

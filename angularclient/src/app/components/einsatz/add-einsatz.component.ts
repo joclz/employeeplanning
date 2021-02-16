@@ -39,6 +39,7 @@ export class AddEinsatzComponent implements OnInit {
 
   showSuccessMsg: boolean = false;
   showErrorMsg: boolean = false;
+  showAuthMsg: boolean = false;
 
   constructor(private route: ActivatedRoute, private router: Router,
               private einsatzService: EinsatzService,
@@ -64,9 +65,20 @@ export class AddEinsatzComponent implements OnInit {
       this.formRef.resetForm()
       this.showSuccessMsg = true;
       this.showErrorMsg = false;
+      this.showAuthMsg = false;
     }, (err) => {
-       this.showSuccessMsg = false;
-       this.showErrorMsg = true;
+       if (err.status = 403)
+       {
+         this.showSuccessMsg = false;
+         this.showErrorMsg = false;
+         this.showAuthMsg = true;
+       }
+       else
+       {
+         this.showSuccessMsg = false;
+         this.showErrorMsg = true;
+         this.showAuthMsg = false;
+       }
     });
   }
 

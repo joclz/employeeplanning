@@ -1,5 +1,11 @@
 package com.cegeka.employeeplanning.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
+import javax.annotation.security.RolesAllowed;
+
 import com.cegeka.employeeplanning.data.Einsatz;
 import com.cegeka.employeeplanning.data.dto.EinsatzDTO;
 import com.cegeka.employeeplanning.data.dto.EinsatzSucheDTO;
@@ -9,14 +15,18 @@ import com.cegeka.employeeplanning.data.util.EinsatzSuche;
 import com.cegeka.employeeplanning.data.util.ItemCriteria;
 import com.cegeka.employeeplanning.repositories.EinsatzRepository;
 import com.cegeka.employeeplanning.service.EinsatzService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin
 @RestController
@@ -27,6 +37,8 @@ public class EmployeeplanningEinsatzController {
     private EinsatzService einsatzService;
 
     @PostMapping(path = "/addEinsatz", consumes = "application/json")
+    @PreAuthorize("hasRole('ADMIN')")
+    @RolesAllowed("ADMIN")
     public Einsatz addEinsatz(@RequestBody EinsatzDTO einsatzDTO) {
         final Einsatz einsatz = einsatzService.convertToEntity(einsatzDTO);
         einsatzService.save(einsatz);
@@ -34,6 +46,8 @@ public class EmployeeplanningEinsatzController {
     }
 
     @PostMapping(path = "/addEinsatz", consumes = "application/x-www-form-urlencoded")
+    @PreAuthorize("hasRole('ADMIN')")
+    @RolesAllowed("ADMIN")
     public Einsatz addEinsatzUrlencoded(EinsatzDTO einsatzDTO) {
         final Einsatz einsatz = einsatzService.convertToEntity(einsatzDTO);
         einsatzService.save(einsatz);

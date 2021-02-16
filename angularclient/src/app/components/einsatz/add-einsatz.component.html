@@ -111,4 +111,8 @@
     Datensatz konnte nicht gespeichert werden.
   </mat-error>
 
+  <mat-error *ngIf="showAuthMsg">
+    Datensatz kann nur als Admin angelegt werden.
+  </mat-error>
+
 </form>
