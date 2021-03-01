@@ -3,9 +3,9 @@
     <mat-card-title>{{ title }}</mat-card-title>
     <mat-card-content>
       <mat-card-actions>
-        <button mat-button color="accent" [matMenuTriggerFor]="menuMitarbeiter">Mitarbeiter</button>
+        <button mat-button color="accent" id="menuMitarbeiter" [matMenuTriggerFor]="menuMitarbeiter">Mitarbeiter</button>
         <mat-menu #menuMitarbeiter="matMenu">
-          <a mat-menu-item (click)="onClickListMitarbeiter()">Liste aller Mitarbeiter</a>
+          <a mat-menu-item id="listeMitarbeiter" (click)="onClickListMitarbeiter()">Liste aller Mitarbeiter</a>
           <a mat-menu-item (click)="onClickAddMitarbeiter()">Mitarbeiter hinzufügen</a>
           <a mat-menu-item (click)="onClickSearchMitarbeiter()">Suche nach Mitarbeiter</a>
         </mat-menu>
