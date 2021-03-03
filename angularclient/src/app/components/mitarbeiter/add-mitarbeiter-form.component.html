@@ -1,7 +1,7 @@
 <form class="mitarbeiterForm" [formGroup]="formGroup" (ngSubmit)="onSubmit()">
   <mat-form-field class="half-width">
     <mat-label>Name</mat-label>
-    <input required matInput formControlName="name" placeholder="Mustermann">
+    <input required matInput formControlName="name" placeholder="Mustermann" id="mitarbeiterName">
     <mat-error *ngIf="formGroup.get('name').hasError('pattern') && !formGroup.get('name').hasError('required')">
       Bitte geben Sie einen gültigen Namen ein
     </mat-error>
@@ -12,7 +12,7 @@
 
   <mat-form-field class="half-width">
     <mat-label>Vorname</mat-label>
-    <input required matInput formControlName="vorname" placeholder="Max">
+    <input required matInput formControlName="vorname" placeholder="Max" name="mitarbeiterVorname">
     <mat-error *ngIf="formGroup.get('vorname').hasError('pattern') && !formGroup.get('vorname').hasError('required')">
       Bitte geben Sie einen gültigen Vornamen ein
     </mat-error>
@@ -23,7 +23,7 @@
 
   <mat-form-field class="half-width">
     <mat-label>Stundensatz EK</mat-label>
-    <input required matInput type="number" formControlName="stundensatz" placeholder="80.50">
+    <input required matInput type="number" formControlName="stundensatz" placeholder="80.50" id="mitarbeiterStundensatz">
     <mat-error *ngIf="formGroup.get('stundensatz').hasError('required')">
       Stundensatz ist ein <strong>Pflichtfeld</strong>
     </mat-error>
@@ -31,7 +31,7 @@
 
   <mat-form-field appearance="fill" class="half-width">
     <mat-label>Status</mat-label>
-    <mat-select required formControlName="status">
+    <mat-select required formControlName="status" id="mitarbeiterStatus">
       <mat-option *ngFor="let key of mitarbeiterStatusList" [value]="key">{{mitarbeiterStatus[key]}}</mat-option>
     </mat-select>
     <mat-error *ngIf="formGroup.get('status').hasError('required')">
@@ -41,7 +41,7 @@
 
   <mat-form-field appearance="fill" class="half-width">
     <mat-label>Unit</mat-label>
-    <mat-select required formControlName="unit">
+    <mat-select required formControlName="unit" id="mitarbeiterUnit">
       <mat-option *ngFor="let key of mitarbeiterUnits" [value]="key">{{mitarbeiterUnit[key]}}</mat-option>
     </mat-select>
     <mat-error *ngIf="formGroup.get('unit').hasError('required')">
