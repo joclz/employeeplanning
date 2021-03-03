@@ -24,7 +24,7 @@
   <mat-form-field class="half-width">
     <mat-label>Stundensatz EK</mat-label>
     <input required matInput type="number" formControlName="stundensatz" placeholder="80.50" id="mitarbeiterStundensatz">
-    <mat-error *ngIf="formGroup.get('stundensatz').hasError('required')">
+    <mat-error id="mitarbeiterStundensatzError" *ngIf="formGroup.get('stundensatz').hasError('required')">
       Stundensatz ist ein <strong>Pflichtfeld</strong>
     </mat-error>
   </mat-form-field>
@@ -49,7 +49,7 @@
     </mat-error>
   </mat-form-field>
 
-  <button mat-raised-button color="primary" type="submit" class="button" [disabled]="!formGroup.valid">Hinzufügen
+  <button mat-raised-button color="primary" type="submit" class="button" id="mitarbeiterHinzufuegen" [disabled]="!formGroup.valid">Hinzufügen
   </button>
 
   <mat-success *ngIf="showSuccessMsg">

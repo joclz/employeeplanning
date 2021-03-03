@@ -20,9 +20,9 @@
           <a mat-menu-item (click)="onClickAddEinsatz()">Einsatz hinzufügen</a>
           <a mat-menu-item (click)="onClickSearchEinsatz()">Suche nach Einsatz</a>
         </mat-menu>
-        <button mat-button color="accent" [matMenuTriggerFor]="menuUser">User</button>
+        <button mat-button color="accent" id="menuUser" [matMenuTriggerFor]="menuUser">User</button>
         <mat-menu #menuUser="matMenu" [matMenuTriggerFor]="menuUser">
-          <a mat-menu-item (click)="logout()">Logout</a>
+          <a mat-menu-item id="logoutUser" (click)="logout()">Logout</a>
         </mat-menu>
       </mat-card-actions>
     </mat-card-content>
