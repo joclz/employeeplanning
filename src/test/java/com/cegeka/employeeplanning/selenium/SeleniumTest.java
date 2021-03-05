@@ -13,10 +13,12 @@ import java.util.List;
 @SpringBootTest
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class SeleniumTest {
-    public static final int TIMEOUT_VERY_SHORT = 100;
-    public static final int TIMEOUT_SHORT = 250;
-    public static final int TIMEOUT_MIDDLE = 500;
-    public static final int TIMEOUT_LONG = 1500;
+    public static final int SPEED_FACTOR = 1;
+
+    public static final int TIMEOUT_VERY_SHORT = 100 / SPEED_FACTOR;
+    public static final int TIMEOUT_SHORT = 250 / SPEED_FACTOR;
+    public static final int TIMEOUT_MIDDLE = 500 / SPEED_FACTOR;
+    public static final int TIMEOUT_LONG = 1500 / SPEED_FACTOR;
     private WebDriver driver;
 
     @Before
