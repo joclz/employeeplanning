@@ -1,4 +1,4 @@
-package selenium;
+package com.cegeka.employeeplanning.selenium;
 
 import org.junit.*;
 import org.junit.runners.MethodSorters;
