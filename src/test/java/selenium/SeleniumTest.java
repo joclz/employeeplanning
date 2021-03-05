@@ -1,31 +1,34 @@
 package selenium;
 
 import org.junit.*;
+import org.junit.runners.MethodSorters;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
+
 @SpringBootTest
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class SeleniumTest {
     public static final int TIMEOUT_VERY_SHORT = 100;
     public static final int TIMEOUT_SHORT = 250;
     public static final int TIMEOUT_MIDDLE = 500;
-    public static final int TIMEOUT_LONG = 1000;
-
+    public static final int TIMEOUT_LONG = 1500;
     private WebDriver driver;
-    private String baseUrl = "http://localhost:4200/employeeplanning#/";
 
     @Before
-    public void setUp(){
+    public void setUp() {
         System.setProperty("webdriver.gecko.driver", "D:\\Programme\\geckodriver-v0.29.0-win64\\geckodriver.exe");
         driver = new FirefoxDriver();
-        //Maximize browser window
+        /* Maximize browser window */
         driver.manage().window().maximize();
-        //Go to URL which you want to navigate
+        /* Go to URL which you want to navigate */
+        String baseUrl = "http://localhost:4200/employeeplanning#/";
         driver.get(baseUrl);
-        //Set  timeout  for 500 milliseconds so that the page may load properly within that time
+        /* Set  timeout  for 500 milliseconds so that the page may load properly within that time */
         sleep(driver, TIMEOUT_MIDDLE);
 
         driver.findElement(By.id("username")).sendKeys("admin");
@@ -34,14 +37,14 @@ public class SeleniumTest {
     }
 
     @Test
-    public void testLogin() {
-        /** Logout */
+    public void test_001_Login() {
+        /* Logout */
         driver.findElement(By.id("menuUser")).click();
         sleep(driver, TIMEOUT_VERY_SHORT);
         driver.findElement(By.id("logoutUser")).click();
         sleep(driver, TIMEOUT_VERY_SHORT);
 
-        /** Login */
+        /* Login */
         driver.findElement(By.id("username")).sendKeys("a");
         sleep(driver, TIMEOUT_VERY_SHORT);
         driver.findElement(By.id("username")).sendKeys("d");
@@ -59,9 +62,9 @@ public class SeleniumTest {
     }
 
     @Test
-    public void testAddMitarbeiter() {
-        /** Mitarbeiter Hinzufügen
-         *  -> FindElement by id, name, xpath  */
+    public void test_010_AddMitarbeiter() {
+        /* Mitarbeiter Hinzufügen
+           -> FindElement by id, name, xpath  */
         driver.findElement(By.id("menuMitarbeiter")).click();
         sleep(driver, TIMEOUT_SHORT);
         driver.findElement(By.id("addMitarbeiter")).click();
@@ -81,7 +84,7 @@ public class SeleniumTest {
         driver.findElement(By.id("mitarbeiterUnit")).sendKeys("Factory Nürnberg");
         sleep(driver, TIMEOUT_SHORT);
 
-        /** Check Fehlermeldung Stundensatz */
+        /* Check Fehlermeldung Stundensatz */
         WebElement mitarbeiterStundensatzError = driver.findElement(By.id("mitarbeiterStundensatzError"));
         Assert.assertEquals(mitarbeiterStundensatzError.getText(), "Stundensatz ist ein Pflichtfeld");
         driver.findElement(By.id("mitarbeiterStundensatz")).clear();
@@ -92,18 +95,40 @@ public class SeleniumTest {
     }
 
     @Test
-    public void testMyStuff() {
-
-        /** Auflisten Mitarbeiter
-         */
+    public void test_020_FindAllMitarbeiterSelectTheAddedOneAndEdit() {
+        /* Auflisten Mitarbeiter */
         driver.findElement(By.id("menuMitarbeiter")).click();
         sleep(driver, TIMEOUT_SHORT);
         driver.findElement(By.id("listMitarbeiter")).click();
+        sleep(driver, TIMEOUT_VERY_SHORT);
+        /* Filter nach Namen neuem Mitarbeiter */
+        driver.findElement(By.id("filterMitarbeiter")).sendKeys("Aal");
+        sleep(driver, TIMEOUT_VERY_SHORT);
+        /* Sortierung nach Name */
+        driver.findElement(By.id("sortHeaderName")).click();
+
+        WebElement tableMitarbeiter = driver.findElement(By.className("tableMitarbeiter"));
+        /* Nur zum Test */
+        List<WebElement> tableRows = tableMitarbeiter.findElements(By.tagName("tr"));
+        tableRows.get(1).getText();
+        /* Zugriff per X-Path auf das Element in der 1. Zeile, 7. Spalte, 2. Button */
+        WebElement editierButton = tableMitarbeiter.findElement(By.xpath("//div//table/tbody/tr[1]/td[7]//button[2]"));
+        editierButton.click();
+        driver.findElement(By.id("mitarbeiterStundensatz")).clear();
+        sleep(driver, TIMEOUT_VERY_SHORT);
+        driver.findElement(By.id("mitarbeiterStundensatz")).sendKeys("80.0");
+        sleep(driver, TIMEOUT_VERY_SHORT);
+        driver.findElement(By.id("submitButton")).click();
+        sleep(driver, TIMEOUT_SHORT);
+    }
+
+    @Test
+    public void test_030_EditMitarbeiterAndChangeValues() {
     }
 
     @After
     public void tearDown() {
-        sleep(driver, 1500);
+        sleep(driver, TIMEOUT_LONG);
         driver.close();
         //System.setProperty("webdriver.firefox.marionette", "false");
     }

@@ -1,6 +1,6 @@
 <mat-form-field>
   <mat-label>Filter</mat-label>
-  <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+  <input matInput (keyup)="applyFilter($event)" id="filterMitarbeiter" placeholder="Ex. Mia" #input>
 </mat-form-field>
 
 <div class="mitarbeiter-container">
@@ -14,7 +14,7 @@
 
     <!-- Name Column -->
     <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Name</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header id="sortHeaderName"> Name</th>
       <td mat-cell *matCellDef="let row"> {{row.name}} </td>
     </ng-container>
 
