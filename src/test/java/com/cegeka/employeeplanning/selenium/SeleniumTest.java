@@ -55,10 +55,25 @@ public class SeleniumTest {
         sleep(driver, TIMEOUT_VERY_SHORT);
         driver.findElement(By.id("username")).sendKeys("n");
         sleep(driver, TIMEOUT_VERY_SHORT);
+        driver.findElement(By.id("password")).sendKeys("adminX");
+        sleep(driver, TIMEOUT_SHORT);
+        driver.findElement(By.id("submitLogin")).click();
+        sleep(driver, TIMEOUT_MIDDLE);
+
+        /* Bei NICHT erfolgreichem Login, ist das Element noch vorhanden */
+        List<WebElement> username = driver.findElements(By.id("username"));
+        Assert.assertEquals(username.size(), 1);
+
+        driver.findElement(By.id("password")).clear();
+        sleep(driver, TIMEOUT_SHORT);
         driver.findElement(By.id("password")).sendKeys("adminPass");
         sleep(driver, TIMEOUT_SHORT);
         driver.findElement(By.id("submitLogin")).click();
         sleep(driver, TIMEOUT_MIDDLE);
+
+        /* Bei erfolgreichem Login, darf das Element nicht mehr vorhanden sein */
+        username = driver.findElements(By.id("username"));
+        Assert.assertEquals(username.size(), 0);
     }
 
     @Test
@@ -91,19 +106,21 @@ public class SeleniumTest {
         driver.findElement(By.id("mitarbeiterStundensatz")).sendKeys("75.0");
 
         driver.findElement(By.id("mitarbeiterHinzufuegen")).click();
-        sleep(driver, TIMEOUT_SHORT);
+        sleep(driver, TIMEOUT_VERY_SHORT);
+
+        /* Check, ob Error-Msg bz. Erfolgs-Msg angezeigt wird */
+        List<WebElement> error = driver.findElements(By.cssSelector("mat-error"));
+        Assert.assertEquals(error.size(), 0);
+
+        List<WebElement> success = driver.findElements(By.cssSelector("mat-success"));
+        Assert.assertEquals(success.size(), 1);
     }
 
     @Test
     public void test_020_FindAllMitarbeiterSelectTheAddedOneAndEdit() {
         /* Auflisten Mitarbeiter */
-        driver.findElement(By.id("menuMitarbeiter")).click();
-        sleep(driver, TIMEOUT_SHORT);
-        driver.findElement(By.id("listMitarbeiter")).click();
-        sleep(driver, TIMEOUT_VERY_SHORT);
-        /* Filter nach Namen neuem Mitarbeiter */
-        driver.findElement(By.id("filterMitarbeiter")).sendKeys("Aal");
-        sleep(driver, TIMEOUT_VERY_SHORT);
+        listMitarbeiterAndFilterAal();
+
         /* Sortierung nach Name */
         driver.findElement(By.id("sortHeaderName")).click();
 
@@ -121,23 +138,45 @@ public class SeleniumTest {
         driver.findElement(By.id("mitarbeiterStundensatz")).sendKeys("88.8");
         sleep(driver, TIMEOUT_VERY_SHORT);
         driver.findElement(By.id("submitButton")).click();
-        sleep(driver, TIMEOUT_SHORT);
+        sleep(driver, TIMEOUT_VERY_SHORT);
     }
 
     @Test
     public void test_030_CheckStundensatzChangeOfEditedMitarbeiter() {
-        driver.findElement(By.id("menuMitarbeiter")).click();
-        sleep(driver, TIMEOUT_SHORT);
-        driver.findElement(By.id("listMitarbeiter")).click();
-        sleep(driver, TIMEOUT_VERY_SHORT);
-        driver.findElement(By.id("filterMitarbeiter")).sendKeys("Aal");
-        sleep(driver, TIMEOUT_VERY_SHORT);
+        listMitarbeiterAndFilterAal();
 
         WebElement tableMitarbeiter = driver.findElement(By.className("tableMitarbeiter"));
 
         /* Zugriff per X-Path auf das Element (Stundensatz) in der 1. Zeile, 5. Spalte */
         WebElement stundensatzMitarbeiter = tableMitarbeiter.findElement(By.xpath("//div//table/tbody/tr[1]/td[5]"));
         Assert.assertEquals(stundensatzMitarbeiter.getText(), "88.8");
+    }
+
+    @Test
+    public void test_040_CheckDeleteMitarbeiter() {
+        listMitarbeiterAndFilterAal();
+
+        WebElement tableMitarbeiter = driver.findElement(By.className("tableMitarbeiter"));
+
+        /* Zugriff per X-Path auf das Element in der 1. Zeile, 7. Spalte, 1. Button */
+        WebElement deleteButton = tableMitarbeiter.findElement(By.xpath("//div//table/tbody/tr[1]/td[7]//button[1]"));
+        deleteButton.click();
+
+        sleep(driver, TIMEOUT_SHORT);
+        driver.findElement(By.id("Ja")).click();
+        sleep(driver, TIMEOUT_SHORT);
+
+        List<WebElement> success = driver.findElements(By.cssSelector("mat-success"));
+        Assert.assertEquals(success.size(), 1);
+    }
+
+    private void listMitarbeiterAndFilterAal() {
+        driver.findElement(By.id("menuMitarbeiter")).click();
+        sleep(driver, TIMEOUT_SHORT);
+        driver.findElement(By.id("listMitarbeiter")).click();
+        sleep(driver, TIMEOUT_VERY_SHORT);
+        driver.findElement(By.id("filterMitarbeiter")).sendKeys("Aal");
+        sleep(driver, TIMEOUT_VERY_SHORT);
     }
 
     @After
