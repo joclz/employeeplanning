@@ -73,7 +73,7 @@ public class SeleniumTest {
         // oder auch über xpath. Macht aber meines Erachtens auch nur dann Sinn wenn eine id vergeben worden ist.
         //driver.findElement(By.xpath("//*[@id='mitarbeiterName']")).sendKeys("Aal");
         sleep(driver, TIMEOUT_VERY_SHORT);
-        driver.findElement(By.name("mitarbeiterVorname")).sendKeys("Norbert");
+        driver.findElement(By.name("mitarbeiterVorname")).sendKeys("Selenium-Test");
         sleep(driver, TIMEOUT_VERY_SHORT);
 
         driver.findElement(By.id("mitarbeiterStundensatz")).sendKeys("a");
@@ -110,20 +110,34 @@ public class SeleniumTest {
         WebElement tableMitarbeiter = driver.findElement(By.className("tableMitarbeiter"));
         /* Nur zum Test */
         List<WebElement> tableRows = tableMitarbeiter.findElements(By.tagName("tr"));
-        tableRows.get(1).getText();
+        String filteredMitarbeiter = tableRows.get(1).getText();
+        Assert.assertNotEquals(filteredMitarbeiter, "Keine Daten passend zu Filter: \"Aal\" gefunden");
+
         /* Zugriff per X-Path auf das Element in der 1. Zeile, 7. Spalte, 2. Button */
         WebElement editierButton = tableMitarbeiter.findElement(By.xpath("//div//table/tbody/tr[1]/td[7]//button[2]"));
         editierButton.click();
         driver.findElement(By.id("mitarbeiterStundensatz")).clear();
         sleep(driver, TIMEOUT_VERY_SHORT);
-        driver.findElement(By.id("mitarbeiterStundensatz")).sendKeys("80.0");
+        driver.findElement(By.id("mitarbeiterStundensatz")).sendKeys("88.8");
         sleep(driver, TIMEOUT_VERY_SHORT);
         driver.findElement(By.id("submitButton")).click();
         sleep(driver, TIMEOUT_SHORT);
     }
 
     @Test
-    public void test_030_EditMitarbeiterAndChangeValues() {
+    public void test_030_CheckStundensatzChangeOfEditedMitarbeiter() {
+        driver.findElement(By.id("menuMitarbeiter")).click();
+        sleep(driver, TIMEOUT_SHORT);
+        driver.findElement(By.id("listMitarbeiter")).click();
+        sleep(driver, TIMEOUT_VERY_SHORT);
+        driver.findElement(By.id("filterMitarbeiter")).sendKeys("Aal");
+        sleep(driver, TIMEOUT_VERY_SHORT);
+
+        WebElement tableMitarbeiter = driver.findElement(By.className("tableMitarbeiter"));
+
+        /* Zugriff per X-Path auf das Element (Stundensatz) in der 1. Zeile, 5. Spalte */
+        WebElement stundensatzMitarbeiter = tableMitarbeiter.findElement(By.xpath("//div//table/tbody/tr[1]/td[5]"));
+        Assert.assertEquals(stundensatzMitarbeiter.getText(), "88.8");
     }
 
     @After
