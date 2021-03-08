@@ -23,6 +23,7 @@ public class SeleniumTest {
     public static final int TIMEOUT_LONG = 1500 / SPEED_FACTOR;
 
     public static final String MITARBEITER_NACHNAME = "Aal";
+    public static final String MITARBEITER_VORNAME = "Selenium-Test";
     public static final String MITARBEITER_STUNDENSATZ_NEU = "88.8";
 
     private WebDriver driver;
@@ -96,7 +97,7 @@ public class SeleniumTest {
         // oder auch über xpath. Macht aber meines Erachtens auch nur dann Sinn wenn eine id vergeben worden ist.
         //driver.findElement(By.xpath("//*[@id='mitarbeiterName']")).sendKeys(MITARBEITER_NACHNAME);
         sleep(TIMEOUT_VERY_SHORT);
-        driver.findElement(By.name("mitarbeiterVorname")).sendKeys("Selenium-Test");
+        driver.findElement(By.name("mitarbeiterVorname")).sendKeys(MITARBEITER_VORNAME);
         sleep(TIMEOUT_VERY_SHORT);
 
         driver.findElement(By.id("mitarbeiterStundensatz")).sendKeys("a");
@@ -150,6 +151,34 @@ public class SeleniumTest {
     }
 
     @Test
+    public void test_021_FindAllNewMitarbeiterWithWeiterButton() {
+        listMitarbeiter();
+
+        WebElement paginator = driver.findElement(By.cssSelector("mat-paginator"));
+        WebElement weiterButton = paginator.findElement(By.xpath("//div//div//div[2]//button[2]"));
+        int counterElements = 0;
+        boolean weiter = true;
+
+        WebElement tableMitarbeiter = driver.findElement(By.className("tableMitarbeiter"));
+        while (weiter) {
+            List<WebElement> tableRows = tableMitarbeiter.findElements(By.tagName("tr"));
+            for (WebElement tableRow : tableRows) {
+                if (tableRow.getText().contains(MITARBEITER_NACHNAME) && tableRow.getText().contains(MITARBEITER_VORNAME)) {
+                    counterElements++;
+                }
+            }
+            if (weiterButton.isEnabled()) {
+                weiterButton.click();
+                sleep(TIMEOUT_SHORT);
+            } else {
+                weiter = false;
+            }
+        }
+
+        Assert.assertTrue(counterElements > 0);
+    }
+
+    @Test
     public void test_030_CheckStundensatzChangeOfEditedMitarbeiter() {
         listMitarbeiterAndFilterAal();
 
@@ -179,11 +208,15 @@ public class SeleniumTest {
     }
 
     private void listMitarbeiterAndFilterAal() {
+        listMitarbeiter();
+        driver.findElement(By.id("filterMitarbeiter")).sendKeys(MITARBEITER_NACHNAME);
+        sleep(TIMEOUT_VERY_SHORT);
+    }
+
+    private void listMitarbeiter() {
         driver.findElement(By.id("menuMitarbeiter")).click();
         sleep(TIMEOUT_SHORT);
         driver.findElement(By.id("listMitarbeiter")).click();
-        sleep(TIMEOUT_VERY_SHORT);
-        driver.findElement(By.id("filterMitarbeiter")).sendKeys(MITARBEITER_NACHNAME);
         sleep(TIMEOUT_VERY_SHORT);
     }
 
