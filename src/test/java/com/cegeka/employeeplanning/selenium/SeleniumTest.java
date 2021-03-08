@@ -18,6 +18,7 @@ public class SeleniumTest {
 
     public static final int TIMEOUT_VERY_SHORT = 100 / SPEED_FACTOR;
     public static final int TIMEOUT_SHORT = 250 / SPEED_FACTOR;
+    public static final int TIMEOUT_SHORT_WITHOUT_FAKTOR = 250;
     public static final int TIMEOUT_MIDDLE = 500 / SPEED_FACTOR;
     public static final int TIMEOUT_LONG = 1500 / SPEED_FACTOR;
 
@@ -104,8 +105,7 @@ public class SeleniumTest {
         driver.findElement(By.id("mitarbeiterStatus")).sendKeys("Angestellt");
         sleep(TIMEOUT_VERY_SHORT);
         driver.findElement(By.id("mitarbeiterUnit")).sendKeys("Factory Nürnberg");
-        driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
-        sleep(TIMEOUT_SHORT);
+        sleep(TIMEOUT_SHORT_WITHOUT_FAKTOR);
 
         /* Check Fehlermeldung Stundensatz */
         WebElement mitarbeiterStundensatzError = driver.findElement(By.id("mitarbeiterStundensatzError"));
@@ -114,7 +114,7 @@ public class SeleniumTest {
         driver.findElement(By.id("mitarbeiterStundensatz")).sendKeys("75.0");
 
         driver.findElement(By.id("mitarbeiterHinzufuegen")).click();
-        wait(driver, 2);
+        sleep(TIMEOUT_SHORT);
 
         /* Check, ob Error-Msg bz. Erfolgs-Msg angezeigt wird */
         List<WebElement> error = driver.findElements(By.cssSelector("mat-error"));
@@ -190,7 +190,7 @@ public class SeleniumTest {
     @After
     public void tearDown() {
         sleep(TIMEOUT_LONG);
-        driver.close();
+        driver.quit();
         //System.setProperty("webdriver.firefox.marionette", "false");
     }
 
