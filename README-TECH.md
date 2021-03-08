@@ -54,10 +54,7 @@ Für die Unit-Tests wird aktuell eine Memory-DB herangezogen.
 **Selenium**
 
 Die Selenium-Tests sind aktuell auf Firefox ausgelegt.
-Hierzu muss noch ein geckodriver installiert sein.
-Auf diesen wird aktuell in SeleniumTest.java hardcoded zugegriffen:
-
-- System.setProperty("webdriver.gecko.driver", "D:\\Programme\\geckodriver-v0.29.0-win64\\geckodriver.exe");
+Hierzu wird auf den geckodriver zugegriffen.
 
 Die Selenium Tests werden aktuell nicht automatisch beim Build mit aufgerufen (junit.vintage ist excluded), sondern
 müssen per Hand aufgerufen werden. Hierzu muss die Anwendung auch gestartet sein.
