@@ -119,17 +119,10 @@
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
             <version>3.4.0</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>xalan</groupId>
-                    <artifactId>serializer</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>xalan</groupId>
-                    <artifactId>xalan</artifactId>
-                </exclusion>
-            </exclusions>
+            <scope>test</scope>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.testng/testng -->
+
 
     </dependencies>
 
